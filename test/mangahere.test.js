@@ -4,7 +4,7 @@ const {
   getRandomInt,
   checkNextPage,
   iterateDom,
-  handleData,
+  extractData,
   fetchHTML,
   awaitFetch,
   scrapeAll,
@@ -52,4 +52,13 @@ test('run callback function on dom elements w/ matching tags', () => {
 
   iterateDom(mockCheerioDom.domWithRepeatedTag3Times, 'div', tempFunc);
   expect(tempFunc).toHaveBeenCalledTimes(3);
+});
+
+test('extract data to scrape', () => {
+  const expected = ['Action', 'Adventure', 'Comedy'];
+  const extractedData = extractData(0, '*', mockCheerioDom.domToExtractData);
+  expect(extractedData.title).toBe('Hunter X Hunter');
+  expect(extractedData.rating).toBe('4.90');
+  expect(extractedData.genres).toEqual(expect.arrayContaining(expected));
+  expect(extractedData.latest).toBe('380');
 });

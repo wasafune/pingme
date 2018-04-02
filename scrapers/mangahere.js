@@ -8,19 +8,22 @@ const checkNextPage = ($) => {
   return nextPage;
 };
 
-const handleData = ($) => {
-  $('.manga_text').each((i, el) => {
-    const title = $(el).children('div').children('a').html();
-    const pTags = $(el).children('p');
-    const rating = $(pTags[0]).children('span').html();
-    const genres = $(pTags[1]).html().split(', ');
-    const latest = $(pTags[3]).children('a').html().split(' ')
-      .slice(-1)[0];
+const iterateDom = ($, element, callback) => {
+  $(element).each((i, el) => {
+    callback(i, el, $);
   });
 };
 
-const iterateDom = ($, element, callback) => {
-  $(element).each(callback);
+const extractData = (i, el, $) => {
+  const title = $(el).children('div').children('a').html();
+  const pTags = $(el).children('p');
+  const rating = $(pTags[0]).children('span').html();
+  const genres = $(pTags[1]).html().split(', ');
+  const latestStr = $(pTags[3]).children('a').html();
+  const latest = latestStr.split(' ').slice(-1)[0];
+  return {
+    title, rating, genres, latest,
+  };
 };
 
 const fetchHTML = url => (
@@ -37,14 +40,13 @@ const fetchHTML = url => (
 
 async function awaitFetch(fetchCall, page = 1) {
   const currUrl = `http://www.mangahere.cc/directory/${page}.htm?name.az`;
-  console.log('calling');
+  console.log('making fetch request');
   try {
-    const result = (await fetchCall(currUrl));
-    console.log('success fetch');
+    const result = await fetchCall(currUrl);
     const parsedResult = cheerio.load(result);
-    handleData(parsedResult);
+    console.log('fetch request success for ', page);
+    iterateDom(parsedResult, '.manga_text', extractData);
     if (checkNextPage(parsedResult)) {
-      console.log('there is next page', page);
       setTimeout(() => {
         awaitFetch(fetchCall, page + 1);
       }, getRandomInt(5000, 15000));
@@ -67,7 +69,7 @@ module.exports = {
   getRandomInt,
   checkNextPage,
   iterateDom,
-  handleData,
+  extractData,
   fetchHTML,
   awaitFetch,
   scrapeAll,
