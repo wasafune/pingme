@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const mockDom = require('./mockDom');
 const {
   getRandomInt,
-  checkNextPage,
+  iterateCheck,
   iterateDom,
   extractData,
   fetchHTML,
@@ -28,10 +28,9 @@ test('generate random int between min/max', () => {
   }
 });
 
-
-test('check if dom has tag with class "next"', () => {
-  expect(checkNextPage(mockCheerioDom.domWithClassNext)).toBeGreaterThan(0);
-  expect(checkNextPage(mockCheerioDom.domWithoutClassNext)).toBe(0);
+test('check if should continue to iterate', () => {
+  expect(iterateCheck(mockCheerioDom.domWithClassNext, '.next')).toBeGreaterThan(0);
+  expect(iterateCheck(mockCheerioDom.domWithoutClassNext, '.next')).toBe(0);
 });
 
 test('run callback function on dom elements w/ matching class', () => {
@@ -62,3 +61,12 @@ test('extract data to scrape', () => {
   expect(extractedData.genres).toEqual(expect.arrayContaining(expected));
   expect(extractedData.latest).toBe('380');
 });
+
+// test('make fetch request', () => {
+//   // do something
+//   jest.mock('./mockRequestHandler');
+//
+//   // expect.assertions(2);
+//   expect(fetchHTML('anime.com')).resolves.toEqual('hi domo');
+//   expect(fetchHTML('cartoon.com')).rejects.toEqual({ error: 'bad url' });
+// });

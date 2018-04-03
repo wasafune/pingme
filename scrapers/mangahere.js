@@ -3,9 +3,9 @@ const axios = require('axios');
 
 const getRandomInt = (min, max) => Math.floor((Math.random() * Math.floor(max - min)) + min);
 
-const checkNextPage = ($) => {
-  const nextPage = $('.next').length;
-  return nextPage;
+const iterateCheck = ($, element) => {
+  const next = $(element).length;
+  return next;
 };
 
 const iterateDom = ($, element, callback) => {
@@ -44,9 +44,9 @@ async function awaitFetch(fetchCall, page = 1) {
   try {
     const result = await fetchCall(currUrl);
     const parsedResult = cheerio.load(result);
-    console.log('fetch request success for ', page);
+    console.log('fetch request success for page', page);
     iterateDom(parsedResult, '.manga_text', extractData);
-    if (checkNextPage(parsedResult)) {
+    if (iterateCheck(parsedResult, '.next')) {
       setTimeout(() => {
         awaitFetch(fetchCall, page + 1);
       }, getRandomInt(5000, 15000));
@@ -67,7 +67,7 @@ const scrapeAll = (req, res) => {
 
 module.exports = {
   getRandomInt,
-  checkNextPage,
+  iterateCheck,
   iterateDom,
   extractData,
   fetchHTML,
