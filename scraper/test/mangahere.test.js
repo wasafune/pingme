@@ -57,12 +57,16 @@ test('run callback function on dom elements w/ matching tags', () => {
 });
 
 test('extract data to scrape', () => {
+  const now = Date.now();
+  Date.now = jest.genMockFunction().mockReturnValue(now);
+
   const expected = ['Action', 'Adventure', 'Comedy'];
   const extractedData = extractData(0, '*', mockCheerioDom.domToExtractData);
   expect(extractedData.title).toBe('Hunter X Hunter');
   expect(extractedData.rating).toBe('4.90');
   expect(extractedData.genres).toEqual(expect.arrayContaining(expected));
   expect(extractedData.latest).toBe('380');
+  expect(extractedData.time).toBe(now);
 });
 
 test('fetchHTML works with resolves', () => {

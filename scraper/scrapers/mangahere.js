@@ -21,8 +21,9 @@ const extractData = (i, el, $) => {
   const genres = $(pTags[1]).html().split(', ');
   const latestStr = $(pTags[3]).children('a').html();
   const latest = latestStr.split(' ').slice(-1)[0];
+  const time = Date.now();
   return {
-    title, rating, genres, latest,
+    title, rating, genres, latest, time,
   };
 };
 
