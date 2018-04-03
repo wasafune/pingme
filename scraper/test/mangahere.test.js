@@ -16,6 +16,9 @@ Object.entries(mockDom).forEach((arr) => {
   mockCheerioDom[arr[0]] = cheerio.load(arr[1]);
 });
 
+// mock modules
+jest.mock('axios');
+
 
 test('generate random int between min/max', () => {
   const min = 123;
@@ -62,11 +65,14 @@ test('extract data to scrape', () => {
   expect(extractedData.latest).toBe('380');
 });
 
-// test('make fetch request', () => {
-//   // do something
-//   jest.mock('./mockRequestHandler');
-//
-//   // expect.assertions(2);
-//   expect(fetchHTML('anime.com')).resolves.toEqual('hi domo');
-//   expect(fetchHTML('cartoon.com')).rejects.toEqual({ error: 'bad url' });
-// });
+test('fetchHTML works with resolves', () => {
+  expect.assertions(1);
+  return expect(fetchHTML('http://anime.com')).resolves.toEqual('hi domo');
+});
+
+test('fetchHTML works with rejects', () => {
+  const expectedErr = { error: 'bad url' };
+  expect.assertions(1);
+  return expect(fetchHTML('http://cartoon.com'))
+    .rejects.toEqual(expect.objectContaining(expectedErr));
+});

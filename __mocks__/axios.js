@@ -1,17 +1,15 @@
+const axios = {};
 const validUrls = {
-  '/anime': true,
-  '/manga': true,
+  'http://manga.com': true,
+  'http://anime.com': true,
 };
 
-const mockRequestHandler = url => (
+axios.get = url => (
   new Promise((resolve, reject) => {
     process.nextTick(() => {
-      console.log(url);
       if (validUrls[url]) {
-        console.log('resolving');
         resolve({ data: 'hi domo' });
       } else {
-        console.log('failing');
         // eslint-disable-next-line
         reject({ error: 'bad url' });
       }
@@ -19,4 +17,5 @@ const mockRequestHandler = url => (
   })
 );
 
-module.exports = mockRequestHandler;
+
+module.exports = axios;
