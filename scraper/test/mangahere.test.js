@@ -4,10 +4,10 @@ const {
   getRandomInt,
   iterateCheck,
   iterateDom,
-  extractData,
+  extractAllData,
   fetchHTML,
-  awaitFetch,
-  scrapeAll,
+  // awaitFetch,
+  // scrapeAll,
 } = require('../scrapers/mangahere');
 
 // parse all mockDom strings into cheerio objects
@@ -37,31 +37,39 @@ test('check if should continue to iterate', () => {
 });
 
 test('run callback function on dom elements w/ matching class', () => {
-  const tempFunc = jest.fn();
+  const tempConfig = {
+    extractFunc: jest.fn(),
+    iterateDomEle: '.mada',
+  };
 
-  iterateDom(mockCheerioDom.domWithRepeatedClass3Times, '.mada', tempFunc);
-  expect(tempFunc).toHaveBeenCalledTimes(3);
+  iterateDom(mockCheerioDom.domWithRepeatedClass3Times, tempConfig);
+  expect(tempConfig.extractFunc).toHaveBeenCalledTimes(3);
 
-  iterateDom(mockCheerioDom.domWithRepeatedTag3Times, '.mada', tempFunc);
-  expect(tempFunc).toHaveBeenCalledTimes(3);
+  iterateDom(mockCheerioDom.domWithRepeatedTag3Times, tempConfig);
+  expect(tempConfig.extractFunc).toHaveBeenCalledTimes(3);
 });
 
 test('run callback function on dom elements w/ matching tags', () => {
-  const tempFunc = jest.fn();
+  const tempConfig = {
+    extractFunc: jest.fn(),
+    iterateDomEle: 'div',
+  };
 
-  iterateDom(mockCheerioDom.domWithRepeatedClass3Times, 'div', tempFunc);
-  expect(tempFunc).toHaveBeenCalledTimes(0);
+  iterateDom(mockCheerioDom.domWithRepeatedClass3Times, tempConfig);
+  expect(tempConfig.extractFunc).toHaveBeenCalledTimes(0);
 
-  iterateDom(mockCheerioDom.domWithRepeatedTag3Times, 'div', tempFunc);
-  expect(tempFunc).toHaveBeenCalledTimes(3);
+  iterateDom(mockCheerioDom.domWithRepeatedTag3Times, tempConfig);
+  expect(tempConfig.extractFunc).toHaveBeenCalledTimes(3);
 });
+
+// write test for iterate dom with breakCheck and breakVal
 
 test('extract data to scrape', () => {
   const now = Date.now();
   Date.now = jest.genMockFunction().mockReturnValue(now);
 
   const expected = ['Action', 'Adventure', 'Comedy'];
-  const extractedData = extractData(0, '*', mockCheerioDom.domToExtractData);
+  const extractedData = extractAllData(0, '*', mockCheerioDom.domToExtractData);
   expect(extractedData.title).toBe('Hunter X Hunter');
   expect(extractedData.rating).toBe('4.90');
   expect(extractedData.genres).toEqual(expect.arrayContaining(expected));
