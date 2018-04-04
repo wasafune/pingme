@@ -14,10 +14,11 @@ const extractLatestData = (i, el, $) => {
   };
 };
 
-const breakCheck = (i, el, $, breakVal) => {
+const iterateCheck = () => false;
+
+const breakCheck = (i, el, $) => {
   const checkStr = $(el).find('title').html();
-  if (checkStr === breakVal) return true;
-  return false;
+  return checkStr;
 };
 
 const breakVal = 'Donten ni Warau Gaiden ch.016';
@@ -25,13 +26,14 @@ const scrapeLatestConfig = {
   genUrlFunc: genLatestUrl,
   extractFunc: extractLatestData,
   iterateDomEle: 'item',
+  iterateCheck,
   breakCheck,
   breakVal,
 };
 
 const scrapeLatest = (req, res) => {
   scraper(scrapeLatestConfig);
-  res.send('scraper mangapark scrapeAll route');
+  res.send('scraper mangapark scrapeLatest route');
 };
 
 module.exports = {

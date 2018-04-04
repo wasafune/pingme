@@ -10,6 +10,7 @@ const domToExtractData = `<div class="manga_text">
 <p><i class="new_red"></i><a class="color_0077" title="Hunter X Hunter 380" href="//www.mangahere.cc/manga/hunter_x_hunter/v30/c380/">Hunter X Hunter 380</a></p>
 </div>`;
 
+
 module.exports = {
   domWithClassNext,
   domWithoutClassNext,
