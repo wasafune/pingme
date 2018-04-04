@@ -1,76 +1,92 @@
-const cheerio = require('cheerio');
-const axios = require('axios');
+const { scraper } = require('./scraper.js');
 
-const getRandomInt = (min, max) => Math.floor((Math.random() * Math.floor(max - min)) + min);
+// generate url strings
+const genAllUrl = page => `http://www.mangahere.cc/directory/${page}.htm?name.az`;
+const genCompletedUrl = page => `http://www.mangahere.cc/completed/${page}.htm?name.az`;
+const genLatestUrl = page => `http://www.mangahere.cc/latest/${page}/`;
 
-const iterateCheck = ($, element) => {
-  const next = $(element).length;
-  return next;
-};
-
-const iterateDom = ($, element, callback) => {
-  $(element).each((i, el) => {
-    callback(i, el, $);
-  });
-};
-
-const extractData = (i, el, $) => {
+const extractAllData = (i, el, $) => {
   const title = $(el).children('div').children('a').html();
   const pTags = $(el).children('p');
   const rating = $(pTags[0]).children('span').html();
   const genres = $(pTags[1]).html().split(', ');
   const latestStr = $(pTags[3]).children('a').html();
   const latest = latestStr.split(' ').slice(-1)[0];
+  const time = Date.now();
   return {
-    title, rating, genres, latest,
+    title, rating, genres, latest, time,
   };
 };
 
-const fetchHTML = url => (
-  new Promise((resolve, reject) => {
-    axios.get(url)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  })
-);
+const extractCompletedData = (i, el, $) => {
+  const title = $(el).children('div').children('a').html();
+  return { title };
+};
 
-async function awaitFetch(fetchCall, page = 1) {
-  const currUrl = `http://www.mangahere.cc/directory/${page}.htm?name.az`;
-  console.log('making fetch request');
-  try {
-    const result = await fetchCall(currUrl);
-    const parsedResult = cheerio.load(result);
-    console.log('fetch request success for page', page);
-    iterateDom(parsedResult, '.manga_text', extractData);
-    if (iterateCheck(parsedResult, '.next')) {
-      setTimeout(() => {
-        awaitFetch(fetchCall, page + 1);
-      }, getRandomInt(5000, 15000));
-    }
-  } catch (err) {
-    console.error(err.message);
-    setTimeout(() => {
-      awaitFetch(fetchCall, page);
-    }, getRandomInt(5000, 15000));
-  }
-}
+const extractLatestData = (i, el, $) => {
+  const title = $(el).find('.manga_info').html();
+  const latestStr = $(el).children('dd').children('a').html();
+  const latest = latestStr.split(' ').slice(-1)[0];
+  // should we get date
+  // const time = Date.now();
+  return { title, latest };
+};
+
+const breakCheck = (i, el, $, breakVal) => {
+  const checkStr = $(el).find('dd').find('a').html();
+  if (checkStr === breakVal) return true;
+  return false;
+};
+
+const iterateCheck = ($) => {
+  const check = $('a.next').length;
+  return check;
+};
+
+const scrapeAllConfig = {
+  genUrlFunc: genAllUrl,
+  extractFunc: extractAllData,
+  iterateDomEle: '.manga_text',
+  iterateCheck,
+};
+const scrapeCompleteConfig = {
+  genUrlFunc: genCompletedUrl,
+  extractFunc: extractCompletedData,
+  iterateDomEle: '.manga_text',
+  iterateCheck,
+};
+// get rid of when database set up
+const breakVal = 'Infection 44';
+const scrapeLatestConfig = {
+  genUrlFunc: genLatestUrl,
+  extractFunc: extractLatestData,
+  iterateDomEle: 'dl',
+  iterateCheck,
+  breakCheck,
+  breakVal,
+};
 
 const scrapeAll = (req, res) => {
-  awaitFetch(fetchHTML);
-  res.send('scraper mangahere getList route');
+  scraper(scrapeAllConfig);
+  res.send('scraper mangahere scrapeAll route');
+};
+
+const scrapeCompleted = (req, res) => {
+  scraper(scrapeCompleteConfig);
+  res.send('scraper mangahere scrapeCompleted route');
+};
+
+const scrapeLatest = (req, res) => {
+  scraper(scrapeLatestConfig);
+  res.send('scraper mangahere scrapeLatest route');
 };
 
 
 module.exports = {
-  getRandomInt,
+  extractAllData,
+  extractCompletedData,
   iterateCheck,
-  iterateDom,
-  extractData,
-  fetchHTML,
-  awaitFetch,
   scrapeAll,
+  scrapeCompleted,
+  scrapeLatest,
 };
