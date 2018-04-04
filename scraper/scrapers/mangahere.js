@@ -32,10 +32,9 @@ const extractLatestData = (i, el, $) => {
   return { title, latest };
 };
 
-const breakCheck = (i, el, $, breakVal) => {
+const breakCheck = (i, el, $) => {
   const checkStr = $(el).find('dd').find('a').html();
-  if (checkStr === breakVal) return true;
-  return false;
+  return checkStr;
 };
 
 const iterateCheck = ($) => {

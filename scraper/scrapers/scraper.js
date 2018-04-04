@@ -5,9 +5,11 @@ const getRandomInt = (min, max) => Math.floor((Math.random() * Math.floor(max - 
 
 const iterateDom = ($, config) => {
   let fullIterate = true;
+  let iterateCheck = false;
   $(config.iterateDomEle).each((i, el) => {
+    if (!i) iterateCheck = true;
     if (config.breakCheck) {
-      if (config.breakCheck(i, el, $, config.breakVal)) {
+      if (config.breakCheck(i, el, $) === config.breakVal) {
         fullIterate = false;
         return false;
       }
@@ -16,7 +18,7 @@ const iterateDom = ($, config) => {
     config.extractFunc(i, el, $);
     return true;
   });
-  return fullIterate;
+  return fullIterate && iterateCheck;
 };
 
 const fetchHTML = url => (
