@@ -5,10 +5,11 @@ const genLatestUrl = () => 'https://www.mangapark.me/rss/latest.xml';
 
 const extractLatestData = (i, el, $) => {
   const titleStrArr = $(el).find('title').html().split(' ');
-  const latest = titleStrArr.pop();
+  let latest = titleStrArr.pop();
+  latest = latest.slice(3);
+  latest = Number(latest).toString();
   const title = titleStrArr.join(' ');
   // should we get date
-  // const time = Date.now();
   return {
     title, latest,
   };
@@ -17,8 +18,13 @@ const extractLatestData = (i, el, $) => {
 const iterateCheck = () => false;
 
 const breakCheck = (i, el, $) => {
-  const checkStr = $(el).find('title').html();
-  return checkStr;
+  const titleStrArr = $(el).find('title').html().split(' ');
+  let latest = titleStrArr.pop();
+  latest = latest.slice(3);
+  latest = Number(latest).toString();
+  const title = titleStrArr.join(' ');
+  // should we get date
+  return `${title} ${latest}`;
 };
 
 const breakVal = 'Donten ni Warau Gaiden ch.016';
@@ -37,6 +43,6 @@ const scrapeLatest = (req, res) => {
 };
 
 module.exports = {
-  extractLatestData,
   scrapeLatest,
+  scrapeLatestConfig,
 };
