@@ -71,7 +71,7 @@ const handleQueries = (Model, data, source) => {
 // iterate matching dom elements, checking if break condition
 // if break condition, break loop and return false
 // if not break condition, callback on element
-const iterateDom = ($, config) => {
+const iterateDom = ($, config, handleQueryCallBack) => {
   let fullIterate = true;
   let iterateCheck = false;
   $(config.iterateDomEle).each((i, el) => {
@@ -84,7 +84,7 @@ const iterateDom = ($, config) => {
     }
     const { data, source } = config.extractFunc(i, el, $);
     const { MangaModel } = config;
-    handleQueries(MangaModel, data, source);
+    handleQueryCallBack(MangaModel, data, source);
     return true;
   });
   return fullIterate && iterateCheck;
@@ -110,7 +110,7 @@ async function scraper(config, db, page = 1) {
     const result = await fetchHTML(currUrl);
     const parsedResult = cheerio.load(result);
     console.log('fetch request success for page', page);
-    const fullIterate = iterateDom(parsedResult, config);
+    const fullIterate = iterateDom(parsedResult, config, handleQueries);
     console.log('finished iteration', page);
     if (fullIterate && config.iterateCheck(parsedResult)) {
       setTimeout(() => {
