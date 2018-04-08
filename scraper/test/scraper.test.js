@@ -1,9 +1,7 @@
 const cheerio = require('cheerio');
 const mockDom = require('./mockDom');
 const {
-  getRandomInt,
   iterateDom,
-  fetchHTML,
   // awaitFetch,
   // scrapeAll,
 } = require('../scrapers/scraper');
@@ -17,17 +15,6 @@ Object.entries(mockDom).forEach((arr) => {
 // mock modules
 jest.mock('axios');
 
-
-test('getRandomInt should generate random int between min/max', () => {
-  const min = 123;
-  const max = 54321;
-  let randomNum = 0;
-  for (let i = 0; i < 42; i += 1) {
-    randomNum = getRandomInt(min, max);
-    expect(randomNum).toBeGreaterThan(min);
-    expect(randomNum).toBeLessThan(max);
-  }
-});
 
 test('iterateDom forEach functionality with className and return false if nothing to iterate', () => {
   const mockFunc = jest.fn();
@@ -116,12 +103,12 @@ xtest('iterateDom handles break case', () => {
 
 });
 
-test('fetchHTML works with resolves', () => {
+xtest('fetchHTML works with resolves', () => {
   expect.assertions(1);
   return expect(fetchHTML('http://anime.com')).resolves.toEqual('hi domo');
 });
 
-test('fetchHTML works with rejects', () => {
+xtest('fetchHTML works with rejects', () => {
   const expectedErr = { error: 'bad url' };
   expect.assertions(1);
   return expect(fetchHTML('http://cartoon.com'))
