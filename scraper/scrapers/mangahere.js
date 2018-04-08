@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { scraper } = require('./scraper.js');
 const Bookmark = require('../../mongo/bookmarkSchema');
 
-
+// change later to remote db
 const DB_HOST = process.env.LOCAL_DB;
 
 // generate url strings
@@ -105,7 +105,7 @@ const scrapeLatest = (req, res) => {
       if (err) console.error(err);
       let breakVal;
       if (response) breakVal = `${response.title} ${response.latest}`;
-      // breakVal = "Trinity Wonder 57";
+      // breakVal = 'Trinity Wonder 57';
       scrapeLatestConfig.breakVal = breakVal;
       scraper(scrapeLatestConfig, db);
     });

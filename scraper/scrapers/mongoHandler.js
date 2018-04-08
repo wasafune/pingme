@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 
 const Manga = require('../../mongo/mangaSchema');
-const UpdatedManga = require('../../mongo/mangaSchema');
+const UpdatedManga = require('../../mongo/updatedMangaSchema');
 const Bookmark = require('../../mongo/bookmarkSchema');
 
 const {
@@ -10,94 +10,68 @@ const {
   parseTitle,
 } = require('./helpers.js');
 
-const dbSave = (MangaModel, data, source) => (
-  new Promise((resolve, reject) => {
-    const tempData = { ...data };
-    tempData.sources = [source];
-    const doc = new MangaModel(tempData);
-    doc.save((err) => {
-      if (err) return reject(err);
-      return resolve();
-    });
-  })
+const mangasSearch = (MangaModel, dbTitle) => MangaModel.findOne({ dbTitle });
+
+const mangasSave = (MangaModel, data, source) => {
+  const tempData = { ...data };
+  tempData.sources = [source];
+  const doc = new MangaModel(tempData);
+  return doc.save();
+};
+
+const mangasUpdateAll = (data, source, res) => {
+  const { genres, sources } = res;
+  const tempGenres = combineAndKeepUniq(genres, data.genres);
+  const tempSources = pushIfNotIncludes(sources, source);
+  res.genres = tempGenres;
+  res.sources = tempSources;
+  return res.save();
+};
+
+const mangasUpdateCompleted = (res) => {
+  res.completed = true;
+  return res.save();
+};
+
+const mangasUpdateLatest = (res, latest) => {
+  res.latest = latest;
+  res.updated = Date.now();
+  return res.save();
+};
+
+const updatedMangasUpdate = doc => doc.save();
+
+const bookmarkUpdate = (BookmarkModel, source, params) => (
+  BookmarkModel.findOneAndUpdate({ source }, params, { upsert: true })
 );
 
-const dbUpdateAll = (MangaModel, data, source, res) => (
-  new Promise((resolve, reject) => {
-    const { genres, sources, _id } = res;
-    const tempGenres = combineAndKeepUniq(genres, data.genres);
-    const tempSources = pushIfNotIncludes(sources, source);
-    MangaModel.findByIdAndUpdate(
-      _id,
-      { genres: tempGenres, sources: tempSources },
-      (err) => {
-        if (err) return reject(err);
-        return resolve();
-      },
-    );
-  })
-);
-
-const dbUpdateCompleted = (MangaModel, data) => (
-  new Promise((resolve, reject) => {
-    MangaModel.findOneAndUpdate(
-      { dbTitle: data.dbTitle },
-      { completed: true },
-      (err) => {
-        if (err) return reject(err);
-        return resolve();
-      },
-    );
-  })
-);
-
-const mangasUpdateLatest = (MangaModel, _id, latest) => (
-  new Promise((resolve, reject) => {
-    MangaModel.findByIdAndUpdate(
-      _id,
-      { latest, updated: Date.now },
-      (err) => {
-        if (err) return reject(err);
-        return resolve();
-      },
-    );
-  })
-);
-
-const updatedMangasUpdateLatest = doc => (
-  new Promise((resolve, reject) => {
-    doc.save((err) => {
-      if (err) return reject(err);
-      return resolve();
-    });
-  })
-);
-
-async function checkIfLatest(MangaModel, UpdatedMangaModel, data, res) {
+async function checkIfLatest(UpdatedMangaModel, data, res) {
   if (data.latest > res.latest) {
     const promiseArr = [];
-    promiseArr.push(mangasUpdateLatest(MangaModel, res._id, data.latest));
+    promiseArr.push(mangasUpdateLatest(res, data.latest));
     const paramObj = {
-      _mangaId: res._id,
+      mangaId: res.id,
       dbTitle: res.dbTitle,
     };
     const doc = new UpdatedMangaModel(paramObj);
-    promiseArr.push(updatedMangasUpdateLatest(doc));
+    promiseArr.push(updatedMangasUpdate(doc));
 
     await Promise.all(promiseArr);
   }
 }
 
-const dbSearch = (MangaModel, dbTitle) => (
-  new Promise((resolve, reject) => {
-    MangaModel.findOne({ dbTitle }, (err, res) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(res);
-    });
-  })
-);
+async function handleFirst(data, type, source) {
+  const { title, latest } = data;
+  const dbTitle = parseTitle(title);
+  const params = {
+    source, title, dbTitle, latest,
+  };
+  try {
+    await bookmarkUpdate(Bookmark, source, params);
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 async function handleQueries(data, type, source) {
   const dbTitle = parseTitle(data.title);
@@ -105,47 +79,29 @@ async function handleQueries(data, type, source) {
   updatedData.dbTitle = dbTitle;
 
   try {
-    const result = await dbSearch(Manga, dbTitle);
+    const result = await mangasSearch(Manga, dbTitle);
     if (!result) {
-      await dbSave(Manga, updatedData, source);
+      await mangasSave(Manga, updatedData, source);
     } else {
-      if (type === 'all') await dbUpdateAll(Manga, updatedData, source, result);
-      if (type === 'completed') await dbUpdateCompleted(Manga, updatedData);
-      if (type === 'latest') await checkIfLatest(Manga, UpdatedManga, updatedData, result);
+      if (type === 'all') await mangasUpdateAll(updatedData, source, result);
+      if (type === 'completed') await mangasUpdateCompleted(result);
+      if (type === 'latest') await checkIfLatest(UpdatedManga, updatedData, result);
     }
   } catch (err) {
     console.error(err);
   }
 }
 
-const updateBookmark = (BookmarkModel, source, doc) => (
-  new Promise((resolve, reject) => {
-    BookmarkModel.findOneAndUpdate({ source }, doc, { upsert: true }, (err) => {
-      if (err) reject(err);
-      resolve();
-    });
-  })
-);
-
-async function handleFirst(data, type, source) {
-  const { title, latest } = data;
-  const dbTitle = parseTitle(title);
-  const doc = {
-    source,
-    title,
-    dbTitle,
-    latest,
-  };
-  try {
-    await updateBookmark(Bookmark, source, doc);
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 module.exports = {
-  dbSave,
-  dbUpdateAll,
-  handleQueries,
+  mangasSearch,
+  mangasSave,
+  mangasUpdateAll,
+  mangasUpdateCompleted,
+  mangasUpdateLatest,
+  updatedMangasUpdate,
+  bookmarkUpdate,
+  checkIfLatest,
   handleFirst,
+  handleQueries,
 };
