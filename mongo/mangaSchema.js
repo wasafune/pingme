@@ -6,7 +6,7 @@ const mangaSchema = mongoose.Schema({
   dbTitle: String,
   genres: [String],
   latest: Number,
-  updated: { type: Date, default: Date.now },
+  updated: { type: Date, default: Date.now() },
   completed: { type: Boolean, default: false },
   sources: [String],
   latestSources: [String],

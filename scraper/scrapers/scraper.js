@@ -71,13 +71,13 @@ async function scraper(config, db, page = 1) {
         scraper(config, db, page + 1);
       }, getRandomInt(7000, 15000));
     } else {
-      console.log('end loop condition met');
+      console.log('end loop condition met, closing db connection');
       db.close();
     }
   } catch (err) {
     console.error(Date(), err.message);
     setTimeout(() => {
-      scraper(config, db, page + 1);
+      scraper(config, db, page);
     }, getRandomInt(10000, 20000));
   }
 }
