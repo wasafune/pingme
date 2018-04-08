@@ -45,7 +45,7 @@ const bookmarkUpdate = (BookmarkModel, source, params) => (
   BookmarkModel.findOneAndUpdate({ source }, params, { upsert: true })
 );
 
-async function checkIfLatest(UpdatedMangaModel, data, res) {
+const checkIfLatest = async (UpdatedMangaModel, data, res) => {
   if (data.latest > res.latest) {
     const promiseArr = [];
     promiseArr.push(mangasUpdateLatest(res, data.latest));
@@ -55,12 +55,15 @@ async function checkIfLatest(UpdatedMangaModel, data, res) {
     };
     const doc = new UpdatedMangaModel(paramObj);
     promiseArr.push(updatedMangasUpdate(doc));
-
-    await Promise.all(promiseArr);
+    try {
+      await Promise.all(promiseArr);
+    } catch (err) {
+      console.error(err.message);
+    }
   }
-}
+};
 
-async function handleFirst(data, type, source) {
+const handleFirst = async (data, type, source) => {
   const { title, latest } = data;
   const dbTitle = parseTitle(title);
   const params = {
@@ -71,9 +74,9 @@ async function handleFirst(data, type, source) {
   } catch (err) {
     console.error(err);
   }
-}
+};
 
-async function handleQueries(data, type, source) {
+const handleQueries = async (data, type, source) => {
   const dbTitle = parseTitle(data.title);
   const updatedData = { ...data };
   updatedData.dbTitle = dbTitle;
@@ -90,7 +93,7 @@ async function handleQueries(data, type, source) {
   } catch (err) {
     console.error(err);
   }
-}
+};
 
 
 module.exports = {

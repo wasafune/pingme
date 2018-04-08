@@ -99,16 +99,18 @@ const scrapeLatest = (req, res) => {
   mongoose.connect(DB_HOST);
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', () => {
-    // get bookmark
-    Bookmark.findOne({ source: 'mangahere' }, (err, response) => {
-      if (err) console.error(err);
+  db.once('open', async () => {
+    try {
+      // get bookmark
+      const response = await Bookmark.findOne({ source: 'mangahere' });
       let breakVal;
       if (response) breakVal = `${response.title} ${response.latest}`;
       // breakVal = 'Trinity Wonder 57';
       scrapeLatestConfig.breakVal = breakVal;
       scraper(scrapeLatestConfig, db);
-    });
+    } catch (err) {
+      console.error(err);
+    }
   });
   res.send('scraper mangahere scrapeLatest route');
 };
