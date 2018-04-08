@@ -5,13 +5,13 @@ const userSchema = mongoose.Schema({
   userName: {type: String, required: true},
   password: {type: String, require: true},
   age: { type: Number, min: 18, required: true },
-  // email: String,
-  // isVerified: Boolean,
-  // subs: [Object],
-  // auth: Boolean,
-  // config: Object,
-  // firstName: String,
-  // admin: Boolean,
+  email: String,
+  isVerified: Boolean,
+  subs: [Object],
+  auth: Boolean,
+  config: Object,
+  firstName: String,
+  admin: Boolean,
 });
 
 const User = mongoose.model('User', userSchema);
