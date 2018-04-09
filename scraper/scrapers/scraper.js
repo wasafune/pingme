@@ -12,52 +12,48 @@ const mongoFuncs = {
 // iterate matching dom elements, checking if break condition
 // if break condition, break loop and return false
 // if not break condition, callback on element
-async function iterateDom($, config, mongoCallBacks, page) {
+const iterateDom = async ($, config, mongoCallBacks, page) => {
   let fullIterate = true;
   let iterateCheck = false;
   const promiseArr = [];
 
   const domElements = $(config.iterateDomEle);
+  // filter out non-number keys
   const domElementsKeys = Object.keys(domElements).filter(key => (
     Number(key) || key === '0'
   ));
 
   for (let i = 0; i < domElementsKeys.length; i += 1) {
     const el = domElements[i];
+    const data = config.extractFunc(i, el, $);
+    const { source, type } = config;
 
     if (!i) iterateCheck = true;
-    if (config.breakCheck) {
-      if (config.breakCheck(i, el, $) === config.breakVal) {
+    if (config.breakVal) {
+      if (`${data.title} ${data.latest}` === config.breakVal) {
         fullIterate = false;
         break;
       }
     }
-    const { data, type, source } = config.extractFunc(i, el, $);
     if (!i && type === 'latest' && page === 1) {
       promiseArr.push(mongoCallBacks.handleFirst(data, type, source));
     }
     promiseArr.push(mongoCallBacks.handleQueries(data, type, source));
   }
-  await Promise.all(promiseArr);
-  // $(config.iterateDomEle).each((i, el) => {
-  //   if (!i) iterateCheck = true;
-  //   if (config.breakCheck) {
-  //     if (config.breakCheck(i, el, $) === config.breakVal) {
-  //       fullIterate = false;
-  //       return false;
-  //     }
-  //   }
-  //   const { data, type, source } = config.extractFunc(i, el, $);
-  //   if (!i && type === 'latest' && page === 1) {
-  //     mongoCallBacks.handleFirst(data, type, source);
-  //   }
-  //   mongoCallBacks.handleQueries(data, type, source);
-  //   return true;
-  // });
+  try {
+    await Promise.all(promiseArr);
+  } catch (err) {
+    console.error(err);
+  }
   return fullIterate && iterateCheck;
-}
+};
 
-async function scraper(config, db, page = 1) {
+const scraper = async (config, db, page = 1, errors = []) => {
+  // change number when only scraping for latest
+  if (errors.length === 30) {
+    console.error(errors);
+    return;
+  }
   const currUrl = config.genUrlFunc(page);
   console.log('making fetch request');
   try {
@@ -75,12 +71,13 @@ async function scraper(config, db, page = 1) {
       db.close();
     }
   } catch (err) {
-    console.error(Date(), err.message);
+    console.error(err.message);
+    errors.push(err.message);
     setTimeout(() => {
       scraper(config, db, page);
     }, getRandomInt(10000, 20000));
   }
-}
+};
 
 module.exports = {
   iterateDom,
