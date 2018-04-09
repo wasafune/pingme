@@ -45,6 +45,8 @@ const bookmarkUpdate = (BookmarkModel, source, params) => (
   BookmarkModel.findOneAndUpdate({ source }, params, { upsert: true })
 );
 
+const bookmarkGet = (BookmarkModel, source) => Bookmark.findOne({ source });
+
 const checkIfLatest = async (UpdatedMangaModel, data, res) => {
   if (data.latest > res.latest) {
     const promiseArr = [];
@@ -62,6 +64,7 @@ const checkIfLatest = async (UpdatedMangaModel, data, res) => {
     }
   }
 };
+
 
 const handleFirst = async (data, type, source) => {
   const { title, latest } = data;
@@ -95,6 +98,18 @@ const handleQueries = async (data, type, source) => {
   }
 };
 
+const handleBookmarkGet = async (source) => {
+  try {
+    // get bookmark
+    const response = await bookmarkGet(Bookmark, source);
+    let breakVal;
+    if (response) breakVal = `${response.title} ${response.latest}`;
+    return breakVal;
+  } catch (err) {
+    return err;
+  }
+};
+
 
 module.exports = {
   mangasSearch,
@@ -107,4 +122,5 @@ module.exports = {
   checkIfLatest,
   handleFirst,
   handleQueries,
+  handleBookmarkGet,
 };

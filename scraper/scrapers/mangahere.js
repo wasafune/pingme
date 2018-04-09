@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const { scraper } = require('./scraper.js');
-const Bookmark = require('../../mongo/bookmarkSchema');
+const { handleBookmarkGet } = require('./mongoHandler.js');
 
 // change later to remote db
 const DB_HOST = process.env.LOCAL_DB;
@@ -18,35 +18,21 @@ const extractAllData = (i, el, $) => {
   const genres = $(pTags[1]).html().split(', ');
   const latestStr = $(pTags[3]).children('a').html();
   const latest = Number(latestStr.split(' ').slice(-1)[0]);
-  const source = 'mangahere';
-  const type = 'all';
-  const data = {
+  return {
     title, htmlTitle, genres, latest,
   };
-  return { source, type, data };
 };
 
 const extractCompletedData = (i, el, $) => {
-  const title = $(el).children('div').children('a').html();
-  const source = 'mangahere';
-  const type = 'completed';
-  const data = { title };
-  return { source, type, data };
+  const title = $(el).children('div').children('a').attr('title');
+  return { title };
 };
 
 const extractLatestData = (i, el, $) => {
   const title = $(el).find('.manga_info').attr('rel');
   const latestStr = $(el).children('dd').children('a').html();
   const latest = Number(latestStr.split(' ').slice(-1)[0]);
-  const source = 'mangahere';
-  const type = 'latest';
-  const data = { title, latest };
-  return { source, type, data };
-};
-
-const breakCheck = (i, el, $) => {
-  const checkStr = $(el).find('dd').find('a').html();
-  return checkStr;
+  return { title, latest };
 };
 
 const iterateCheck = ($) => {
@@ -54,17 +40,24 @@ const iterateCheck = ($) => {
   return check;
 };
 
+const source = 'mangahere';
+
+// configs
 const scrapeAllConfig = {
   genUrlFunc: genAllUrl,
   extractFunc: extractAllData,
   iterateDomEle: '.manga_text',
   iterateCheck,
+  source,
+  type: 'all',
 };
 const scrapeCompleteConfig = {
   genUrlFunc: genCompletedUrl,
   extractFunc: extractCompletedData,
   iterateDomEle: '.manga_text',
   iterateCheck,
+  source,
+  type: 'complete',
 };
 
 const scrapeLatestConfig = {
@@ -72,7 +65,8 @@ const scrapeLatestConfig = {
   extractFunc: extractLatestData,
   iterateDomEle: 'dl',
   iterateCheck,
-  breakCheck,
+  source,
+  type: 'latest',
 };
 
 const scrapeAll = (req, res) => {
@@ -81,8 +75,8 @@ const scrapeAll = (req, res) => {
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', () => {
     scraper(scrapeAllConfig, db);
+    res.send('scraper mangahere scrapeAll route');
   });
-  res.send('scraper mangahere scrapeAll route');
 };
 
 const scrapeCompleted = (req, res) => {
@@ -91,8 +85,8 @@ const scrapeCompleted = (req, res) => {
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', () => {
     scraper(scrapeCompleteConfig, db);
+    res.send('scraper mangahere scrapeCompleted route');
   });
-  res.send('scraper mangahere scrapeCompleted route');
 };
 
 const scrapeLatest = (req, res) => {
@@ -101,18 +95,14 @@ const scrapeLatest = (req, res) => {
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', async () => {
     try {
-      // get bookmark
-      const response = await Bookmark.findOne({ source: 'mangahere' });
-      let breakVal;
-      if (response) breakVal = `${response.title} ${response.latest}`;
-      // breakVal = 'Trinity Wonder 57';
-      scrapeLatestConfig.breakVal = breakVal;
+      const bookmarkStr = await handleBookmarkGet(source);
+      scrapeLatestConfig.breakVal = bookmarkStr;
       scraper(scrapeLatestConfig, db);
+      res.send('mangahere scrapeLatest route');
     } catch (err) {
-      console.error(err);
+      res.send(err);
     }
   });
-  res.send('scraper mangahere scrapeLatest route');
 };
 
 

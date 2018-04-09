@@ -25,15 +25,16 @@ const iterateDom = async ($, config, mongoCallBacks, page) => {
 
   for (let i = 0; i < domElementsKeys.length; i += 1) {
     const el = domElements[i];
+    const data = config.extractFunc(i, el, $);
+    const { source, type } = config;
 
     if (!i) iterateCheck = true;
-    if (config.breakCheck) {
-      if (config.breakCheck(i, el, $) === config.breakVal) {
+    if (config.breakVal) {
+      if (`${data.title} ${data.latest}` === config.breakVal) {
         fullIterate = false;
         break;
       }
     }
-    const { data, type, source } = config.extractFunc(i, el, $);
     if (!i && type === 'latest' && page === 1) {
       promiseArr.push(mongoCallBacks.handleFirst(data, type, source));
     }
@@ -47,7 +48,12 @@ const iterateDom = async ($, config, mongoCallBacks, page) => {
   return fullIterate && iterateCheck;
 };
 
-const scraper = async (config, db, page = 1) => {
+const scraper = async (config, db, page = 1, errors = []) => {
+  // change number when only scraping for latest
+  if (errors.length === 30) {
+    console.error(errors);
+    return;
+  }
   const currUrl = config.genUrlFunc(page);
   console.log('making fetch request');
   try {
@@ -66,6 +72,7 @@ const scraper = async (config, db, page = 1) => {
     }
   } catch (err) {
     console.error(err.message);
+    errors.push(err.message);
     setTimeout(() => {
       scraper(config, db, page);
     }, getRandomInt(10000, 20000));
