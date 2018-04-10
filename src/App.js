@@ -6,7 +6,6 @@ import AuthLayout from './Layouts/AuthLayout';
 
 class App extends React.Component {
   render() {
-    console.log('APP');
     return (
       <Switch>
         <Route exact path='/' component={MainLayout} />
