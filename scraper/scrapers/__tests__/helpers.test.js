@@ -1,19 +1,31 @@
 const {
-  getRandomInt,
+  genRandomInt,
+  delay,
   parseTitle,
   combineAndKeepUniq,
   pushIfNotIncludes,
-} = require('../scrapers/helpers');
+} = require('../helpers');
 
-test('getRandomInt should generate random int between min/max', () => {
+test('genRandomInt should generate random int between min/max', () => {
   const min = 123;
   const max = 54321;
   let randomNum = 0;
   for (let i = 0; i < 42; i += 1) {
-    randomNum = getRandomInt(min, max);
+    randomNum = genRandomInt(min, max);
     expect(randomNum).toBeGreaterThan(min);
     expect(randomNum).toBeLessThan(max);
   }
+});
+
+test('delay should delay approx input milliseconds', async () => {
+  expect.assertions(1);
+  const startTime = Date.now();
+  await delay(50);
+  const afterTime = Date.now();
+  const lowerThreshold = startTime + 50;
+  const upperThreshold = startTime + 65;
+  const check = afterTime >= lowerThreshold && afterTime < upperThreshold;
+  expect(check).toBeTruthy();
 });
 
 test('parseTitle keeps lowercased alphanumeric + space + hyphen/underscore and changes hyphen/underscore into spaces', () => {

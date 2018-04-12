@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { scraper } = require('./scraper.js');
+const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
 
 // change later to remote db
@@ -59,7 +59,6 @@ const scrapeCompleteConfig = {
   source,
   type: 'complete',
 };
-
 const scrapeLatestConfig = {
   genUrlFunc: genLatestUrl,
   extractFunc: extractLatestData,

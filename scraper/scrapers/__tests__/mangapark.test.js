@@ -1,9 +1,9 @@
 const { load } = require('cheerio');
 
-const { scrapeLatestConfig } = require('../scrapers/mangapark');
+const { scrapeLatestConfig } = require('../mangapark');
 
-const mockBasicDom = require('./mockDom');
-const mockMangaparkDom = require('./mockDom/mangapark');
+const mockBasicDom = require('../__mockDom__');
+const mockMangaparkDom = require('../__mockDom__/mangapark');
 
 const {
   genUrlFunc,

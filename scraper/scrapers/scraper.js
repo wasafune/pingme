@@ -1,85 +1,61 @@
-const cheerio = require('cheerio');
 const axios = require('axios');
 
-const { handleQueries, handleFirst } = require('./mongoHandler');
-const { getRandomInt } = require('./helpers');
+const { genRandomInt, delay } = require('./helpers');
+const iterateDom = require('./iterateDom');
 
-const mongoFuncs = {
-  handleQueries,
-  handleFirst,
-};
-
-// iterate matching dom elements, checking if break condition
-// if break condition, break loop and return false
-// if not break condition, callback on element
-const iterateDom = async ($, config, mongoCallBacks, page) => {
-  let fullIterate = true;
-  let iterateCheck = false;
-  const promiseArr = [];
-
-  const domElements = $(config.iterateDomEle);
-  // filter out non-number keys
-  const domElementsKeys = Object.keys(domElements).filter(key => (
-    Number(key) || key === '0'
-  ));
-
-  for (let i = 0; i < domElementsKeys.length; i += 1) {
-    const el = domElements[i];
-    const data = config.extractFunc(i, el, $);
-    const { source, type } = config;
-
-    if (!i) iterateCheck = true;
-    if (config.breakVal) {
-      if (`${data.title} ${data.latest}` === config.breakVal) {
-        fullIterate = false;
-        break;
-      }
-    }
-    if (!i && type === 'latest' && page === 1) {
-      promiseArr.push(mongoCallBacks.handleFirst(data, type, source));
-    }
-    promiseArr.push(mongoCallBacks.handleQueries(data, type, source));
-  }
-  try {
-    await Promise.all(promiseArr);
-  } catch (err) {
-    console.error(err);
-  }
-  return fullIterate && iterateCheck;
-};
-
-const scraper = async (config, db, page = 1, errors = []) => {
+/*
+    **PARAMS**
+  config: is specific to each scraper source and type
+  db: is db connection object to close connection when scraping is finished
+  page: keeps track of current page to scrape, usually starts at 1
+  env:
+    defaults to live, when not testing
+    if testing, it is set to a number to limit recursive calls
+  errors: store error messages and stops scraping if too many errors
+*/
+const scraper = async (config, db, page = 1, env = 'live', errors = []) => {
+  let exitVal;
   // change number when only scraping for latest
-  if (errors.length === 30) {
-    console.error(errors);
-    return;
+  if (errors.length >= 30) {
+    exitVal = 'Error: Too many errors, closing scraper cycle.';
+    throw exitVal;
   }
   const currUrl = config.genUrlFunc(page);
   console.log('making fetch request');
   try {
     const result = await axios.get(currUrl);
-    const parsedResult = cheerio.load(result.data);
     console.log('fetch request success for page', page);
-    const fullIterate = await iterateDom(parsedResult, config, mongoFuncs, page);
-    console.log('finished iteration', page);
-    if (fullIterate && config.iterateCheck(parsedResult)) {
-      setTimeout(() => {
+    const fullIterate = await iterateDom(result.data, config, page);
+    // if loop didnt break and there is next page to scrape
+    if (fullIterate) {
+      await delay(genRandomInt(7000, 15000));
+      exitVal = `Finished iteration: ${page}`;
+      console.log(exitVal);
+      if (env === 'live') {
         scraper(config, db, page + 1);
-      }, getRandomInt(7000, 15000));
-    } else {
-      console.log('end loop condition met, closing db connection');
-      db.close();
+      } else if (env > 1) {
+        scraper(config, db, page + 1, env - 1);
+      }
+      return exitVal;
     }
+    // if iteration stop condition met, or nothing to iterate
+    exitVal = 'end loop condition met, closing db connection';
+    console.log(exitVal);
+    db.close();
+    return exitVal;
   } catch (err) {
-    console.error(err.message);
-    errors.push(err.message);
-    setTimeout(() => {
+    // error while scraping, attempt to scrape same page again
+    exitVal = err.message;
+    console.error(exitVal);
+    errors.push(exitVal);
+    await delay(genRandomInt(10000, 20000));
+    if (env === 'live') {
       scraper(config, db, page);
-    }, getRandomInt(10000, 20000));
+    } else if (env > 1) {
+      scraper(config, db, page, env - 1);
+    }
+    return exitVal;
   }
 };
 
-module.exports = {
-  iterateDom,
-  scraper,
-};
+module.exports = scraper;
