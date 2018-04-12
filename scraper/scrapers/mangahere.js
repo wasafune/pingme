@@ -69,14 +69,6 @@ const scrapeLatestConfig = {
 };
 
 const scrapeAll = async (req, res) => {
-  // const db = mongoose.connection;
-  // db.on('error', console.error.bind(console, 'connection error:'));
-  // db.once('open', async () => {
-  //   res.send('scraper mangahere scrapeAll route');
-  //   const exitObj = await scraper(scrapeAllConfig);
-  //   console.log(exitObj);
-  //   db.close();
-  // });
   res.send('scraper mangahere scrapeAll route');
   try {
     await mongoose.connect(DB_HOST);
