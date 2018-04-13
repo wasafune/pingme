@@ -1,8 +1,8 @@
-const domWithClassNext = '<div class="next"></div>';
-const domWithoutClassNext = '<div class="before"></div>';
-const domWithRepeatedClass3Times = '<img class="mada"/><br class="mada"/><input class="mada">';
-const domWithRepeatedTag3Times = '<div></div>'.repeat(3);
-const domToExtractData = `<div class="manga_text">
+const classNext1 = '<div class="next"></div>';
+const classBefore1 = '<div class="before"></div>';
+const classMada3 = '<img class="mada"/><br class="mada"/><input class="mada">';
+const tagDiv3 = '<div></div>'.repeat(3);
+const mangahereExample = `<div class="manga_text">
 <div class="title"><a href="//www.mangahere.cc/manga/hunter_x_hunter/" title="Hunter X Hunter">Hunter X Hunter</a></div>
 <p><i class="star-full"></i><i class="star-full"></i><i class="star-full"></i><i class="star-full"></i><i class="star-full"></i><span>4.90</span></p>
 <p>Action, Adventure, Comedy</p>
@@ -12,9 +12,9 @@ const domToExtractData = `<div class="manga_text">
 
 
 module.exports = {
-  domWithClassNext,
-  domWithoutClassNext,
-  domWithRepeatedClass3Times,
-  domWithRepeatedTag3Times,
-  domToExtractData,
+  classNext1,
+  classBefore1,
+  classMada3,
+  tagDiv3,
+  mangahereExample,
 };

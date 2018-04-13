@@ -7,7 +7,6 @@ const router = Router();
 
 router.get('/scrapeAll', scrapeAll);
 router.get('/scrapeCompleted', scrapeCompleted);
-router.get('/scrapeCompleted', scrapeCompleted);
 router.get('/scrapeLatest', scrapeLatest);
 
 router.get('/', (req, res) => {

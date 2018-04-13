@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { scraper } = require('./scraper.js');
+const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
 
 // change later to remote db
@@ -51,15 +51,14 @@ const scrapeAllConfig = {
   source,
   type: 'all',
 };
-const scrapeCompleteConfig = {
+const scrapeCompletedConfig = {
   genUrlFunc: genCompletedUrl,
   extractFunc: extractCompletedData,
   iterateDomEle: '.manga_text',
   iterateCheck,
   source,
-  type: 'complete',
+  type: 'completed',
 };
-
 const scrapeLatestConfig = {
   genUrlFunc: genLatestUrl,
   extractFunc: extractLatestData,
@@ -69,40 +68,45 @@ const scrapeLatestConfig = {
   type: 'latest',
 };
 
-const scrapeAll = (req, res) => {
-  mongoose.connect(DB_HOST);
-  const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', () => {
-    scraper(scrapeAllConfig, db);
-    res.send('scraper mangahere scrapeAll route');
-  });
+const scrapeAll = async (req, res) => {
+  res.send('scraper mangahere scrapeAll route');
+  try {
+    await mongoose.connect(DB_HOST);
+    const db = mongoose.connection;
+    const exitObj = await scraper(scrapeAllConfig);
+    console.log(exitObj);
+    await db.close();
+  } catch (err) {
+    console.error(err);
+  }
 };
 
-const scrapeCompleted = (req, res) => {
-  mongoose.connect(DB_HOST);
-  const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', () => {
-    scraper(scrapeCompleteConfig, db);
-    res.send('scraper mangahere scrapeCompleted route');
-  });
+const scrapeCompleted = async (req, res) => {
+  res.send('scraper mangahere scrapeCompleted route');
+  try {
+    await mongoose.connect(DB_HOST);
+    const db = mongoose.connection;
+    const exitObj = await scraper(scrapeCompletedConfig);
+    console.log(exitObj);
+    await db.close();
+  } catch (err) {
+    console.error(err);
+  }
 };
 
-const scrapeLatest = (req, res) => {
-  mongoose.connect(DB_HOST);
-  const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', async () => {
-    try {
-      const bookmarkStr = await handleBookmarkGet(source);
-      scrapeLatestConfig.breakVal = bookmarkStr;
-      scraper(scrapeLatestConfig, db);
-      res.send('mangahere scrapeLatest route');
-    } catch (err) {
-      res.send(err);
-    }
-  });
+const scrapeLatest = async (req, res) => {
+  res.send('mangahere scrapeLatest route');
+  try {
+    await mongoose.connect(DB_HOST);
+    const db = mongoose.connection;
+    const bookmarkStr = await handleBookmarkGet(source);
+    scrapeLatestConfig.breakVal = bookmarkStr;
+    const exitObj = await scraper(scrapeLatestConfig);
+    console.log(exitObj);
+    db.close();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 
