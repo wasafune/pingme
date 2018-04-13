@@ -5,6 +5,11 @@ const { handleQueries, handleFirst } = require('./mongoHandler');
 // iterate matching dom elements, checking if break condition
 // if break condition, break loop
 // if not break condition, callback on element and query db
+
+/*   **Params**
+  result: fetch request resolve value (HTML DOM)
+  config: source/type specific configs
+*/
 const iterateDom = async (result, config, page) => {
   let fullIterate = true;
   const promiseArr = [];

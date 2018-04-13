@@ -95,7 +95,9 @@ const handleQueries = async (data, type, source) => {
     }
   } catch (err) {
     console.error(err);
+    throw err;
   }
+  return 'HandleQueries success.';
 };
 
 const handleBookmarkGet = async (source) => {

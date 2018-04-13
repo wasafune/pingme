@@ -3,8 +3,7 @@ const axios = require('axios');
 const { genRandomInt, delay } = require('./helpers');
 const iterateDom = require('./iterateDom');
 
-/*
-    **PARAMS**
+/*   **PARAMS**
   config: is specific to each scraper source and type
   db: is db connection object to close connection when scraping is finished
   page: keeps track of current page to scrape, usually starts at 1
