@@ -12,6 +12,7 @@ const UpdatedManga = require('../../../mongo/updatedMangaSchema');
 const Bookmark = require('../../../mongo/bookmarkSchema');
 
 const {
+  updatedMangasDrop,
   handleBookmarkGet,
   handleFirst,
   handleQueries,
@@ -236,5 +237,24 @@ describe('handleQueries Functionality', () => {
       expect(res2.updated.getTime()).toBeGreaterThan(res1.updated.getTime());
       await expect(UpdatedManga.findOne({ dbTitle })).resolves.not.toBeNull();
     });
+  });
+});
+
+describe('updatedMangasDrop Functionality', () => {
+  beforeAll(async () => {
+    const params = {
+      dbTitle: 'name of the gust',
+      mangaId: 'abc123',
+    };
+    const mockDoc = new UpdatedManga(params);
+    await mockDoc.save();
+  });
+  test('drops the collection/model', async () => {
+    expect.assertions(2);
+    const list1 = await UpdatedManga.find();
+    expect(list1.length).toBeGreaterThan(0);
+    await updatedMangasDrop();
+    const list2 = await UpdatedManga.find();
+    expect(list2.length).toBe(0);
   });
 });
