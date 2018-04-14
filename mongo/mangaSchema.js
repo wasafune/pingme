@@ -14,6 +14,7 @@ const mangaSchema = mongoose.Schema({
   rating: { type: Number, default: 0 },
   subscribeList: [String],
   subscribeCount: Number,
+  favoriteList: [String],
   favoriteCount: Number,
 });
 
