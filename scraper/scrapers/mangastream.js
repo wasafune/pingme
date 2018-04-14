@@ -1,53 +1,49 @@
-const { scraper } = require('./scraper.js');
+const mongoose = require('mongoose');
 
-const genLatestUrl = () => 'https://readms.net/';
+const scraper = require('./scraper.js');
+const { handleBookmarkGet } = require('./mongoHandler.js');
+
+// change later to remote db
+const DB_HOST = process.env.LOCAL_DB;
+
+// generate url strings
+const genLatestUrl = () => 'https://readms.net/rss';
 
 const extractLatestData = (i, el, $) => {
-  const parent = $(el).parent();
-  let title = '';
-  $(parent).contents().each((index, elem) => {
-    if (elem.type === 'text') {
-      title = elem.data.trim();
-      return false;
-    }
-    return true;
-  });
-  const latest = $(parent).find('strong').html();
-  return {
-    title, latest,
-  };
+  const titleStrArr = $(el).find('title').html().split(' ');
+  const latestStr = titleStrArr.pop();
+  const latest = Number(latestStr);
+  const title = titleStrArr.join(' ');
+  return { title, latest };
 };
 
 const iterateCheck = () => false;
 
-const breakCheck = (i, el, $) => {
-  const parent = $(el).parent();
-  let title = '';
-  $(parent).contents().each((index, elem) => {
-    if (elem.type === 'text') {
-      title = elem.data.trim();
-      return false;
-    }
-    return true;
-  });
-  const latest = $(parent).find('strong').html();
-  const checkStr = `${title} ${latest}`;
-  return checkStr;
-};
+const source = 'mangastream';
 
-const breakVal = 'Hunter x Hunter 380';
+// configs
 const scrapeLatestConfig = {
   genUrlFunc: genLatestUrl,
   extractFunc: extractLatestData,
-  iterateDomEle: '.pull-right',
+  iterateDomEle: 'item',
   iterateCheck,
-  breakCheck,
-  breakVal,
+  source,
+  type: 'latest',
 };
 
-const scrapeLatest = (req, res) => {
-  scraper(scrapeLatestConfig);
-  res.send('scraper mangastream scrapeLatest route');
+const scrapeLatest = async (req, res) => {
+  res.send(`${source} scrapeLatest route`);
+  try {
+    await mongoose.connect(DB_HOST);
+    const db = mongoose.connection;
+    const bookmarkStr = await handleBookmarkGet(source);
+    scrapeLatestConfig.breakVal = bookmarkStr;
+    const exitObj = await scraper(scrapeLatestConfig);
+    console.log(exitObj);
+    db.close();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = {

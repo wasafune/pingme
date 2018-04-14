@@ -221,7 +221,7 @@ describe('handleQueries Functionality', () => {
       expect(response.latest).toBe(data.latest);
     });
 
-    test.only('update Mangas and UpdatedMangas if latest', async () => {
+    test('update Mangas and UpdatedMangas if latest', async () => {
       const title = 'Full Metal Cripple';
       const dbTitle = parseTitle(title);
       const latest = 321;

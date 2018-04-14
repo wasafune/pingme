@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { scraper } = require('./scraper.js');
+const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
 
 // change later to remote db
@@ -21,7 +21,7 @@ const iterateCheck = () => false;
 
 const source = 'mangapark';
 
-// config
+// configs
 const scrapeLatestConfig = {
   genUrlFunc: genLatestUrl,
   extractFunc: extractLatestData,
@@ -31,20 +31,19 @@ const scrapeLatestConfig = {
   type: 'latest',
 };
 
-const scrapeLatest = (req, res) => {
-  mongoose.connect(DB_HOST);
-  const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', async () => {
-    try {
-      const bookmarkStr = await handleBookmarkGet(source);
-      scrapeLatestConfig.breakVal = bookmarkStr;
-      scraper(scrapeLatestConfig, db);
-      res.send('mangapark scrapeLatest route');
-    } catch (err) {
-      res.send(err);
-    }
-  });
+const scrapeLatest = async (req, res) => {
+  res.send(`${source} scrapeLatest route`);
+  try {
+    await mongoose.connect(DB_HOST);
+    const db = mongoose.connection;
+    const bookmarkStr = await handleBookmarkGet(source);
+    scrapeLatestConfig.breakVal = bookmarkStr;
+    const exitObj = await scraper(scrapeLatestConfig);
+    console.log(exitObj);
+    db.close();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = {

@@ -2,43 +2,37 @@ const { load } = require('cheerio');
 
 const { scrapeLatestConfig } = require('../mangapark');
 
-const mockBasicDom = require('../__mockDom__');
-const mockMangaparkDom = require('../__mockDom__/mangapark');
+const mockDom = require('../__mockDom__/mangapark');
 
 const {
   genUrlFunc,
   extractFunc,
   iterateCheck,
   iterateDomEle,
-  breakCheck,
+  source,
+  type,
 } = scrapeLatestConfig;
 
-// parse mock dom into cheerio objects
-const $ = {};
-Object.entries(mockBasicDom).forEach((arr) => {
-  $[arr[0]] = load(arr[1]);
-});
-const $mp = load(mockMangaparkDom);
+const $ = load(mockDom);
 
-test('genUrlFunc returns the same url', () => {
-  expect(genUrlFunc()).toBe('https://www.mangapark.me/rss/latest.xml');
-  expect(genUrlFunc(123)).toBe('https://www.mangapark.me/rss/latest.xml');
-});
-
-test('iterateCheck always returns false', () => {
-  expect(iterateCheck()).toBe(false);
-});
-
-test('extractFunc should return proper data', () => {
-  const mockEl = $mp(iterateDomEle)[0];
-  const expected = {
-    title: 'Tsurezure Children',
-    latest: '8',
-  };
-  expect(extractFunc(3, mockEl, $mp)).toMatchObject(expected);
-});
-
-test('breakCheck should return proper data', () => {
-  const mockEl = $mp(iterateDomEle)[0];
-  expect(breakCheck(3, mockEl, $mp)).toBe('Tsurezure Children 8');
+describe('scrapeLatest Functionality', () => {
+  test('genUrlFunc', () => {
+    expect(genUrlFunc()).toBe('https://www.mangapark.me/rss/latest.xml');
+    expect(genUrlFunc(123)).toBe('https://www.mangapark.me/rss/latest.xml');
+  });
+  test('extractFunc', () => {
+    const mockEl = $(iterateDomEle)[0];
+    const expected = {
+      title: 'Tsurezure Children',
+      latest: 8,
+    };
+    expect(extractFunc(3, mockEl, $)).toMatchObject(expected);
+  });
+  test('type & source', () => {
+    expect(type).toBe('latest');
+    expect(source).toBe('mangapark');
+  });
+  test('iterateCheck', () => {
+    expect(iterateCheck()).toBe(false);
+  });
 });
