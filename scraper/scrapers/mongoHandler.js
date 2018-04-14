@@ -66,6 +66,8 @@ const checkIfLatest = async (UpdatedMangaModel, data, res) => {
   }
 };
 
+const updatedMangasDrop = () => UpdatedManga.collection.drop();
+
 // handlers
 const handleFirst = async (data, source) => {
   const { title, latest } = data;
@@ -123,6 +125,7 @@ module.exports = {
   updatedMangasUpdate,
   bookmarkUpdate,
   checkIfLatest,
+  updatedMangasDrop,
   handleFirst,
   handleQueries,
   handleBookmarkGet,
