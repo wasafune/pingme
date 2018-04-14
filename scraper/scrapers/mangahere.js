@@ -15,7 +15,7 @@ const extractAllData = (i, el, $) => {
   const title = $(el).children('div').children('a').attr('title');
   const htmlTitle = $(el).children('div').children('a').html();
   const pTags = $(el).children('p');
-  const genres = $(pTags[1]).html().split(', ');
+  const genres = $(pTags[1]).html().toLowerCase().split(', ');
   const latestStr = $(pTags[3]).children('a').html();
   const latest = Number(latestStr.split(' ').slice(-1)[0]);
   return {
@@ -114,4 +114,7 @@ module.exports = {
   scrapeAll,
   scrapeCompleted,
   scrapeLatest,
+  scrapeAllConfig,
+  scrapeCompletedConfig,
+  scrapeLatestConfig,
 };
