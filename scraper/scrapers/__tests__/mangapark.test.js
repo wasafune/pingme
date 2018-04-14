@@ -29,8 +29,8 @@ describe('scrapeLatest Functionality', () => {
     expect(extractFunc(3, mockEl, $)).toMatchObject(expected);
   });
   test('type & source', () => {
-    expect(type).toBe('all');
-    expect(source).toBe('mangahere');
+    expect(type).toBe('latest');
+    expect(source).toBe('mangapark');
   });
   test('iterateCheck', () => {
     expect(iterateCheck()).toBe(false);

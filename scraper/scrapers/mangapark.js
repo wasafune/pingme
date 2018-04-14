@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { scraper } = require('./scraper.js');
+const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
 
 // change later to remote db
@@ -32,7 +32,7 @@ const scrapeLatestConfig = {
 };
 
 const scrapeLatest = async (req, res) => {
-  res.send('mangapark scrapeLatest route');
+  res.send(`${source} scrapeLatest route`);
   try {
     await mongoose.connect(DB_HOST);
     const db = mongoose.connection;
