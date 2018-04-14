@@ -29,6 +29,7 @@ const mangasUpdateAll = (data, source, res) => {
 };
 
 const mangasUpdateCompleted = (res) => {
+  if (res.completed) return res;
   res.completed = true;
   return res.save();
 };
@@ -65,8 +66,8 @@ const checkIfLatest = async (UpdatedMangaModel, data, res) => {
   }
 };
 
-
-const handleFirst = async (data, type, source) => {
+// handlers
+const handleFirst = async (data, source) => {
   const { title, latest } = data;
   const dbTitle = parseTitle(title);
   const params = {
@@ -76,6 +77,18 @@ const handleFirst = async (data, type, source) => {
     await bookmarkUpdate(Bookmark, source, params);
   } catch (err) {
     console.error(err);
+  }
+};
+
+const handleBookmarkGet = async (source) => {
+  try {
+    // get bookmark
+    const response = await bookmarkGet(Bookmark, source);
+    let breakVal;
+    if (response) breakVal = `${response.title} ${response.latest}`;
+    return breakVal;
+  } catch (err) {
+    return err;
   }
 };
 
@@ -98,18 +111,6 @@ const handleQueries = async (data, type, source) => {
     throw err;
   }
   return 'HandleQueries success.';
-};
-
-const handleBookmarkGet = async (source) => {
-  try {
-    // get bookmark
-    const response = await bookmarkGet(Bookmark, source);
-    let breakVal;
-    if (response) breakVal = `${response.title} ${response.latest}`;
-    return breakVal;
-  } catch (err) {
-    return err;
-  }
 };
 
 

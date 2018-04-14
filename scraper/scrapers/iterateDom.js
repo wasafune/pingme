@@ -34,7 +34,7 @@ const iterateDom = async (result, config, page) => {
       }
     }
     if (!i && type === 'latest' && page === 1) {
-      promiseArr.push(handleFirst(data, type, source));
+      promiseArr.push(handleFirst(data, source));
     }
     promiseArr.push(handleQueries(data, type, source));
   }
