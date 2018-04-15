@@ -12,6 +12,7 @@ const { handleQueries, handleFirst } = require('./mongoHandler');
 */
 const iterateDom = async (result, config, page) => {
   let fullIterate = true;
+  const latestCache = {};
   const promiseArr = [];
   const $ = cheerio.load(result);
 
@@ -33,11 +34,22 @@ const iterateDom = async (result, config, page) => {
         break;
       }
     }
-    if (!i && type === 'latest' && page === 1) {
-      promiseArr.push(handleFirst(data, source));
+    if (type === 'latest') {
+      // set bookmark
+      if (!i && page === 1) promiseArr.push(handleFirst(data, source));
+      // check for the highest latest value of a title
+      if (!latestCache[data.title]) {
+        latestCache[data.title] = { data, type, source };
+      } else if (latestCache[data.title].data.latest < data.latest) {
+        latestCache[data.title] = { data, type, source };
+      }
+    } else {
+      promiseArr.push(handleQueries(data, type, source));
     }
-    promiseArr.push(handleQueries(data, type, source));
   }
+  Object.values(latestCache).forEach((obj) => {
+    promiseArr.push(handleQueries(obj.data, obj.type, obj.source));
+  });
   try {
     await Promise.all(promiseArr);
   } catch (err) {
