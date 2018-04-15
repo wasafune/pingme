@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
-
 const Manga = require('../../mongo/mangaSchema');
 const UpdatedManga = require('../../mongo/updatedMangaSchema');
 const Bookmark = require('../../mongo/bookmarkSchema');
