@@ -5,6 +5,4 @@ const updatedMangaSchema = mongoose.Schema({
   dbTitle: String,
 });
 
-const UpdatedManga = mongoose.model('UpdatedManga', updatedMangaSchema);
-
-module.exports = UpdatedManga;
+module.exports = mongoose.model('UpdatedManga', updatedMangaSchema);
