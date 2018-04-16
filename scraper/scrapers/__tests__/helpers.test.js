@@ -23,7 +23,7 @@ test('delay should delay approx input milliseconds', async () => {
   await delay(50);
   const afterTime = Date.now();
   const lowerThreshold = startTime + 50;
-  const upperThreshold = startTime + 65;
+  const upperThreshold = startTime + 80;
   const check = afterTime >= lowerThreshold && afterTime < upperThreshold;
   expect(check).toBeTruthy();
 });
