@@ -13,9 +13,9 @@ const mangaSchema = mongoose.Schema({
   latestSources: [String],
   rating: { type: Number, default: 0 },
   subscriberList: [String],
-  subscriberCount: Number,
+  subscriberCount: { type: Number, default: 0 },
   favoritedList: [String],
-  favoritedCount: Number,
+  favoritedCount: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('Manga', mangaSchema);
