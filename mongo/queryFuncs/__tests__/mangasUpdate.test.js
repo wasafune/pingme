@@ -6,6 +6,7 @@ const Manga = require('../../../mongo/mangaSchema');
 const {
   pushToMangaSubList,
   incrementMangaSubCt,
+  retrieveMangas,
 } = require('../mangasUpdate');
 
 // eslint-disable-next-line
@@ -39,14 +40,22 @@ afterAll(async () => {
 describe('mangasUpdate funcs', () => {
   const userId = 'hehe123';
   let mangaId;
+  let mangaId2;
+  let mangaId3;
+  const params = { title: 'Benders Game', latest: 12 };
+  const params2 = { title: 'Game of Drones', latest: 34 };
+  const params3 = { title: 'Rack and Dorthy', latest: 56 };
   beforeAll(async () => {
-    const params = {
-      title: 'Benders Game',
-    };
     const mockManga = new Manga(params);
-    await mockManga.save();
+    const mockManga2 = new Manga(params2);
+    const mockManga3 = new Manga(params3);
+    await Promise.all([mockManga.save(), mockManga2.save(), mockManga3.save()]);
     const result = await Manga.findOne({ title: 'Benders Game' });
+    const result2 = await Manga.findOne({ title: 'Game of Drones' });
+    const result3 = await Manga.findOne({ title: 'Rack and Dorthy' });
     mangaId = result.id;
+    mangaId2 = result2.id;
+    mangaId3 = result3.id;
   });
   afterAll(async () => {
     try {
@@ -69,5 +78,14 @@ describe('mangasUpdate funcs', () => {
     await incrementMangaSubCt(mangaId);
     const result = await Manga.findById(mangaId);
     expect(result.subscriberCount).toBe(1);
+  });
+  test('retrieveMangas', async () => {
+    expect.assertions(4);
+    const result = await retrieveMangas([mangaId, mangaId2, mangaId3]);
+    result.sort((a, b) => a.latest < b.latest);
+    expect(result.length).toBe(3);
+    expect(result[0].title).toBe(params3.title);
+    expect(result[1].title).toBe(params2.title);
+    expect(result[2].title).toBe(params.title);
   });
 });
