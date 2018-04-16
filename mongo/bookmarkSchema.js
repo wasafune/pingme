@@ -7,6 +7,4 @@ const bookmarkSchema = mongoose.Schema({
   latest: Number,
 });
 
-const Bookmark = mongoose.model('Bookmark', bookmarkSchema);
-
-module.exports = Bookmark;
+module.exports = mongoose.model('Bookmark', bookmarkSchema);
