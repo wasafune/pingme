@@ -7,6 +7,8 @@ const {
   pushToMangaSubList,
   incrementMangaSubCt,
   retrieveMangas,
+  pullFromMangaSubList,
+  decrementMangaSubCt,
 } = require('../mangasUpdate');
 
 // eslint-disable-next-line
@@ -78,6 +80,22 @@ describe('mangasUpdate funcs', () => {
     await incrementMangaSubCt(mangaId);
     const result = await Manga.findById(mangaId);
     expect(result.subscriberCount).toBe(1);
+  });
+  test('pullFromMangaSubList', async () => {
+    expect.assertions(2);
+    let result = await Manga.findById(mangaId);
+    expect(result.subscriberList.length).toBe(1);
+    await pullFromMangaSubList(mangaId, userId);
+    result = await Manga.findById(mangaId);
+    expect(result.subscriberList.length).toBe(0);
+  });
+  test('decrementMangaSubCt', async () => {
+    expect.assertions(2);
+    let result = await Manga.findById(mangaId);
+    expect(result.subscriberCount).toBe(1);
+    await decrementMangaSubCt(mangaId);
+    result = await Manga.findById(mangaId);
+    expect(result.subscriberCount).toBe(0);
   });
   test('retrieveMangas', async () => {
     expect.assertions(4);
