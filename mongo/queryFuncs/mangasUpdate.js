@@ -6,6 +6,12 @@ const pushToMangaSubList = (mangaId, userId) =>
 const incrementMangaSubCt = mangaId =>
   Manga.findByIdAndUpdate(mangaId, { $inc: { subscriberCount: 1 } });
 
+const pullFromMangaSubList = (mangaId, userId) =>
+  Manga.findByIdAndUpdate(mangaId, { $pull: { subscriberList: userId } });
+
+const decrementMangaSubCt = mangaId =>
+  Manga.findByIdAndUpdate(mangaId, { $inc: { subscriberCount: -1 } });
+
 const retrieveMangas = async (idsArr) => {
   const promiseArr = [];
   idsArr.forEach((id) => {
@@ -21,5 +27,7 @@ const retrieveMangas = async (idsArr) => {
 module.exports = {
   pushToMangaSubList,
   incrementMangaSubCt,
+  pullFromMangaSubList,
+  decrementMangaSubCt,
   retrieveMangas,
 };

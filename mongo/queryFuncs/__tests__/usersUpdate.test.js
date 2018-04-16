@@ -6,6 +6,8 @@ const User = require('../../../mongo/userSchema');
 const {
   pushToUserSubList,
   incrementUserSubCt,
+  pullFromUserSubList,
+  decrementUserSubCt,
 } = require('../usersUpdate');
 
 // eslint-disable-next-line
@@ -71,5 +73,21 @@ describe('mangasUpdate funcs', () => {
     await incrementUserSubCt(userId);
     const result = await User.findById(userId);
     expect(result.subscribedCount).toBe(1);
+  });
+  test('pullFromUserSubList', async () => {
+    expect.assertions(2);
+    let result = await User.findById(userId);
+    expect(result.subscribedList.length).toBe(1);
+    await pullFromUserSubList(userId, mangaId);
+    result = await User.findById(userId);
+    expect(result.subscribedList.length).toBe(0);
+  });
+  test('decrementUserSubCt', async () => {
+    expect.assertions(2);
+    let result = await User.findById(userId);
+    expect(result.subscribedCount).toBe(1);
+    await decrementUserSubCt(userId);
+    result = await User.findById(userId);
+    expect(result.subscribedCount).toBe(0);
   });
 });
