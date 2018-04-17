@@ -1,4 +1,6 @@
-const getRandomInt = (min, max) => Math.floor((Math.random() * Math.floor(max - min)) + min);
+const genRandomInt = (min, max) => Math.floor((Math.random() * Math.floor(max - min)) + min);
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 // database format title
 const parseTitle = (str) => {
@@ -33,7 +35,8 @@ const pushIfNotIncludes = (arr, str) => {
 
 
 module.exports = {
-  getRandomInt,
+  genRandomInt,
+  delay,
   parseTitle,
   dbTitleToSearchStr,
   combineAndKeepUniq,

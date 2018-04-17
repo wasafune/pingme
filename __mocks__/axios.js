@@ -11,7 +11,7 @@ axios.get = url => (
         resolve({ data: 'hi domo' });
       } else {
         // eslint-disable-next-line
-        reject({ error: 'bad url' });
+        reject({ message: 'bad url' });
       }
     });
   })
