@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 
 const { handleQueries, handleFirst } = require('./mongoHandler');
+const { handleEdgeCase } = require('./handleEdgeCase');
 
 // iterate matching dom elements, checking if break condition
 // if break condition, break loop
@@ -26,6 +27,7 @@ const iterateDom = async (result, config, page) => {
   for (let i = 0; i < domElementsKeys.length; i += 1) {
     const el = domElements[i];
     const data = config.extractFunc(i, el, $);
+    data.title = handleEdgeCase(data.title);
     const { source, type } = config;
 
     if (config.breakVal) {

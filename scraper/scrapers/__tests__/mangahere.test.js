@@ -105,6 +105,6 @@ describe('scrapeLatest Functionality', () => {
     expect(source).toBe('mangahere');
   });
   test('iterateCheck', () => {
-    expect(iterateCheck($next)).toBeTruthy();
+    expect(iterateCheck($next)).toBe(false);
   });
 });
