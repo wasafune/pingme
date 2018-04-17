@@ -104,7 +104,7 @@ const scrapeLatest = async (req, res) => {
     scrapeLatestConfig.breakVal = bookmarkStr;
     const exitObj = await scraper(scrapeLatestConfig);
     console.log(exitObj);
-    db.close();
+    await db.close();
     return exitObj;
   } catch (err) {
     console.log(err);
