@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
 
-// change later to remote db
-const DB_HOST = process.env.LOCAL_DB;
+const { DB_HOST } = process.env;
 
 // generate url strings
 const genAllUrl = page => `http://www.mangahere.cc/directory/${page}.htm?name.az`;
@@ -39,6 +38,8 @@ const iterateCheck = ($) => {
   const check = $('a.next').length;
   return check;
 };
+const iterateCheckLatest = () => false;
+
 
 const source = 'mangahere';
 
@@ -63,7 +64,7 @@ const scrapeLatestConfig = {
   genUrlFunc: genLatestUrl,
   extractFunc: extractLatestData,
   iterateDomEle: 'dl',
-  iterateCheck,
+  iterateCheck: iterateCheckLatest,
   source,
   type: 'latest',
 };
@@ -95,7 +96,7 @@ const scrapeCompleted = async (req, res) => {
 };
 
 const scrapeLatest = async (req, res) => {
-  res.send('mangahere scrapeLatest route');
+  if (res) res.send('mangahere scrapeLatest route');
   try {
     await mongoose.connect(DB_HOST);
     const db = mongoose.connection;
@@ -103,9 +104,11 @@ const scrapeLatest = async (req, res) => {
     scrapeLatestConfig.breakVal = bookmarkStr;
     const exitObj = await scraper(scrapeLatestConfig);
     console.log(exitObj);
-    db.close();
+    await db.close();
+    return exitObj;
   } catch (err) {
     console.log(err);
+    return err;
   }
 };
 

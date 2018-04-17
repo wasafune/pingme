@@ -13,6 +13,7 @@ const Bookmark = require('../../../mongo/bookmarkSchema');
 
 const {
   updatedMangasDrop,
+  updatedMangasCheck,
   handleBookmarkGet,
   handleFirst,
   handleQueries,
@@ -240,21 +241,29 @@ describe('handleQueries Functionality', () => {
   });
 });
 
-describe('updatedMangasDrop Functionality', () => {
+describe('updatedMangas Functionality', () => {
+  let params;
   beforeAll(async () => {
-    const params = {
+    params = {
       dbTitle: 'name of the gust',
       mangaId: 'abc123',
     };
     const mockDoc = new UpdatedManga(params);
     await mockDoc.save();
   });
-  test('drops the collection/model', async () => {
+  test('updatedMangasDrop drops the collection/model', async () => {
     expect.assertions(2);
     const list1 = await UpdatedManga.find();
     expect(list1.length).toBeGreaterThan(0);
     await updatedMangasDrop();
     const list2 = await UpdatedManga.find();
     expect(list2.length).toBe(0);
+  });
+  test('updatedMangasCheck checks if collection is empty', async () => {
+    expect.assertions(2);
+    await expect(updatedMangasCheck()).resolves.toBeFalsy();
+    const mockDoc = new UpdatedManga(params);
+    await mockDoc.save();
+    await expect(updatedMangasCheck()).resolves.toBeTruthy();
   });
 });

@@ -40,6 +40,10 @@ const mangasUpdateLatest = (res, latest) => {
 
 const updatedMangasUpdate = doc => doc.save();
 
+const updatedMangasCheck = () => UpdatedManga.collection.count();
+
+const updatedMangasDrop = () => UpdatedManga.collection.drop();
+
 const bookmarkUpdate = (BookmarkModel, source, params) => (
   BookmarkModel.findOneAndUpdate({ source }, params, { upsert: true })
 );
@@ -63,8 +67,6 @@ const checkIfLatest = async (UpdatedMangaModel, data, res) => {
     }
   }
 };
-
-const updatedMangasDrop = () => UpdatedManga.collection.drop();
 
 // handlers
 const handleFirst = async (data, source) => {
@@ -121,9 +123,10 @@ module.exports = {
   mangasUpdateCompleted,
   mangasUpdateLatest,
   updatedMangasUpdate,
+  updatedMangasCheck,
+  updatedMangasDrop,
   bookmarkUpdate,
   checkIfLatest,
-  updatedMangasDrop,
   handleFirst,
   handleQueries,
   handleBookmarkGet,
