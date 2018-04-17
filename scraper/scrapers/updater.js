@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 
-const { updatedMangasDrop } = require('./mongoHandler.js');
 const mangahere = require('./mangahere').scrapeLatest;
 const mangapark = require('./mangapark').scrapeLatest;
 const mangastream = require('./mangastream').scrapeLatest;
+const {
+  updatedMangasCheck,
+  updatedMangasDrop,
+} = require('./mongoHandler.js');
 
 const { DB_HOST } = process.env;
 
@@ -14,16 +17,17 @@ const updater = async (req, res) => {
     // connect to db to drop updatedMangas collection
     await mongoose.connect(DB_HOST);
     const db = mongoose.connection;
-    await updatedMangasDrop();
+    const initCheck = await updatedMangasCheck();
+    if (initCheck) await updatedMangasDrop();
     await db.close();
     // drop connection and start updating
     await mangahere();
     await mangapark();
     await mangastream();
     // do something with the updatedMangas
-    return 'Finished updater.';
+    console.log('Finished updater');
   } catch (err) {
-    return err;
+    console.error(err);
   }
 };
 

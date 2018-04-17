@@ -40,6 +40,8 @@ const mangasUpdateLatest = (res, latest) => {
 
 const updatedMangasUpdate = doc => doc.save();
 
+const updatedMangasCheck = () => UpdatedManga.collection.count();
+
 const updatedMangasDrop = () => UpdatedManga.collection.drop();
 
 const bookmarkUpdate = (BookmarkModel, source, params) => (
@@ -121,6 +123,7 @@ module.exports = {
   mangasUpdateCompleted,
   mangasUpdateLatest,
   updatedMangasUpdate,
+  updatedMangasCheck,
   updatedMangasDrop,
   bookmarkUpdate,
   checkIfLatest,
