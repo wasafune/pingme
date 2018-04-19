@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { scrapeLatest } = require('../scrapers/mangastream');
 
 
-const router = Router();
+const router = new Router();
 
 
 router.get('/scrapeLatest', scrapeLatest);

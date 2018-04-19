@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const updater = require('../scrapers/updater');
+const updaterController = require('./updaterController');
 const mangahereController = require('./mangahereController');
 const mangaparkController = require('./mangaparkController');
 const mangastreamController = require('./mangastreamController');
@@ -8,7 +8,7 @@ const mangastreamController = require('./mangastreamController');
 const router = new Router();
 
 // Middleware
-router.use('/updater', updater);
+router.use('/updater', updaterController);
 router.use('/mangahere', mangahereController);
 router.use('/mangapark', mangaparkController);
 router.use('/mangastream', mangastreamController);

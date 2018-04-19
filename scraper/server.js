@@ -1,6 +1,4 @@
 const express = require('express');
-// require('dotenv').config();
-// const path = require('path');
 
 const scraper = require('./controllers/scraperController');
 
