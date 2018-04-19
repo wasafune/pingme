@@ -8,7 +8,7 @@ const checkTime = async (intervalTime) => {
     console.error(err);
   }
   await delay(intervalTime, intervalTime);
-  checkTime();
+  checkTime(intervalTime);
 };
 
 checkTime(3600000);
