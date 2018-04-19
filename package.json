@@ -8,7 +8,8 @@
     "build": "webpack",
     "server": "webpack-dev-server",
     "test": "jest --coverage",
-    "scraper": "nodemon -r dotenv/config ./scraper/server.js"
+    "scraper": "nodemon -r dotenv/config ./scraper/server.js",
+    "updater": "node ./scraper/autoUpdate.js"
   },
   "repository": {
     "type": "git",

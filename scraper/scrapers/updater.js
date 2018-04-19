@@ -28,4 +28,6 @@ const updater = async (req, res) => {
   }
 };
 
-module.exports = updater;
+module.exports = {
+  updater,
+};

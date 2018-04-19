@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { scrapeAll, scrapeCompleted, scrapeLatest } = require('../scrapers/mangahere');
 
 
-const router = Router();
+const router = new Router();
 
 
 router.get('/scrapeAll', scrapeAll);
