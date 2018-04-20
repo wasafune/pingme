@@ -23,4 +23,4 @@ const mangaSchema = mongoose.Schema({
   favoritedCount: { type: Number, default: 0 },
 });
 
-module.exports = mongoose.model('Manga', mangaSchema);
+module.exports = mongoose.model('BackupManga', mangaSchema);
