@@ -1,20 +1,38 @@
 const User = require('../userSchema.js');
 
-const pushToUserSubList = (userId, mangaId) =>
-  User.findByIdAndUpdate(userId, { $push: { subscribedList: mangaId } });
+const addFollowing = (userId, mangaId, subscribed = false) =>
+  User.findByIdAndUpdate(
+    userId,
+    {
+      $push: { followingList: { _id: mangaId, subscribed } },
+      $inc: { followingCount: 1 },
+    },
+  );
 
-const incrementUserSubCt = userId =>
-  User.findByIdAndUpdate(userId, { $inc: { subscribedCount: 1 } });
+const subscribeFollowing = (userId, mangaId) =>
+  User.findOneAndUpdate(
+    { _id: userId, 'followingList._id': mangaId },
+    { $set: { 'followingList.$.subscribed': true } },
+  );
 
-const pullFromUserSubList = (userId, mangaId) =>
-  User.findByIdAndUpdate(userId, { $pull: { subscribedList: mangaId } });
+const unsubscribeFollowing = async (userId, mangaId) =>
+  User.findOneAndUpdate(
+    { _id: userId, 'followingList._id': mangaId },
+    { $set: { 'followingList.$.subscribed': false } },
+  );
 
-const decrementUserSubCt = userId =>
-  User.findByIdAndUpdate(userId, { $inc: { subscribedCount: -1 } });
+const pullFollower = (userId, mangaId) =>
+  User.findByIdAndUpdate(
+    userId,
+    {
+      $pull: { followerList: { mangaId } },
+      $inc: { followerCount: -1 },
+    },
+  );
 
 module.exports = {
-  pushToUserSubList,
-  incrementUserSubCt,
-  pullFromUserSubList,
-  decrementUserSubCt,
+  addFollowing,
+  subscribeFollowing,
+  unsubscribeFollowing,
+  pullFollower,
 };

@@ -4,7 +4,7 @@ const MongodbMemoryServer = require('mongodb-memory-server');
 const User = require('../../../mongo/userSchema');
 
 const {
-  pushToUserSubList,
+  addFollowing,
   incrementUserSubCt,
   pullFromUserSubList,
   decrementUserSubCt,
@@ -52,6 +52,14 @@ describe('mangasUpdate funcs', () => {
     const result = await User.findOne({ userName: 'PoggestChampion321' });
     userId = result.id;
   });
+  beforeEach(async () => {
+    beforeEach(async () => {
+      await User.findByIdAndUpdate(userId, {
+        $pull: { followingList: {} },
+        $set: { followingCount: 0 },
+      });
+    });
+  });
   afterAll(async () => {
     try {
       await User.collection.drop();
@@ -60,13 +68,23 @@ describe('mangasUpdate funcs', () => {
     }
   });
 
-  test('pushToUserSubList', async () => {
-    const expected = [mangaId];
+  test.only('addFollowing with subscribed false, increments followingCount', async () => {
+    const expected = { _id: mangaId, subscribed: false };
 
-    expect.assertions(1);
-    await pushToUserSubList(userId, mangaId);
+    expect.assertions(2);
+    await addFollowing(userId, mangaId);
     const result = await User.findById(userId);
-    expect(result.subscribedList).toEqual(expect.arrayContaining(expected));
+    expect(result.followingCount).toBe(1);
+    expect(result.followingList[0]).toEqual(expect.objectContaining(expected));
+  });
+  test.only('addFollowing with subscribed true, increments followingCount', async () => {
+    const expected = { _id: mangaId, subscribed: true };
+
+    expect.assertions(2);
+    await addFollowing(userId, mangaId, true);
+    const result = await User.findById(userId);
+    expect(result.followingCount).toBe(1);
+    expect(result.followingList[0]).toEqual(expect.objectContaining(expected));
   });
   test('incrementUserSubCt', async () => {
     expect.assertions(1);
