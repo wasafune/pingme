@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const followerSchema = mongoose.Schema({
   userId: String,
   subscribed: Boolean,
-});
+}, { _id: false });
 
 const mangaSchema = mongoose.Schema({
   title: String,
