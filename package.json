@@ -24,7 +24,9 @@
   "homepage": "https://github.com/wasafune/pingme#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
     "cheerio": "^1.0.0-rc.2",
+    "cors": "^2.8.4",
     "curlrequest": "^1.0.1",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
