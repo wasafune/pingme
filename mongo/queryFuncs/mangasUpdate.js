@@ -1,16 +1,35 @@
 const Manga = require('../mangaSchema.js');
 
-const pushToMangaSubList = (mangaId, userId) =>
-  Manga.findByIdAndUpdate(mangaId, { $push: { subscriberList: userId } });
+// if new follower and subscribing, pass in true for subscriber
+const addFollower = (mangaId, userId, subscribed = false) =>
+  Manga.findByIdAndUpdate(
+    mangaId,
+    {
+      $push: { followerList: { userId, subscribed } },
+      $inc: { followerCount: 1 },
+    },
+  );
 
-const incrementMangaSubCt = mangaId =>
-  Manga.findByIdAndUpdate(mangaId, { $inc: { subscriberCount: 1 } });
+const subscribeFollower = (mangaId, userId) =>
+  Manga.findOneAndUpdate(
+    { _id: mangaId, 'followerList.userId': userId },
+    { $set: { 'followerList.$.subscribed': true } },
+  );
 
-const pullFromMangaSubList = (mangaId, userId) =>
-  Manga.findByIdAndUpdate(mangaId, { $pull: { subscriberList: userId } });
+const unsubscribeFollower = async (mangaId, userId) =>
+  Manga.findOneAndUpdate(
+    { _id: mangaId, 'followerList.userId': userId },
+    { $set: { 'followerList.$.subscribed': false } },
+  );
 
-const decrementMangaSubCt = mangaId =>
-  Manga.findByIdAndUpdate(mangaId, { $inc: { subscriberCount: -1 } });
+const pullFollower = (mangaId, userId) =>
+  Manga.findByIdAndUpdate(
+    mangaId,
+    {
+      $pull: { followerList: { userId } },
+      $inc: { followerCount: -1 },
+    },
+  );
 
 const retrieveMangas = async (idsArr) => {
   const promiseArr = [];
@@ -25,9 +44,9 @@ const retrieveMangas = async (idsArr) => {
 };
 
 module.exports = {
-  pushToMangaSubList,
-  incrementMangaSubCt,
-  pullFromMangaSubList,
-  decrementMangaSubCt,
+  addFollower,
+  subscribeFollower,
+  unsubscribeFollower,
+  pullFollower,
   retrieveMangas,
 };

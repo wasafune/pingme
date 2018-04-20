@@ -4,11 +4,11 @@ const MongodbMemoryServer = require('mongodb-memory-server');
 const Manga = require('../../../mongo/mangaSchema');
 
 const {
-  pushToMangaSubList,
-  incrementMangaSubCt,
+  addFollower,
+  subscribeFollower,
+  unsubscribeFollower,
   retrieveMangas,
-  pullFromMangaSubList,
-  decrementMangaSubCt,
+  pullFollower,
 } = require('../mangasUpdate');
 
 // eslint-disable-next-line
@@ -59,6 +59,12 @@ describe('mangasUpdate funcs', () => {
     mangaId2 = result2.id;
     mangaId3 = result3.id;
   });
+  beforeEach(async () => {
+    await Manga.findByIdAndUpdate(mangaId, {
+      $pull: { followerList: {} },
+      $set: { followerCount: 0 },
+    });
+  });
   afterAll(async () => {
     try {
       await Manga.collection.drop();
@@ -67,36 +73,76 @@ describe('mangasUpdate funcs', () => {
     }
   });
 
-  test('pushToMangaSubList', async () => {
-    const expected = [userId];
+  test('addFollower false subscriber, increments followerCount', async () => {
+    const expected = { userId, subscribed: false };
 
-    expect.assertions(1);
-    await pushToMangaSubList(mangaId, userId);
+    expect.assertions(3);
+    await addFollower(mangaId, userId);
     const result = await Manga.findById(mangaId);
-    expect(result.subscriberList).toEqual(expect.arrayContaining(expected));
+    expect(result.followerCount).toBe(1);
+    expect(result.followerList.length).toBe(1);
+    expect(result.followerList[0]).toEqual(expect.objectContaining(expected));
   });
-  test('incrementMangaSubCt', async () => {
-    expect.assertions(1);
-    await incrementMangaSubCt(mangaId);
+
+  test('addFollower true subscriber, increments followerCount', async () => {
+    const expected = { userId, subscribed: true };
+
+    expect.assertions(3);
+    await addFollower(mangaId, userId, true);
     const result = await Manga.findById(mangaId);
-    expect(result.subscriberCount).toBe(1);
+    expect(result.followerCount).toBe(1);
+    expect(result.followerList.length).toBe(1);
+    expect(result.followerList[0]).toEqual(expect.objectContaining(expected));
   });
-  test('pullFromMangaSubList', async () => {
-    expect.assertions(2);
-    let result = await Manga.findById(mangaId);
-    expect(result.subscriberList.length).toBe(1);
-    await pullFromMangaSubList(mangaId, userId);
-    result = await Manga.findById(mangaId);
-    expect(result.subscriberList.length).toBe(0);
+
+  test('subscribeFollower', async () => {
+    expect.assertions(3);
+    await Promise.all([
+      addFollower(mangaId, 'poggers'),
+      addFollower(mangaId, 'swiftrage'),
+      addFollower(mangaId, 'wutface'),
+    ]);
+    await subscribeFollower(mangaId, 'swiftrage');
+    const result1 = await Manga.findOne({ 'followerList.userId': 'swiftrage' }, { 'followerList.$': 1 });
+    const result2 = await Manga.findOne({ 'followerList.userId': 'poggers' }, { 'followerList.$': 1 });
+    const result3 = await Manga.findOne({ 'followerList.userId': 'wutface' }, { 'followerList.$': 1 });
+    expect(result1.followerList[0].subscribed).toBe(true);
+    expect(result2.followerList[0].subscribed).toBe(false);
+    expect(result3.followerList[0].subscribed).toBe(false);
   });
-  test('decrementMangaSubCt', async () => {
-    expect.assertions(2);
-    let result = await Manga.findById(mangaId);
-    expect(result.subscriberCount).toBe(1);
-    await decrementMangaSubCt(mangaId);
-    result = await Manga.findById(mangaId);
-    expect(result.subscriberCount).toBe(0);
+
+
+  test('unsubscribeFollower', async () => {
+    expect.assertions(3);
+    await Promise.all([
+      addFollower(mangaId, 'poggers', true),
+      addFollower(mangaId, 'swiftrage', true),
+      addFollower(mangaId, 'wutface', true),
+    ]);
+    await unsubscribeFollower(mangaId, 'swiftrage');
+    const result1 = await Manga.findOne({ 'followerList.userId': 'swiftrage' }, { 'followerList.$': 1 });
+    const result2 = await Manga.findOne({ 'followerList.userId': 'poggers' }, { 'followerList.$': 1 });
+    const result3 = await Manga.findOne({ 'followerList.userId': 'wutface' }, { 'followerList.$': 1 });
+    expect(result1.followerList[0].subscribed).toBe(false);
+    expect(result2.followerList[0].subscribed).toBe(true);
+    expect(result3.followerList[0].subscribed).toBe(true);
   });
+
+  test('pullFollower, decrements followerCount', async () => {
+    expect.assertions(4);
+    await Promise.all([
+      addFollower(mangaId, 'poggers', true),
+      addFollower(mangaId, 'swiftrage', true),
+      addFollower(mangaId, 'wutface', true),
+    ]);
+    await pullFollower(mangaId, 'swiftrage');
+    const result = await Manga.findById(mangaId);
+    expect(result.followerList.length).toBe(2);
+    expect(result.followerCount).toBe(2);
+    expect(result.followerList[0].userId).not.toBe('swiftrage');
+    expect(result.followerList[1].userId).not.toBe('swiftrage');
+  });
+
   test('retrieveMangas', async () => {
     expect.assertions(4);
     const result = await retrieveMangas([mangaId, mangaId2, mangaId3]);

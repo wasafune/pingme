@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const followerSchema = mongoose.Schema({
   userId: String,
   subscribed: Boolean,
-}, { _id: false });
+});
 
 const mangaSchema = mongoose.Schema({
   title: String,
@@ -23,4 +23,4 @@ const mangaSchema = mongoose.Schema({
   favoritedCount: { type: Number, default: 0 },
 });
 
-module.exports = mongoose.model('Manga', mangaSchema);
+module.exports = mongoose.model('BackupManga', mangaSchema);
