@@ -54,8 +54,7 @@ describe('usersUpdate funcs', () => {
       age: 42,
     };
     const mockUser = new User(params);
-    await mockUser.save();
-    const result = await User.findOne({ userName: 'PoggestChampion321' });
+    const result = await mockUser.save();
     userId = result.id;
   });
   beforeEach(async () => {
@@ -76,9 +75,9 @@ describe('usersUpdate funcs', () => {
 
   test('sendUserInfo', async () => {
     expect.assertions(1);
-    const expected = await User.findById(userId);
+    const expected = await User.findById(userId).lean();
     const userInfo = await sendUserInfo(userId);
-    expect(userInfo.toObject()).toEqual(expect.objectContaining(expected.toObject()));
+    expect(userInfo).toEqual(expect.objectContaining(expected));
   });
 
   test('pushFollowing with subscribed false, increments followingCount', async () => {
