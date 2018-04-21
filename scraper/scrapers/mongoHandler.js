@@ -36,12 +36,12 @@ const mangasUpdateCompleted = (res) => {
 
 const mangasUpdateLatest = (res, latest) => {
   res.latest = latest;
-  res.updated = Date.now();
+  res.updated = new Date();
   return res.save();
 };
 
-const updatedMangasUpdate = (mangaId, params) =>
-  UpdatedManga.findByIdAndUpdate(mangaId, params, { upsert: true });
+const updatedMangasUpdate = mangaId =>
+  UpdatedManga.findByIdAndUpdate(mangaId, { manga: mangaId }, { upsert: true });
 
 const updatedMangasCheck = () => UpdatedManga.collection.count();
 
@@ -54,15 +54,12 @@ const bookmarkUpdate = (BookmarkModel, source, params) => (
 const bookmarkGet = (BookmarkModel, source) => Bookmark.findOne({ source });
 
 const checkIfLatest = async (UpdatedMangaModel, data, res) => {
+  console.log('LATEST CHECK:', data.latest, res.latest)
   if (data.latest > res.latest) {
     const promiseArr = [];
     promiseArr.push(mangasUpdateLatest(res, data.latest));
-    const paramObj = {
-      _id: res._id,
-      title: res.title,
-    };
-    console.log('NEW:', res.title, data.latest);
-    promiseArr.push(updatedMangasUpdate(res._id, paramObj));
+    console.log('NEW:', res.title, data.latest)
+    promiseArr.push(updatedMangasUpdate(res._id));
     try {
       await Promise.all(promiseArr);
     } catch (err) {
