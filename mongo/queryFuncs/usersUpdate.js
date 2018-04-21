@@ -2,7 +2,7 @@
 
 const User = require('../userSchema.js');
 
-const sendUserInfo = userId => User.findById(userId);
+const sendUserInfo = userId => User.findById(userId).lean();
 
 // if new following and subscribing, pass in true for subscriber
 const pushFollowing = (userId, mangaId, subscribed = false) =>
