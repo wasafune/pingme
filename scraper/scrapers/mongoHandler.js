@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: [2, { "allow": ["_id"] }] */
+
 const Manga = require('../../mongo/mangaSchema');
 const UpdatedManga = require('../../mongo/updatedMangaSchema');
 const Bookmark = require('../../mongo/bookmarkSchema');
@@ -38,7 +40,8 @@ const mangasUpdateLatest = (res, latest) => {
   return res.save();
 };
 
-const updatedMangasUpdate = doc => doc.save();
+const updatedMangasUpdate = (mangaId, params) =>
+  UpdatedManga.findByIdAndUpdate(mangaId, params, { upsert: true });
 
 const updatedMangasCheck = () => UpdatedManga.collection.count();
 
@@ -55,11 +58,11 @@ const checkIfLatest = async (UpdatedMangaModel, data, res) => {
     const promiseArr = [];
     promiseArr.push(mangasUpdateLatest(res, data.latest));
     const paramObj = {
-      mangaId: res.id,
-      dbTitle: res.dbTitle,
+      _id: res._id,
+      title: res.title,
     };
-    const doc = new UpdatedMangaModel(paramObj);
-    promiseArr.push(updatedMangasUpdate(doc));
+    console.log('NEW:', res.title, data.latest);
+    promiseArr.push(updatedMangasUpdate(res._id, paramObj));
     try {
       await Promise.all(promiseArr);
     } catch (err) {

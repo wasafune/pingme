@@ -33,13 +33,31 @@ const pullFollower = (mangaId, userId) =>
     },
   );
 
-const retrieveMangas = async (idsArr) => {
+// returns array of followed mangas with trimmed properties
+// also adds a property "subscribed": Boolean, determined by the user's sub
+const retrieveMangas = async (followingList) => {
   const promiseArr = [];
-  idsArr.forEach((id) => {
-    promiseArr.push(Manga.findById(id));
+  const subList = {};
+  followingList.forEach((obj) => {
+    if (obj.subscribed) subList[obj._id] = true;
+    promiseArr.push(Manga.findById(obj._id, {
+      title: 1,
+      genres: 1,
+      author: 1,
+      latest: 1,
+      updated: 1,
+      rating: 1,
+      followerCount: 1,
+      favoritedCount: 1,
+    }).lean());
   });
   try {
-    return await Promise.all(promiseArr);
+    const resArr = await Promise.all(promiseArr);
+    return resArr.map((obj) => {
+      const updatedObj = { ...obj, subscribed: false };
+      if (subList[obj._id]) updatedObj.subscribed = true;
+      return updatedObj;
+    });
   } catch (err) {
     throw err;
   }

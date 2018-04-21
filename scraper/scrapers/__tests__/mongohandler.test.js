@@ -1,10 +1,11 @@
+/* eslint no-underscore-dangle: [2, { "allow": ["_id"] }] */
+
 const mongoose = require('mongoose');
 const MongodbMemoryServer = require('mongodb-memory-server');
 
 const {
   combineAndKeepUniq,
   pushIfNotIncludes,
-  parseTitle,
 } = require('../helpers.js');
 
 const Manga = require('../../../mongo/mangaSchema');
@@ -223,20 +224,34 @@ describe('handleQueries Functionality', () => {
       expect(response.latest).toBe(data.latest);
     });
 
-    test('update Mangas and UpdatedMangas if latest', async () => {
+    test('update Mangas if latest', async () => {
       const title = 'Full Metal Cripple';
-      const dbTitle = parseTitle(title);
       const latest = 321;
 
-      expect.assertions(5);
-      await expect(UpdatedManga.findOne({ dbTitle })).resolves.toBeNull();
+      expect.assertions(3);
       const res1 = await Manga.findOne({ title });
       expect(res1.latest).toBe(123);
       await handleQueries({ title, latest }, 'latest');
       const res2 = await Manga.findOne({ title });
       expect(res2.latest).toBe(latest);
       expect(res2.updated.getTime()).toBeGreaterThan(res1.updated.getTime());
-      await expect(UpdatedManga.findOne({ dbTitle })).resolves.not.toBeNull();
+    });
+
+    test('UpdatedMangas(upsert/update) if latest', async () => {
+      const title = 'Full Metal Cripple';
+      const latest1 = 444;
+      const latest2 = 555;
+
+      expect.assertions(4);
+      await UpdatedManga.collection.drop();
+      await expect(UpdatedManga.count()).resolves.toBe(0);
+      await handleQueries({ title, latest: latest1 }, 'latest');
+      await expect(UpdatedManga.count()).resolves.toBe(1);
+      await handleQueries({ title, latest: latest2 }, 'latest');
+      await expect(UpdatedManga.count()).resolves.toBe(1);
+      const res1 = await Manga.findOne({ title });
+      const res2 = await UpdatedManga.findOne({ title });
+      expect(res1.id).toBe(res2.id);
     });
   });
 });
