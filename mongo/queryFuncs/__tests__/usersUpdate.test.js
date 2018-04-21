@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const MongodbMemoryServer = require('mongodb-memory-server');
 
 const User = require('../../../mongo/userSchema');
+const Manga = require('../../../mongo/mangaSchema');
 
 const {
   sendUserInfo,
@@ -45,8 +46,10 @@ afterAll(async () => {
 });
 
 describe('usersUpdate funcs', () => {
-  const mangaId = 'hehe123';
   let userId;
+  let mangaId;
+  let mangaId2;
+  let mangaId3;
   beforeAll(async () => {
     const params = {
       userName: 'PoggestChampion321',
@@ -54,8 +57,19 @@ describe('usersUpdate funcs', () => {
       age: 42,
     };
     const mockUser = new User(params);
-    const result = await mockUser.save();
-    userId = result.id;
+    const mockManga = new Manga({ title: 'little witch academia' });
+    const mockManga2 = new Manga({ title: 'gurren lagann' });
+    const mockManga3 = new Manga({ title: 'kill la kill' });
+    const resArr = await Promise.all([
+      mockUser.save(),
+      mockManga.save(),
+      mockManga2.save(),
+      mockManga3.save(),
+    ]);
+    userId = resArr[0]._id;
+    mangaId = resArr[1]._id;
+    mangaId2 = resArr[2]._id;
+    mangaId3 = resArr[3]._id;
   });
   beforeEach(async () => {
     beforeEach(async () => {
@@ -85,7 +99,7 @@ describe('usersUpdate funcs', () => {
 
     expect.assertions(2);
     await pushFollowing(userId, mangaId);
-    const result = await User.findById(userId);
+    const result = await User.findById(userId).lean();
     expect(result.followingCount).toBe(1);
     expect(result.followingList[0]).toEqual(expect.objectContaining(expected));
   });
@@ -95,7 +109,7 @@ describe('usersUpdate funcs', () => {
 
     expect.assertions(2);
     await pushFollowing(userId, mangaId, true);
-    const result = await User.findById(userId);
+    const result = await User.findById(userId).lean();
     expect(result.followingCount).toBe(1);
     expect(result.followingList[0]).toEqual(expect.objectContaining(expected));
   });
@@ -103,52 +117,52 @@ describe('usersUpdate funcs', () => {
   test('subscribeFollowing', async () => {
     expect.assertions(3);
     await Promise.all([
-      pushFollowing(userId, 'poggers'),
-      pushFollowing(userId, 'swiftrage'),
-      pushFollowing(userId, 'wutface'),
+      pushFollowing(userId, mangaId),
+      pushFollowing(userId, mangaId2),
+      pushFollowing(userId, mangaId3),
     ]);
-    await subscribeFollowing(userId, 'swiftrage');
+    await subscribeFollowing(userId, mangaId2);
     const resArr = await Promise.all([
-      User.findOne({ 'followingList._id': 'swiftrage' }, { 'followingList.$': 1 }),
-      User.findOne({ 'followingList._id': 'poggers' }, { 'followingList.$': 1 }),
-      User.findOne({ 'followingList._id': 'wutface' }, { 'followingList.$': 1 }),
+      User.findOne({ 'followingList._id': mangaId }, { 'followingList.$': 1 }).lean(),
+      User.findOne({ 'followingList._id': mangaId2 }, { 'followingList.$': 1 }).lean(),
+      User.findOne({ 'followingList._id': mangaId3 }, { 'followingList.$': 1 }).lean(),
     ]);
-    expect(resArr[0].followingList[0].subscribed).toBe(true);
-    expect(resArr[1].followingList[0].subscribed).toBe(false);
+    expect(resArr[0].followingList[0].subscribed).toBe(false);
+    expect(resArr[1].followingList[0].subscribed).toBe(true);
     expect(resArr[2].followingList[0].subscribed).toBe(false);
   });
 
   test('unsubscribeFollowing', async () => {
     expect.assertions(3);
     await Promise.all([
-      pushFollowing(userId, 'poggers', true),
-      pushFollowing(userId, 'swiftrage', true),
-      pushFollowing(userId, 'wutface', true),
+      pushFollowing(userId, mangaId, true),
+      pushFollowing(userId, mangaId2, true),
+      pushFollowing(userId, mangaId3, true),
     ]);
-    await unsubscribeFollowing(userId, 'swiftrage');
+    await unsubscribeFollowing(userId, mangaId2);
     const resArr = await Promise.all([
-      User.findOne({ 'followingList._id': 'swiftrage' }, { 'followingList.$': 1 }),
-      User.findOne({ 'followingList._id': 'poggers' }, { 'followingList.$': 1 }),
-      User.findOne({ 'followingList._id': 'wutface' }, { 'followingList.$': 1 }),
+      User.findOne({ 'followingList._id': mangaId }, { 'followingList.$': 1 }).lean(),
+      User.findOne({ 'followingList._id': mangaId2 }, { 'followingList.$': 1 }).lean(),
+      User.findOne({ 'followingList._id': mangaId3 }, { 'followingList.$': 1 }).lean(),
     ]);
-    expect(resArr[0].followingList[0].subscribed).toBe(false);
-    expect(resArr[1].followingList[0].subscribed).toBe(true);
+    expect(resArr[0].followingList[0].subscribed).toBe(true);
+    expect(resArr[1].followingList[0].subscribed).toBe(false);
     expect(resArr[2].followingList[0].subscribed).toBe(true);
   });
 
   test('pullFollowing, decrements followingCount', async () => {
     expect.assertions(4);
     await Promise.all([
-      pushFollowing(userId, 'poggers', true),
-      pushFollowing(userId, 'swiftrage', true),
-      pushFollowing(userId, 'wutface', true),
+      pushFollowing(userId, mangaId, true),
+      pushFollowing(userId, mangaId2, true),
+      pushFollowing(userId, mangaId3, true),
     ]);
-    await pullFollowing(userId, 'swiftrage');
-    const result = await User.findById(userId);
+    await pullFollowing(userId, mangaId2);
+    const result = await User.findById(userId).lean();
     expect(result.followingList.length).toBe(2);
     expect(result.followingCount).toBe(2);
-    expect(result.followingList[0]._id).not.toBe('swiftrage');
-    expect(result.followingList[1]._id).not.toBe('swiftrage');
+    expect(result.followingList[0]._id).toEqual(expect.objectContaining(mangaId));
+    expect(result.followingList[1]._id).toEqual(expect.objectContaining(mangaId3));
   });
 
   test('pushNotification', async () => {
@@ -156,7 +170,7 @@ describe('usersUpdate funcs', () => {
 
     expect.assertions(1);
     await pushNotification(userId, mangaId, 'hidomo', 213);
-    const result = await User.findById(userId);
+    const result = await User.findById(userId).lean();
     expect(result.notificationStack[0]).toEqual(expect.objectContaining(expected));
   });
 
@@ -167,17 +181,17 @@ describe('usersUpdate funcs', () => {
       { $pull: { notificationStack: {} } },
     );
     await pushNotification(userId, mangaId, 'hidomo', 213);
-    await pushNotification(userId, 'haha321', 'coggers', 213);
-    const result = await User.findById(userId);
+    await pushNotification(userId, mangaId2, 'coggers', 213);
+    const result = await User.findById(userId).lean();
     expect(result.notificationStack.length).toBe(2);
     await pullAllNotifications(userId);
-    const result2 = await User.findById(userId);
+    const result2 = await User.findById(userId).lean();
     expect(result2.notificationStack.length).toBe(0);
   });
 
   test('retrieveNotifications', async () => {
-    const expected1 = { _id: 'hehe123', title: 'hidomo', latest: 333 };
-    const expected2 = { _id: 'haha321', title: 'coggers', latest: 213 };
+    const expected1 = { _id: mangaId, title: 'hidomo', latest: 333 };
+    const expected2 = { _id: mangaId2, title: 'coggers', latest: 213 };
 
     expect.assertions(3);
     await User.findByIdAndUpdate(
@@ -185,12 +199,12 @@ describe('usersUpdate funcs', () => {
       { $pull: { notificationStack: {} } },
     );
     await pushNotification(userId, mangaId, 'hidomo', 213);
-    await pushNotification(userId, 'haha321', 'coggers', 213);
+    await pushNotification(userId, mangaId2, 'coggers', 213);
     await pushNotification(userId, mangaId, 'hidomo', 14);
     await pushNotification(userId, mangaId, 'hidomo', 333);
     const res = await retrieveNotifications(userId);
     expect(Object.keys(res).length).toBe(2);
     expect(res[mangaId]).toEqual(expect.objectContaining(expected1));
-    expect(res.haha321).toEqual(expect.objectContaining(expected2));
+    expect(res[mangaId2]).toEqual(expect.objectContaining(expected2));
   });
 });

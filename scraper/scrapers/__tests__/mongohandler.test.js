@@ -250,35 +250,36 @@ describe('handleQueries Functionality', () => {
       await handleQueries({ title, latest: latest2 }, 'latest');
       await expect(UpdatedManga.count()).resolves.toBe(1);
       const res1 = await Manga.findOne({ title });
-      const res2 = await UpdatedManga.findOne({ title });
+      const res2 = await UpdatedManga.findOne({ _id: res1._id });
       expect(res1.id).toBe(res2.id);
     });
   });
 });
 
 describe('updatedMangas Functionality', () => {
-  let params;
+  let mangaId;
   beforeAll(async () => {
-    params = {
-      dbTitle: 'name of the gust',
-      mangaId: 'abc123',
-    };
-    const mockDoc = new UpdatedManga(params);
-    await mockDoc.save();
+    const bleach = new Manga({ title: 'bleach', latest: 14 });
+    const res = await bleach.save();
+    mangaId = res._id;
+  });
+  beforeEach(async () => {
+    const count = await UpdatedManga.collection.count();
+    if (count) await UpdatedManga.collection.drop();
   });
   test('updatedMangasDrop drops the collection/model', async () => {
     expect.assertions(2);
-    const list1 = await UpdatedManga.find();
-    expect(list1.length).toBeGreaterThan(0);
+    const doc = new UpdatedManga({ _id: mangaId, manga: mangaId });
+    await doc.save();
+    await expect(UpdatedManga.collection.count()).resolves.toBe(1);
     await updatedMangasDrop();
-    const list2 = await UpdatedManga.find();
-    expect(list2.length).toBe(0);
+    await expect(UpdatedManga.collection.count()).resolves.toBe(0);
   });
   test('updatedMangasCheck checks if collection is empty', async () => {
     expect.assertions(2);
     await expect(updatedMangasCheck()).resolves.toBeFalsy();
-    const mockDoc = new UpdatedManga(params);
-    await mockDoc.save();
+    const doc = new UpdatedManga({ _id: mangaId, manga: mangaId });
+    await doc.save();
     await expect(updatedMangasCheck()).resolves.toBeTruthy();
   });
 });

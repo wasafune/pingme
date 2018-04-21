@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const { Schema } = mongoose;
+
 const followerSchema = mongoose.Schema({
-  _id: String,
+  _id: Schema.Types.ObjectId,
   subscribed: Boolean,
 });
 

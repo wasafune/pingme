@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const SALT = 10
+
+const { Schema } = mongoose;
+const SALT = 10;
 
 const followingSchema = mongoose.Schema({
-  _id: String,
+  _id: Schema.Types.ObjectId,
   subscribed: Boolean,
 });
 const notificationSchema = mongoose.Schema({
-  _id: String,
+  _id: Schema.Types.ObjectId,
   title: String,
   latest: Number,
 });
