@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: [2, { "allow": ["_id"] }] */
+
 const mongoose = require('mongoose');
 const MongodbMemoryServer = require('mongodb-memory-server');
 
@@ -51,13 +53,10 @@ describe('mangasUpdate funcs', () => {
     const mockManga = new Manga(params);
     const mockManga2 = new Manga(params2);
     const mockManga3 = new Manga(params3);
-    await Promise.all([mockManga.save(), mockManga2.save(), mockManga3.save()]);
-    const result = await Manga.findOne({ title: 'Benders Game' });
-    const result2 = await Manga.findOne({ title: 'Game of Drones' });
-    const result3 = await Manga.findOne({ title: 'Rack and Dorthy' });
-    mangaId = result.id;
-    mangaId2 = result2.id;
-    mangaId3 = result3.id;
+    const resArr = await Promise.all([mockManga.save(), mockManga2.save(), mockManga3.save()]);
+    mangaId = resArr[0].id;
+    mangaId2 = resArr[1].id;
+    mangaId3 = resArr[2].id;
   });
   beforeEach(async () => {
     await Manga.findByIdAndUpdate(mangaId, {
@@ -74,22 +73,22 @@ describe('mangasUpdate funcs', () => {
   });
 
   test('addFollower false subscriber, increments followerCount', async () => {
-    const expected = { userId, subscribed: false };
+    const expected = { _id: userId, subscribed: false };
 
     expect.assertions(3);
     await addFollower(mangaId, userId);
-    const result = await Manga.findById(mangaId);
+    const result = await Manga.findById(mangaId).lean();
     expect(result.followerCount).toBe(1);
     expect(result.followerList.length).toBe(1);
     expect(result.followerList[0]).toEqual(expect.objectContaining(expected));
   });
 
   test('addFollower true subscriber, increments followerCount', async () => {
-    const expected = { userId, subscribed: true };
+    const expected = { _id: userId, subscribed: true };
 
     expect.assertions(3);
     await addFollower(mangaId, userId, true);
-    const result = await Manga.findById(mangaId);
+    const result = await Manga.findById(mangaId).lean();
     expect(result.followerCount).toBe(1);
     expect(result.followerList.length).toBe(1);
     expect(result.followerList[0]).toEqual(expect.objectContaining(expected));
@@ -103,12 +102,14 @@ describe('mangasUpdate funcs', () => {
       addFollower(mangaId, 'wutface'),
     ]);
     await subscribeFollower(mangaId, 'swiftrage');
-    const result1 = await Manga.findOne({ 'followerList.userId': 'swiftrage' }, { 'followerList.$': 1 });
-    const result2 = await Manga.findOne({ 'followerList.userId': 'poggers' }, { 'followerList.$': 1 });
-    const result3 = await Manga.findOne({ 'followerList.userId': 'wutface' }, { 'followerList.$': 1 });
-    expect(result1.followerList[0].subscribed).toBe(true);
-    expect(result2.followerList[0].subscribed).toBe(false);
-    expect(result3.followerList[0].subscribed).toBe(false);
+    const resArr = await Promise.all([
+      Manga.findOne({ 'followerList._id': 'swiftrage' }, { 'followerList.$': 1 }).lean(),
+      Manga.findOne({ 'followerList._id': 'poggers' }, { 'followerList.$': 1 }).lean(),
+      Manga.findOne({ 'followerList._id': 'wutface' }, { 'followerList.$': 1 }).lean(),
+    ]);
+    expect(resArr[0].followerList[0].subscribed).toBe(true);
+    expect(resArr[1].followerList[0].subscribed).toBe(false);
+    expect(resArr[2].followerList[0].subscribed).toBe(false);
   });
 
   test('unsubscribeFollower', async () => {
@@ -119,12 +120,14 @@ describe('mangasUpdate funcs', () => {
       addFollower(mangaId, 'wutface', true),
     ]);
     await unsubscribeFollower(mangaId, 'swiftrage');
-    const result1 = await Manga.findOne({ 'followerList.userId': 'swiftrage' }, { 'followerList.$': 1 });
-    const result2 = await Manga.findOne({ 'followerList.userId': 'poggers' }, { 'followerList.$': 1 });
-    const result3 = await Manga.findOne({ 'followerList.userId': 'wutface' }, { 'followerList.$': 1 });
-    expect(result1.followerList[0].subscribed).toBe(false);
-    expect(result2.followerList[0].subscribed).toBe(true);
-    expect(result3.followerList[0].subscribed).toBe(true);
+    const resArr = await Promise.all([
+      Manga.findOne({ 'followerList._id': 'swiftrage' }, { 'followerList.$': 1 }).lean(),
+      Manga.findOne({ 'followerList._id': 'poggers' }, { 'followerList.$': 1 }).lean(),
+      Manga.findOne({ 'followerList._id': 'wutface' }, { 'followerList.$': 1 }).lean(),
+    ]);
+    expect(resArr[0].followerList[0].subscribed).toBe(false);
+    expect(resArr[1].followerList[0].subscribed).toBe(true);
+    expect(resArr[2].followerList[0].subscribed).toBe(true);
   });
 
   test('pullFollower, decrements followerCount', async () => {
@@ -135,7 +138,7 @@ describe('mangasUpdate funcs', () => {
       addFollower(mangaId, 'wutface', true),
     ]);
     await pullFollower(mangaId, 'swiftrage');
-    const result = await Manga.findById(mangaId);
+    const result = await Manga.findById(mangaId).lean();
     expect(result.followerList.length).toBe(2);
     expect(result.followerCount).toBe(2);
     expect(result.followerList[0].userId).not.toBe('swiftrage');

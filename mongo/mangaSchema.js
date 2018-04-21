@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const followerSchema = mongoose.Schema({
-  userId: String,
+  _id: String,
   subscribed: Boolean,
-}, { _id: false });
+});
 
 const mangaSchema = mongoose.Schema({
   title: String,

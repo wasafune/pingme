@@ -4,6 +4,7 @@ const User = require('../userSchema.js');
 
 const sendUserInfo = userId => User.findById(userId);
 
+// if new following and subscribing, pass in true for subscriber
 const pushFollowing = (userId, mangaId, subscribed = false) =>
   User.findByIdAndUpdate(
     userId,
@@ -19,7 +20,7 @@ const subscribeFollowing = (userId, mangaId) =>
     { $set: { 'followingList.$.subscribed': true } },
   );
 
-const unsubscribeFollowing = async (userId, mangaId) =>
+const unsubscribeFollowing = (userId, mangaId) =>
   User.findOneAndUpdate(
     { _id: userId, 'followingList._id': mangaId },
     { $set: { 'followingList.$.subscribed': false } },
@@ -49,15 +50,19 @@ const pullAllNotifications = userId =>
 // reduces notificationStack into object
 // reduces mutliple titles into one title with the greatest latest value
 const retrieveNotifications = async (userId) => {
-  const res = await User.findById(userId, { _id: 0, notificationStack: 1 });
-  return res.notificationStack.reduce((acc, ele) => {
-    if (acc[ele._id]) {
-      if (acc[ele._id].latest < ele.latest) acc[ele._id].latest = ele.latest;
+  try {
+    const res = await User.findById(userId, { _id: 0, notificationStack: 1 }).lean();
+    return res.notificationStack.reduce((acc, ele) => {
+      if (acc[ele._id]) {
+        if (acc[ele._id].latest < ele.latest) acc[ele._id].latest = ele.latest;
+        return acc;
+      }
+      acc[ele._id] = ele;
       return acc;
-    }
-    acc[ele._id] = ele;
-    return acc;
-  }, {});
+    }, {});
+  } catch (err) {
+    throw err;
+  }
 };
 
 module.exports = {
