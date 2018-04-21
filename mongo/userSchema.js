@@ -4,7 +4,7 @@ const followingSchema = mongoose.Schema({
   _id: String,
   subscribed: Boolean,
 });
-const notifStackSchema = mongoose.Schema({
+const notificationSchema = mongoose.Schema({
   _id: String,
   title: String,
   latest: Number,
@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema({
   isVerified: Boolean,
   followingList: [followingSchema],
   followingCount: { type: Number, default: 0 },
-  notifStack: [notifStackSchema],
+  notificationStack: [notificationSchema],
   auth: Boolean,
   config: Object,
   firstName: String,

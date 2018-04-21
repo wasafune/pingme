@@ -111,7 +111,6 @@ describe('mangasUpdate funcs', () => {
     expect(result3.followerList[0].subscribed).toBe(false);
   });
 
-
   test('unsubscribeFollower', async () => {
     expect.assertions(3);
     await Promise.all([
