@@ -146,12 +146,18 @@ describe('mangasUpdate funcs', () => {
   });
 
   test('retrieveMangas', async () => {
-    expect.assertions(4);
-    const result = await retrieveMangas([mangaId, mangaId2, mangaId3]);
+    expect.assertions(7);
+    const mangaObj1 = { _id: mangaId, subscribed: true };
+    const mangaObj2 = { _id: mangaId2, subscribed: false };
+    const mangaObj3 = { _id: mangaId3, subscribed: true };
+    const result = await retrieveMangas([mangaObj1, mangaObj2, mangaObj3]);
     result.sort((a, b) => a.latest < b.latest);
     expect(result.length).toBe(3);
     expect(result[0].title).toBe(params3.title);
+    expect(result[0].subscribed).toBe(true);
     expect(result[1].title).toBe(params2.title);
+    expect(result[1].subscribed).toBe(false);
     expect(result[2].title).toBe(params.title);
+    expect(result[2].subscribed).toBe(true);
   });
 });
