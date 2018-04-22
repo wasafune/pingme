@@ -11,6 +11,7 @@ const mangaSchema = mongoose.Schema({
   title: String,
   htmlTitle: String,
   dbTitle: String,
+  altTitle: [String],
   genres: [String],
   author: String,
   latest: Number,

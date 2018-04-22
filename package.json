@@ -10,7 +10,8 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "scraper": "nodemon -r dotenv/config ./scraper/server.js",
-    "updater": "node ./scraper/autoUpdate.js"
+    "updater": "node ./scraper/autoUpdate.js",
+    "alttitle": "node -r dotenv/config ./scraper/updateAltTitle.js"
   },
   "repository": {
     "type": "git",

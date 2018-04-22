@@ -10,7 +10,6 @@ const {
   addFollower,
   subscribeFollower,
   unsubscribeFollower,
-  retrieveMangas,
   pullFollower,
 } = require('../mangasUpdate');
 
@@ -47,33 +46,22 @@ describe('mangasUpdate funcs', () => {
   let userId2;
   let userId3;
   let mangaId;
-  let mangaId2;
-  let mangaId3;
   const params = { title: 'Benders Game', latest: 12 };
-  const params2 = { title: 'Game of Drones', latest: 34 };
-  const params3 = { title: 'Rack and Dorthy', latest: 56 };
-
   beforeAll(async () => {
     const mockUser = new User({ userName: 'ender', password: 'wiggins', age: 21 });
     const mockUser2 = new User({ userName: 'peter', password: 'wiggins', age: 23 });
     const mockUser3 = new User({ userName: 'valentine', password: 'wiggins', age: 22 });
     const mockManga = new Manga(params);
-    const mockManga2 = new Manga(params2);
-    const mockManga3 = new Manga(params3);
     const resArr = await Promise.all([
       mockUser.save(),
       mockUser2.save(),
       mockUser3.save(),
       mockManga.save(),
-      mockManga2.save(),
-      mockManga3.save(),
     ]);
     userId = resArr[0]._id;
     userId2 = resArr[1]._id;
     userId3 = resArr[2]._id;
     mangaId = resArr[3].id;
-    mangaId2 = resArr[4].id;
-    mangaId3 = resArr[5].id;
   });
   beforeEach(async () => {
     await Manga.findByIdAndUpdate(mangaId, {
@@ -160,21 +148,5 @@ describe('mangasUpdate funcs', () => {
     expect(result.followerCount).toBe(2);
     expect(result.followerList[0]._id).toEqual(expect.objectContaining(userId));
     expect(result.followerList[1]._id).toEqual(expect.objectContaining(userId3));
-  });
-
-  test('retrieveMangas', async () => {
-    expect.assertions(7);
-    const mangaObj1 = { _id: mangaId, subscribed: true };
-    const mangaObj2 = { _id: mangaId2, subscribed: false };
-    const mangaObj3 = { _id: mangaId3, subscribed: true };
-    const result = await retrieveMangas([mangaObj1, mangaObj2, mangaObj3]);
-    result.sort((a, b) => a.latest < b.latest);
-    expect(result.length).toBe(3);
-    expect(result[0].title).toBe(params3.title);
-    expect(result[0].subscribed).toBe(true);
-    expect(result[1].title).toBe(params2.title);
-    expect(result[1].subscribed).toBe(false);
-    expect(result[2].title).toBe(params.title);
-    expect(result[2].subscribed).toBe(true);
   });
 });
