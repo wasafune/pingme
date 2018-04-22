@@ -42,26 +42,22 @@ afterAll(async () => {
 });
 
 describe('mangasUpdate funcs', () => {
-  let userId;
-  let userId2;
-  let userId3;
-  let mangaId;
-  const params = { title: 'Benders Game', latest: 12 };
+  let [userId1, userId2, userId3, mangaId] = [];
   beforeAll(async () => {
-    const mockUser = new User({ userName: 'ender', password: 'wiggins', age: 21 });
+    const mockUser1 = new User({ userName: 'ender', password: 'wiggins', age: 21 });
     const mockUser2 = new User({ userName: 'peter', password: 'wiggins', age: 23 });
     const mockUser3 = new User({ userName: 'valentine', password: 'wiggins', age: 22 });
-    const mockManga = new Manga(params);
+    const mockManga = new Manga({ title: 'Benders Game', latest: 12 });
     const resArr = await Promise.all([
-      mockUser.save(),
+      mockUser1.save(),
       mockUser2.save(),
       mockUser3.save(),
       mockManga.save(),
     ]);
-    userId = resArr[0]._id;
+    userId1 = resArr[0]._id;
     userId2 = resArr[1]._id;
     userId3 = resArr[2]._id;
-    mangaId = resArr[3].id;
+    mangaId = resArr[3]._id;
   });
   beforeEach(async () => {
     await Manga.findByIdAndUpdate(mangaId, {
@@ -78,10 +74,10 @@ describe('mangasUpdate funcs', () => {
   });
 
   test('addFollower false subscriber, increments followerCount', async () => {
-    const expected = { _id: userId, subscribed: false };
+    const expected = { _id: userId1, subscribed: false };
 
     expect.assertions(3);
-    await addFollower(mangaId, userId);
+    await addFollower(mangaId, userId1);
     const result = await Manga.findById(mangaId).lean();
     expect(result.followerCount).toBe(1);
     expect(result.followerList.length).toBe(1);
@@ -89,10 +85,10 @@ describe('mangasUpdate funcs', () => {
   });
 
   test('addFollower true subscriber, increments followerCount', async () => {
-    const expected = { _id: userId, subscribed: true };
+    const expected = { _id: userId1, subscribed: true };
 
     expect.assertions(3);
-    await addFollower(mangaId, userId, true);
+    await addFollower(mangaId, userId1, true);
     const result = await Manga.findById(mangaId).lean();
     expect(result.followerCount).toBe(1);
     expect(result.followerList.length).toBe(1);
@@ -102,13 +98,13 @@ describe('mangasUpdate funcs', () => {
   test('subscribeFollower', async () => {
     expect.assertions(3);
     await Promise.all([
-      addFollower(mangaId, userId),
+      addFollower(mangaId, userId1),
       addFollower(mangaId, userId2),
       addFollower(mangaId, userId3),
     ]);
     await subscribeFollower(mangaId, userId2);
     const resArr = await Promise.all([
-      Manga.findOne({ 'followerList._id': userId }, { 'followerList.$': 1 }).lean(),
+      Manga.findOne({ 'followerList._id': userId1 }, { 'followerList.$': 1 }).lean(),
       Manga.findOne({ 'followerList._id': userId2 }, { 'followerList.$': 1 }).lean(),
       Manga.findOne({ 'followerList._id': userId3 }, { 'followerList.$': 1 }).lean(),
     ]);
@@ -120,13 +116,13 @@ describe('mangasUpdate funcs', () => {
   test('unsubscribeFollower', async () => {
     expect.assertions(3);
     await Promise.all([
-      addFollower(mangaId, userId, true),
+      addFollower(mangaId, userId1, true),
       addFollower(mangaId, userId2, true),
       addFollower(mangaId, userId3, true),
     ]);
     await unsubscribeFollower(mangaId, userId2);
     const resArr = await Promise.all([
-      Manga.findOne({ 'followerList._id': userId }, { 'followerList.$': 1 }).lean(),
+      Manga.findOne({ 'followerList._id': userId1 }, { 'followerList.$': 1 }).lean(),
       Manga.findOne({ 'followerList._id': userId2 }, { 'followerList.$': 1 }).lean(),
       Manga.findOne({ 'followerList._id': userId3 }, { 'followerList.$': 1 }).lean(),
     ]);
@@ -138,7 +134,7 @@ describe('mangasUpdate funcs', () => {
   test('pullFollower, decrements followerCount', async () => {
     expect.assertions(4);
     await Promise.all([
-      addFollower(mangaId, userId, true),
+      addFollower(mangaId, userId1, true),
       addFollower(mangaId, userId2, true),
       addFollower(mangaId, userId3, true),
     ]);
@@ -146,7 +142,7 @@ describe('mangasUpdate funcs', () => {
     const result = await Manga.findById(mangaId).lean();
     expect(result.followerList.length).toBe(2);
     expect(result.followerCount).toBe(2);
-    expect(result.followerList[0]._id).toEqual(expect.objectContaining(userId));
+    expect(result.followerList[0]._id).toEqual(expect.objectContaining(userId1));
     expect(result.followerList[1]._id).toEqual(expect.objectContaining(userId3));
   });
 });
