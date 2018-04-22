@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: [2, { "allow": ["_id"] }] */
-
 const Manga = require('../../mongo/mangaSchema');
 const UpdatedManga = require('../../mongo/updatedMangaSchema');
 const Bookmark = require('../../mongo/bookmarkSchema');
@@ -54,11 +52,10 @@ const bookmarkUpdate = (BookmarkModel, source, params) => (
 const bookmarkGet = (BookmarkModel, source) => Bookmark.findOne({ source });
 
 const checkIfLatest = async (UpdatedMangaModel, data, res) => {
-  console.log('LATEST CHECK:', data.latest, res.latest)
   if (data.latest > res.latest) {
     const promiseArr = [];
     promiseArr.push(mangasUpdateLatest(res, data.latest));
-    console.log('NEW:', res.title, data.latest)
+    console.log('NEW:', res.title, data.latest);
     promiseArr.push(updatedMangasUpdate(res._id));
     try {
       await Promise.all(promiseArr);
