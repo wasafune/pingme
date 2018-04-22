@@ -1,7 +1,6 @@
-import React from 'react';
+import React from 'react'
 
 const MainLayout = () => {
-  console.log('MAINLAYOUT');
   return (
     <div>
       MAIN LAYOUT
@@ -9,4 +8,4 @@ const MainLayout = () => {
   )
 }
 
-export default MainLayout;
+export default MainLayout

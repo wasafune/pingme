@@ -1,9 +1,18 @@
-import React from 'react';
+import React from 'react'
+import { Switch, Route } from 'react-router-dom'
 
-const AuthLayout = () => (
-  <div>
-    AUTHLAYOUT
-  </div>
-)
+import { Login, Signup } from '../Components/Auth'
 
-export default AuthLayout;
+const AuthLayout = () => {
+  return (
+    <div>
+      AUTH LAYOUT
+      <Switch>
+        <Route exact path='/auth/signup' component={Signup} />
+        <Route exact path='/auth/login' component={Login} />
+      </Switch>
+    </div>
+  )
+}
+
+export default AuthLayout
