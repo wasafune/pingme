@@ -1,10 +1,10 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const VENDOR_LIBS = [
-  'react', 'react-dom', 'redux', 'react-redux'
-];
+  'react', 'react-dom', 'redux', 'react-redux', 'react-router', 'react-router-dom', 'redux-saga'
+]
 
 const config = {
   entry: {
@@ -30,6 +30,12 @@ const config = {
   module: {
     rules: [
       {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      },
+      {
         use: 'babel-loader',
         test: /\.js$/,
         exclude: /node_modules/
@@ -43,8 +49,9 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html'
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
 
-module.exports = config;
+module.exports = config
