@@ -1,9 +1,0 @@
-module.exports = {
-    "extends": "airbnb",
-    env: {
-      browser: true,
-    },
-    rules: {
-      semi: ["error", "never"],
-    }
-};
