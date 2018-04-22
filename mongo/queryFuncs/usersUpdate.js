@@ -1,8 +1,4 @@
-/* eslint no-underscore-dangle: [2, { "allow": ["_id"] }] */
-
 const User = require('../userSchema.js');
-
-const sendUserInfo = userId => User.findById(userId).lean();
 
 // if new following and subscribing, pass in true for subscriber
 const pushFollowing = (userId, mangaId, subscribed = false) =>
@@ -66,7 +62,6 @@ const retrieveNotifications = async (userId) => {
 };
 
 module.exports = {
-  sendUserInfo,
   pushFollowing,
   subscribeFollowing,
   unsubscribeFollowing,

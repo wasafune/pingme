@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "build": "webpack",
+    "build": "webpack --watch --config webpack.config.js",
     "server": "webpack-dev-server",
     "test": "jest",
     "coverage": "jest --coverage",
@@ -48,6 +48,7 @@
     "redux": "^3.7.2",
     "redux-form": "^7.3.0",
     "redux-saga": "^0.16.0",
+    "regenerator-transform": "^0.12.3",
     "request": "^2.85.0"
   },
   "devDependencies": {
@@ -55,6 +56,7 @@
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",

@@ -16,18 +16,24 @@ app.use(bp.json())
 app.use(bp.urlencoded({extended: true}))
 
 const user = require("./mongo/controllers/userController")
+const test = require('./mongo/controllers/testController')
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'dist')))
 // app.use('/user', user)
 app.post('/user/signup', (req,res) => {
-  user.signUp(req,res)
+  user.signUp(req, res)
+})
+
+app.post('/user/test', (req, res) => {
+  console.log('server', req.body)
+  test.test(req, res)
 })
 
 // Base route
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'))
-}) 
+})
 
 // Start server
 app.listen(PORT, () => {

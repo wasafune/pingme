@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: [2, { "allow": ["_id"] }] */
-
 const mongoose = require('mongoose');
 const MongodbMemoryServer = require('mongodb-memory-server');
 
@@ -7,7 +5,6 @@ const User = require('../../../mongo/userSchema');
 const Manga = require('../../../mongo/mangaSchema');
 
 const {
-  sendUserInfo,
   pushFollowing,
   subscribeFollowing,
   unsubscribeFollowing,
@@ -82,13 +79,6 @@ describe('usersUpdate funcs', () => {
     } catch (err) {
       console.error(err);
     }
-  });
-
-  test('sendUserInfo', async () => {
-    expect.assertions(1);
-    const expected = await User.findById(userId).lean();
-    const userInfo = await sendUserInfo(userId);
-    expect(userInfo).toEqual(expect.objectContaining(expected));
   });
 
   test('pushFollowing with subscribed false, increments followingCount', async () => {
