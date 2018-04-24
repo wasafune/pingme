@@ -17,7 +17,6 @@ app.use(bp.urlencoded({extended: true}))
 
 const user = require("./mongo/controllers/userController")
 const test = require('./mongo/controllers/testController')
-const session = require('./mongo/controllers/sessionController')
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'dist')))
