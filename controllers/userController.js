@@ -1,9 +1,9 @@
 // const { Router } = require('express');
-const User = require("../userSchema");
+const User = require('../mongo/userSchema');
 const bcrypt = require('bcrypt');
-var salt = bcrypt.genSaltSync(10);
 
-// const router = Router();
+const salt = bcrypt.genSaltSync(10);
+
 
 // Sign-up route
 
