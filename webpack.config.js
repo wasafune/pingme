@@ -3,18 +3,18 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const VENDOR_LIBS = [
-  'react', 'react-dom', 'redux', 'react-redux', 'react-router', 'react-router-dom', 'redux-saga'
+  'react', 'react-dom', 'redux', 'react-redux', 'react-router', 'react-router-dom', 'redux-saga',
 ]
 
 const config = {
   entry: {
     bundle: './src/index.js',
-    vendor: VENDOR_LIBS
+    vendor: VENDOR_LIBS,
   },
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].js'
+    filename: '[name].js',
   },
   optimization: {
     splitChunks: {
@@ -22,10 +22,10 @@ const config = {
         commons: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          chunks: 'all'
-        }
-      }
-    }
+          chunks: 'all',
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -33,26 +33,26 @@ const config = {
         enforce: 'pre',
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader'
+        loader: 'eslint-loader',
       },
       {
         use: 'babel-loader',
         test: /\.js$/,
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
-        use: ['style-loader', 'css-loader'],
-        test: /\.css$/
-      }
-    ]
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.scss$/,
+      },
+    ],
   },
   devtool: 'eval-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
     }),
-    new webpack.HotModuleReplacementPlugin()
-  ]
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 }
 
 module.exports = config

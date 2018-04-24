@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon -r dotenv/config server.js",
     "build": "webpack --watch --config webpack.config.js",
-    "server": "webpack-dev-server",
+    "server": "webpack-dev-server --inline --hot",
     "test": "jest",
     "coverage": "jest --coverage",
     "scraper": "nodemon -r dotenv/config ./scraper/server.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wasafune/pingme.git"
+    "url": "git+https://github.com/jitter489/pingme.git"
   },
   "author": "",
   "license": "ISC",
@@ -36,6 +36,7 @@
     "mongodb": "^3.0.5",
     "mongodb-memory-server": "^1.7.3",
     "mongoose": "^5.0.13",
+    "node-sass": "^4.8.3",
     "nodemon": "^1.17.2",
     "npm": "^5.8.0",
     "path": "^0.12.7",
@@ -49,7 +50,8 @@
     "redux-form": "^7.3.0",
     "redux-saga": "^0.16.0",
     "regenerator-transform": "^0.12.3",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "sass-loader": "^7.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
