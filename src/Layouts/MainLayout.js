@@ -1,42 +1,24 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { Switch, Route, Link } from 'react-router-dom'
 
-import * as actions from '../actions'
-import Search from '../Components/Main/Search'
-import Nav from '../Components/Main/Nav'
-import FollowingList from '../Components/Main/FollowingList'
-
-const mapStateToProps = state => ({
-  user: state.users,
-})
-
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    reqUserInfo: actions.reqUserInfo,
-  },
-  dispatch,
-)
-
+import { Nav, FollowingList, SearchList } from '../Components/Main'
 
 class MainLayout extends Component {
   render() {
-    console.log(this.props.user);
     return (
       <div>
         <Nav />
-        <Search />
         <h1>MainLayout</h1>
-        <FollowingList />
+        <Link href="/" to="/">home</Link>
+        <Link href="/search" to="/search">search</Link>
+        <Switch>
+          <Route exact path="/" component={FollowingList} />
+          <Route exact path="/search" component={SearchList} />
+        </Switch>
       </div>
     )
   }
 }
 
-MainLayout.propTypes = {
-  user: PropTypes.object.isRequired,
-  // reqUserInfo: PropTypes.func.isRequired,
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainLayout)
+export default MainLayout

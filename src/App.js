@@ -8,7 +8,7 @@ class App extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path='/' component={MainLayout} />
+        <Route path='/' component={MainLayout} />
         <Route path='/auth' component={AuthLayout} />
       </Switch>
     )
