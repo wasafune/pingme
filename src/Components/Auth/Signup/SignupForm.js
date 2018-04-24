@@ -12,10 +12,10 @@ const SignupForm = ({
   handleChange,
   handleSubmit,
   handleBlur,
-  isSubmitting
+  isSubmitting,
 }) => {
-  console.log('errors is', errors)
-  console.log('touched is', touched)
+  // console.log('errors is', errors)
+  // console.log('touched is', touched)
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -23,6 +23,14 @@ const SignupForm = ({
         name="email"
         placeholder="Email"
         value={values.email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      <input
+        type="text"
+        name="userName"
+        placeholder="Username"
+        value={values.userName}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -60,11 +68,16 @@ SignupForm.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleBlur: PropTypes.object.isRequired,
-  isSubmitting: PropTypes.bool.isRequired
+  isSubmitting: PropTypes.bool.isRequired,
 }
 
 const FormikSignupForm = withFormik({
-  mapPropsToValues: () => ({ email: '', password: '' }),
+  mapPropsToValues: () => ({
+    email: '',
+    userName: '',
+    password: '',
+    age: 18
+  }),
 
   // Custom sync validation
   validate: (values) => {
@@ -74,7 +87,7 @@ const FormikSignupForm = withFormik({
     } else if (
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
     ) {
-      errors.email = 'Invalid email address'
+      errors.email = 'Invalid Email address'
     }
     return errors
   },
@@ -85,7 +98,7 @@ const FormikSignupForm = withFormik({
       setSubmitting(false)
     }, 1000)
   },
-  displayName: 'BasicForm'
+  displayName: 'BasicForm',
 })(SignupForm)
 
 export default FormikSignupForm
