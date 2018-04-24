@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
@@ -13,22 +12,17 @@ mongoose.connect(process.env.DB_HOST);
 app.use(cors())
 app.use(bp.json())
 
-app.use(bp.urlencoded({extended: true}))
+app.use(bp.urlencoded({ extended: true }))
 
-const user = require("./mongo/controllers/userController")
-const search = require('./mongo/controllers/searchController')
+const user = require('./controllers/userController')
+const search = require('./controllers/searchController')
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'dist')))
-// app.use('/user', user)
-app.post('/user/signup', (req,res) => {
-  user.signUp(req, res)
-})
 
-// Loggin route
+// post route middleware
+app.post('/user/signup', user.signUp)
 app.post('/user/login', user.verify)
-
-// search route
 app.post('/search', search.searchAll)
 
 // Base route
@@ -38,5 +32,6 @@ app.get('/*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}...`)
 })

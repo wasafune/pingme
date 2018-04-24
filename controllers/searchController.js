@@ -1,6 +1,6 @@
 const {
   searchMangas,
-} = require('../queryFuncs/mangasQuery');
+} = require('../mongo/queryFuncs/mangasQuery');
 
 
 const searchAll = async (req, res) => {
