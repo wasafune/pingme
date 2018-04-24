@@ -17,6 +17,7 @@ app.use(bp.urlencoded({extended: true}))
 
 const user = require("./mongo/controllers/userController")
 const test = require('./mongo/controllers/testController')
+const session = require('./mongo/controllers/sessionController')
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'dist')))
@@ -29,6 +30,9 @@ app.post('/user/test', (req, res) => {
   console.log('server', req.body)
   test.test(req, res)
 })
+
+// Loggin route
+app.post('/user/login', user.verify)
 
 // Base route
 app.get('/*', (req, res) => {
