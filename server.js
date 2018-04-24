@@ -30,6 +30,9 @@ app.post('/user/test', (req, res) => {
   test.test(req, res)
 })
 
+// Loggin route
+app.post('/user/login', user.verify)
+
 // Base route
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'))
