@@ -5,7 +5,8 @@ import {
   CREATE_USER, CREATE_USER_FAIL, CREATE_USER_SUCCESS,
   LOGIN_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS,
   LOGGED_IN_CHECK, LOGGED_IN_CHECK_FAIL, LOGGED_IN_CHECK_SUCCESS,
-  UNMOUNT_REQUEST_MESSAGE, LOGOUT_USER,
+  LOGOUT_USER, LOGOUT_USER_FAIL, LOGOUT_USER_SUCCESS,
+  UNMOUNT_REQUEST_MESSAGE,
 } from '../constants'
 
 const initialState = {
@@ -69,12 +70,22 @@ const user = (state = initialState, action) => {
       ...state,
       requestingUser: false,
     }
+    case LOGOUT_USER: return {
+      ...state,
+      requestingUser: true,
+    }
+    case LOGOUT_USER_SUCCESS: return {
+      ...initialState,
+      requestMessage: 'Logout successful.',
+    }
+    case LOGOUT_USER_FAIL: return {
+      ...state,
+      requestMessage: 'Logout failed.',
+      requestingUser: false,
+    }
     case UNMOUNT_REQUEST_MESSAGE: return {
       ...state,
       requestMessage: null,
-    }
-    case LOGOUT_USER: return {
-      ...initialState,
     }
     default: return state
   }

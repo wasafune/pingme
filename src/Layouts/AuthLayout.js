@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Login, Signup } from '../components/auth'
+import { Login, Signup, Logout } from '../components/auth'
 import { loggedInCheck } from '../actions'
 
 
@@ -18,10 +18,10 @@ class AuthLayout extends Component {
   render() {
     return (
       <div className="auth-layout">
-        AUTH LAYOUT
         <Switch>
           <Route exact path='/auth/signup' component={Signup} />
           <Route exact path='/auth/login' component={Login} />
+          <Route exact path='/auth/logout' component={Logout} />
         </Switch>
       </div>
     )

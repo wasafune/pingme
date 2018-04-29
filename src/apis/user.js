@@ -11,3 +11,7 @@ export const loginUser = (params) => {
 export const loggedInCheck = () => {
   return axios.get('/user/check')
 }
+
+export const logoutUser = () => {
+  return axios.get('/user/logout')
+}

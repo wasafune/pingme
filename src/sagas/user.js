@@ -1,13 +1,14 @@
 import { put, call, takeLatest, all } from 'redux-saga/effects'
 
 // Actions
-import { createUser, loginUser, loggedInCheck } from '../apis/user.js'
+import { createUser, loginUser, loggedInCheck, logoutUser } from '../apis/user.js'
 
 // Constants
 import {
   CREATE_USER, CREATE_USER_SUCCESS, CREATE_USER_FAIL,
   LOGIN_USER, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,
   LOGGED_IN_CHECK, LOGGED_IN_CHECK_SUCCESS, LOGGED_IN_CHECK_FAIL,
+  LOGOUT_USER, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAIL,
 } from '../constants'
 
 // Generators
@@ -50,12 +51,22 @@ function* callLoggedInCheck() {
   }
 }
 
+function* callLogoutUser() {
+  try {
+    yield call(logoutUser)
+    yield put({ type: LOGOUT_USER_SUCCESS })
+  } catch (e) {
+    yield put({ type: LOGOUT_USER_FAIL })
+  }
+}
+
 // Watchers
 function* watchUser() {
   yield all([
     takeLatest(CREATE_USER, callCreateUser),
     takeLatest(LOGIN_USER, callLoginUser),
     takeLatest(LOGGED_IN_CHECK, callLoggedInCheck),
+    takeLatest(LOGOUT_USER, callLogoutUser),
   ])
 }
 
