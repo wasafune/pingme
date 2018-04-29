@@ -1,7 +1,7 @@
 import { put, call, takeLatest } from 'redux-saga/effects'
 
 // Actions
-import { createUser } from '../Apis/auth.js'
+import { createUser } from '../apis/auth.js'
 
 // Constants
 import {

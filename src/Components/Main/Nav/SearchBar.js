@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 
 class SearchBar extends Component {
   constructor() {
     super()
     this.state = {
       searchStr: '',
+      submit: '',
     }
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -16,37 +17,36 @@ class SearchBar extends Component {
     this.setState({ [name]: value })
   }
 
-  handleClick() {
-    this.props.searchTitle(this.state.searchStr)
-    this.setState({ searchStr: '' })
+  handleSubmit(e) {
+    e.preventDefault()
+    if (this.state.searchStr.length) {
+      const parsedSearchStr = this.state.searchStr.split(' ').join('_')
+      this.setState({ submit: parsedSearchStr, searchStr: '' })
+    }
   }
 
   render() {
     const { state } = this
     const { searchStr } = state
+    const urlQuery = `/search/${state.submit}`
     return (
-      <div id="search-container">
-        <input
-          className="input-search"
-          type="text"
-          name="searchStr"
-          value={searchStr}
-          placeholder="Search here..."
-          onChange={this.handleInputChange}
-        />
-        <button
-          id="search-button"
-          onClick={this.handleClick}
-        >
-          Search
-        </button>
+      <div className="search-container">
+        {state.submit.length ? <Redirect to={urlQuery} /> : null}
+        <form onSubmit={this.handleSubmit}>
+          <input
+            className="input-search"
+            type="text"
+            name="searchStr"
+            value={searchStr}
+            placeholder="Search here..."
+            onChange={this.handleInputChange}
+          />
+          <button id="search-button" type="submit">Search</button>
+        </form>
       </div>
     )
   }
 }
 
-SearchBar.propTypes = {
-  searchTitle: PropTypes.func.isRequired,
-}
 
 export default SearchBar

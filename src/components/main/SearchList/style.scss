@@ -1,0 +1,19 @@
+.search-list {
+  width: 90%;
+  background-color: pink;
+}
+
+.search-item, .search-item-modify-dropdown {
+  justify-content: space-between;
+  flex-direction: row;
+  width: 80%;
+}
+
+.search-item {
+  background-color: white;
+  margin: 4px;
+  padding: 4px;
+}
+.search-item-darken {
+  background-color: grey;
+}

@@ -32,12 +32,14 @@ const retrieveMangas = async (followingList) => {
   }
 };
 
-const searchMangas = searchStr =>
+const searchMangas = async (searchStr, index = 0) =>
   Manga
     .find(
       { $text: { $search: searchStr } },
       { score: { $meta: 'textScore' } },
     )
+    .skip(index)
+    .limit(12)
     .sort({ score: { $meta: 'textScore' } })
     .lean();
 

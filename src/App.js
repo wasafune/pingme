@@ -1,9 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import MainLayout from './Layouts/MainLayout'
-import AuthLayout from './Layouts/AuthLayout'
-import './App.scss'
+import MainLayout from './layouts/MainLayout'
+import AuthLayout from './layouts/AuthLayout'
+import './styleSheet/main.scss'
 
 class App extends React.Component {
   render() {
