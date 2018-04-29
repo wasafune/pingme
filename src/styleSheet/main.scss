@@ -1,0 +1,10 @@
+// variables
+@import './variables';
+
+// layouts
+@import 'App.scss';
+@import "../layouts/style";
+
+// components
+@import "../components/main/Nav/style";
+@import "../components/main/SearchList/style";

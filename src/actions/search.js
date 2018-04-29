@@ -1,7 +1,13 @@
-import { SEARCH_TITLE } from '../constants'
+import { SEARCH_TITLE, SEARCH_MORE } from '../constants'
 
 // Async
 export const searchTitle = (searchStr) => ({
   type: SEARCH_TITLE,
-  searchObj: { searchStr },
+  searchStr,
+})
+
+export const searchMore = (searchStr, index) => ({
+  type: SEARCH_MORE,
+  searchStr,
+  index,
 })

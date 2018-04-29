@@ -1,0 +1,8 @@
+.nav, .nav-left, .nav-right, .search-container {
+  flex-direction: row;
+}
+
+.nav {
+  justify-content: space-between;
+  width: 100%;
+}

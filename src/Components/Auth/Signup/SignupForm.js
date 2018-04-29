@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withFormik } from 'formik'
 
 // Apis
-import { createUser } from '../../../Apis/auth'
+import { createUser } from '../../../apis/auth'
 
 const SignupForm = ({
   values,
@@ -76,7 +76,7 @@ const FormikSignupForm = withFormik({
     email: '',
     userName: '',
     password: '',
-    age: 18
+    age: 18,
   }),
 
   // Custom sync validation

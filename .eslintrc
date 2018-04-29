@@ -26,6 +26,7 @@
     "react/no-render-return-value": 0,
     "global-require": 0,
     "react/no-multi-comp": 0,
+    "react/no-unused-prop-types": 1,
     "react/prefer-stateless-function": 0,
     "react/no-unused-state": 1,
     "space-before-function-paren": 1,
@@ -38,7 +39,7 @@
     "jsx-a11y/no-static-element-interactions": 0,
     "no-restricted-syntax": 0,
     "jsx-a11y/label-has-for": 0,
-    "no-underscore-dangle": [2, { "allow": ["_i", "__REDUX_DEVTOOLS_EXTENSION__"] }]
+    "no-underscore-dangle": [2, { "allow": ["_id", "__REDUX_DEVTOOLS_EXTENSION__"] }]
   },
   "env": {
     "browser": true,
