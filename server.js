@@ -20,19 +20,19 @@ app.use(session({
 
 app.use(bp.urlencoded({ extended: true }))
 
-const user = require('./controllers/userController')
+const userController = require('./controllers/userController')
 const searchController = require('./controllers/searchController')
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'dist')))
 
 // post route middleware
-app.post('/user/signup', user.signUp)
-app.post('/user/login', user.verify)
+app.use('/user', userController)
 app.use('/search', searchController)
 
 // Base route
 app.get('/*', (req, res) => {
+  console.log(req.session)
   res.sendFile(path.join(__dirname, 'dist/index.html'))
 })
 

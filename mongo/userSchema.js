@@ -15,10 +15,9 @@ const notificationSchema = mongoose.Schema({
 });
 
 const userSchema = mongoose.Schema({
-  userName: { type: String, required: true },
+  displayName: { type: String, required: true },
   password: { type: String, require: true, select: false },
-  age: { type: Number, min: 18, required: true },
-  email: String,
+  email: { type: String, required: true },
   isVerified: Boolean,
   followingList: [followingSchema],
   followingCount: { type: Number, default: 0 },

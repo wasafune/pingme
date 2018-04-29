@@ -9,8 +9,8 @@ class App extends React.Component {
   render() {
     return (
       <Switch>
-        <Route path='/' component={MainLayout} />
         <Route path='/auth' component={AuthLayout} />
+        <Route path='/' component={MainLayout} />
       </Switch>
     )
   }

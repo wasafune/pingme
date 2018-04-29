@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import signup from './signup'
+import user from './user'
 import search from './search'
 
 export default combineReducers({
-  users: signup,
+  user,
   search,
 })
