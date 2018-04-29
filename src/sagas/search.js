@@ -1,4 +1,4 @@
-import { put, call, takeLatest } from 'redux-saga/effects'
+import { put, call, takeLatest, all } from 'redux-saga/effects'
 
 // Actions
 import { searchTitle, searchMore } from '../apis/search'
@@ -29,9 +29,11 @@ function* callSearchMore(action) {
 }
 
 // Watchers
-function* watchSearchTitle() {
-  yield takeLatest(SEARCH_TITLE, callSearchTitle)
-  yield takeLatest(SEARCH_MORE, callSearchMore)
+function* watchSearch() {
+  yield all([
+    takeLatest(SEARCH_TITLE, callSearchTitle),
+    takeLatest(SEARCH_MORE, callSearchMore),
+  ])
 }
 
-export default watchSearchTitle
+export default watchSearch

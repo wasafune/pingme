@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import FormikSignupForm from './SignupForm'
-import { createUser, unmountRequestMessage } from '../../../actions'
+import FormikLoginForm from './LoginForm'
+import { loginUser, unmountRequestMessage } from '../../../actions'
 
-class Signup extends React.Component {
+class Login extends React.Component {
   constructor() {
     super()
     this.handleActions = this.handleActions.bind(this)
@@ -17,18 +18,16 @@ class Signup extends React.Component {
   }
 
   handleActions(values) {
-    this.props.createUser(values)
+    this.props.loginUser(values)
   }
 
   render() {
     const { user } = this.props
     return (
       <div>
-        <h1>Sign Up</h1>
-        <FormikSignupForm handleActions={this.handleActions} />
-        <p>
-          {user.requestMessage ? user.requestMessage : null}
-        </p>
+        <h1>Login</h1>
+        {(user._id.length !== 0) ? <Redirect to="/" /> : null}
+        <FormikLoginForm handleActions={this.handleActions} />
       </div>
     )
   }
@@ -40,15 +39,15 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    createUser,
+    loginUser,
     unmountRequestMessage,
   },
   dispatch,
 )
 
-Signup.propTypes = {
+Login.propTypes = {
   user: PropTypes.object.isRequired,
-  createUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
   unmountRequestMessage: PropTypes.func.isRequired,
 }
 
@@ -56,4 +55,4 @@ Signup.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Signup)
+)(Login)

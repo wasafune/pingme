@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withFormik } from 'formik'
 
-const SignupForm = ({
+
+const LoginForm = ({
   values,
   errors,
   touched,
@@ -18,14 +19,6 @@ const SignupForm = ({
         name="email"
         placeholder="Email"
         value={values.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <input
-        type="text"
-        name="displayName"
-        placeholder="Display Name"
-        value={values.displayName}
         onChange={handleChange}
         onBlur={handleBlur}
       />
@@ -50,13 +43,13 @@ const SignupForm = ({
         type="submit"
         disabled={isSubmitting}
       >
-        Sign Up
+        Login
       </button>
     </form>
   )
 }
 
-SignupForm.propTypes = {
+LoginForm.propTypes = {
   values: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
@@ -66,10 +59,9 @@ SignupForm.propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
 }
 
-const FormikSignupForm = withFormik({
+const FormikLoginForm = withFormik({
   mapPropsToValues: () => ({
     email: '',
-    displayName: '',
     password: '',
   }),
 
@@ -93,6 +85,6 @@ const FormikSignupForm = withFormik({
     }, 1000)
   },
   displayName: 'BasicForm',
-})(SignupForm)
+})(LoginForm)
 
-export default FormikSignupForm
+export default FormikLoginForm
