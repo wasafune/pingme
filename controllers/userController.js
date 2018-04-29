@@ -2,7 +2,6 @@ const { Router } = require('express')
 const User = require('../mongo/userSchema')
 const bcrypt = require('bcrypt')
 
-const salt = bcrypt.genSaltSync(10)
 const router = new Router()
 
 // Sign-up route
@@ -37,6 +36,21 @@ router.post('/login', async (req, res) => {
     } else {
       res.send(null)
     }
+  } catch (err) {
+    console.error(err)
+    res.send(null)
+  }
+})
+
+router.get('/check', async (req, res) => {
+  try {
+    const { loggedIn, userId } = req.session
+    if (loggedIn) {
+      const userObj = await User.findById(userId).lean()
+      res.send(userObj)
+      return
+    }
+    res.send(null)
   } catch (err) {
     console.error(err)
     res.send(null)

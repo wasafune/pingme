@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -23,11 +23,13 @@ class Login extends React.Component {
 
   render() {
     const { user } = this.props
+    const loginSuccess = (user._id.length !== 0) && (user.requestMessage === 'Login success!')
     return (
       <div>
         <h1>Login</h1>
-        {(user._id.length !== 0) ? <Redirect to="/" /> : null}
+        {loginSuccess ? <Redirect to="/" /> : null}
         <FormikLoginForm handleActions={this.handleActions} />
+        <Link href="/auth/signup" to="/auth/signup">New User?</Link>
       </div>
     )
   }

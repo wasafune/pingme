@@ -3,6 +3,7 @@ import {
   LOGIN_USER,
   UNMOUNT_REQUEST_MESSAGE,
   LOGOUT_USER,
+  LOGGED_IN_CHECK,
 } from '../constants'
 
 // Async
@@ -22,4 +23,8 @@ export const unmountRequestMessage = () => ({
 
 export const logoutUser = () => ({
   type: LOGOUT_USER,
+})
+
+export const loggedInCheck = () => ({
+  type: LOGGED_IN_CHECK,
 })

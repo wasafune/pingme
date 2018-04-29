@@ -44,6 +44,14 @@ const config = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
         test: /\.scss$/,
       },
+      {
+        test: /\.(pdf|jpg|png|gif|svg|ico)$/,
+        use: [
+          {
+            loader: 'url-loader',
+          },
+        ],
+      },
     ],
   },
   devtool: 'eval-source-map',
