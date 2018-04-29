@@ -7,3 +7,7 @@ export const createUser = (params) => {
 export const loginUser = (params) => {
   return axios.post('/user/login', params)
 }
+
+export const loggedInCheck = () => {
+  return axios.get('/user/check')
+}

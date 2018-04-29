@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import {
   CREATE_USER, CREATE_USER_FAIL, CREATE_USER_SUCCESS,
   LOGIN_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS,
+  LOGGED_IN_CHECK, LOGGED_IN_CHECK_FAIL, LOGGED_IN_CHECK_SUCCESS,
   UNMOUNT_REQUEST_MESSAGE, LOGOUT_USER,
 } from '../constants'
 
@@ -41,7 +42,10 @@ const user = (state = initialState, action) => {
       requestingUser: true,
     }
     case LOGIN_USER_SUCCESS: return {
+      ...state,
       ...action.userObj,
+      requestingUser: false,
+      requestMessage: 'Login success!',
       followingList: cloneDeep(action.userObj.followingList),
       config: cloneDeep(action.userObj.config),
     }
@@ -49,6 +53,21 @@ const user = (state = initialState, action) => {
       ...state,
       requestingUser: false,
       requestMessage: 'Login failed.',
+    }
+    case LOGGED_IN_CHECK: return {
+      ...state,
+      requestingUser: true,
+    }
+    case LOGGED_IN_CHECK_SUCCESS: return {
+      ...state,
+      ...action.userObj,
+      requestingUser: false,
+      followingList: cloneDeep(action.userObj.followingList),
+      config: cloneDeep(action.userObj.config),
+    }
+    case LOGGED_IN_CHECK_FAIL: return {
+      ...state,
+      requestingUser: false,
     }
     case UNMOUNT_REQUEST_MESSAGE: return {
       ...state,
