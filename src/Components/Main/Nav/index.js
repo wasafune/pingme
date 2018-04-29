@@ -9,8 +9,8 @@ import SearchBar from './SearchBar'
 class Nav extends Component {
   render() {
     const { user } = this.props
-    const linkRoute = user.displayName.length ? '/account' : '/auth/login'
-    const linkText = user.displayName.length ? user.displayName : 'Login'
+    const linkRoute = user.displayName.length ? '/auth/logout' : '/auth/login'
+    const linkText = user.displayName.length ? 'Logout' : 'Login'
     return (
       <div className="nav">
         <div className="nav-left">

@@ -57,4 +57,11 @@ router.get('/check', async (req, res) => {
   }
 })
 
+router.get('/logout', (req, res) => {
+  req.session.loggedIn = false
+  req.session.userId = ''
+  res.send(true)
+})
+
+
 module.exports = router
