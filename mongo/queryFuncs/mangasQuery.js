@@ -36,7 +36,13 @@ const searchMangas = async (searchStr, index = 0) =>
   Manga
     .find(
       { $text: { $search: searchStr } },
-      { score: { $meta: 'textScore' } },
+      {
+        score: { $meta: 'textScore' },
+        title: 1,
+        latest: 1,
+        completed: 1,
+        followerCount: 1,
+      },
     )
     .skip(index)
     .limit(12)
