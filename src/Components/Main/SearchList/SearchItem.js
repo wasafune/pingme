@@ -23,16 +23,6 @@ class SearchItem extends Component {
             {completed ? <p>Status: Completed</p> : <p>&nbsp;</p>}
           </p>
         </button>
-        {/* <div className="search-item-modify">
-          <p className="search-item-status-msg">{state.statusMsg}</p>
-          <div className="search-item-modify-dropdown">
-            <p className="search-item-status">Status: </p>
-            <select value={state.value} onChange={handleChange}>
-              <option value="follow">follow</option>
-              <option value="subscribe">subscribe</option>
-            </select>
-          </div>
-        </div> */}
       </div>
     )
   }

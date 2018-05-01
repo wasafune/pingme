@@ -112,7 +112,7 @@ const user = (state = initialState, action) => {
     case RETRIEVE_MANGAS_SUCCESS: return {
       ...state,
       requestingUser: false,
-      retrievedList: action.retrievedList,
+      retrievedList: cloneDeep(action.retrievedList),
     }
     default: return state
   }
