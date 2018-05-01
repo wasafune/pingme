@@ -2,29 +2,28 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 class SearchItem extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      statusMsg: '',
-      value: '',
-    }
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(e) {
-    const { value } = e
-    this.setState({ value })
-  }
-
   render() {
-    const { props, state, handleChange } = this
-    const darken = props.darken ? '-darken' : ''
+    const {
+      index,
+      title,
+      latest,
+      darken,
+      completed,
+      handleClick,
+    } = this.props
+    const darkenClassName = darken ? '-darken' : ''
     return (
-      <div className={`search-item search-item${darken}`}>
-        <p className="search-item-info">
-          {props.title}: ch.{props.latest}
-        </p>
-        <div className="search-item-modify">
+      <div className={`search-item search-item${darkenClassName}`}>
+        <button
+          className="search-item-button"
+          onClick={e => handleClick(e, index)}
+        >
+          <p className="search-item-info">
+            <p>{title}: ch.{latest}</p>
+            {completed ? <p>Status: Completed</p> : <p>&nbsp;</p>}
+          </p>
+        </button>
+        {/* <div className="search-item-modify">
           <p className="search-item-status-msg">{state.statusMsg}</p>
           <div className="search-item-modify-dropdown">
             <p className="search-item-status">Status: </p>
@@ -33,7 +32,7 @@ class SearchItem extends Component {
               <option value="subscribe">subscribe</option>
             </select>
           </div>
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -41,6 +40,11 @@ class SearchItem extends Component {
 
 SearchItem.propTypes = {
   title: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  latest: PropTypes.number.isRequired,
+  completed: PropTypes.string.isRequired,
+  darken: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
 }
 
 export default SearchItem
