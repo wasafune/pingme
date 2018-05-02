@@ -4,7 +4,7 @@ import { put, call, takeLatest, all } from 'redux-saga/effects'
 import {
   createUser, loginUser, loggedInCheck, logoutUser,
   follow, unfollow, subscribe, unsubscribe,
-  retrieveMangas
+  retrieveMangas,
 } from '../apis/user.js'
 
 // Constants

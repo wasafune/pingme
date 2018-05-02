@@ -17,6 +17,7 @@ const FollowingItem = (props) => {
       >
         <p className="following-item-info">
           <p>{title}: ch.{latest}</p>
+          {props.modified}
         </p>
       </button>
       {props.updated}
@@ -28,6 +29,7 @@ const FollowingItem = (props) => {
 
 FollowingItem.propTypes = {
   title: PropTypes.string.isRequired,
+  modified: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   latest: PropTypes.number.isRequired,
   darken: PropTypes.bool.isRequired,

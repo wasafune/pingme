@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import cloneDeep from 'lodash/cloneDeep'
 
 import FollowingItem from './FollowingItem'
 import SearchModal from '../SearchList/SearchModal'
@@ -18,6 +19,7 @@ class FollowingList extends Component {
     this.state = {
       modal: false,
       status: false,
+      modifiedIndices: {},
     }
     // this.handleSearchMore = this.handleSearchMore.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -27,7 +29,19 @@ class FollowingList extends Component {
   componentDidMount() {
     const { retrieveMangas, user } = this.props
     const { followingList } = user
-    retrieveMangas(followingList)
+    if (this.props.user.loggedInCheck && user._id.length) {
+      retrieveMangas(followingList)
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { retrievedList } = this.props.user
+    if (nextProps.user.requestingUser) return false
+    if (nextProps.user.followingList.length && !retrievedList.length) {
+      this.props.retrieveMangas(nextProps.user.followingList)
+      return false
+    }
+    return true
   }
 
   componentWillUnmount() {
@@ -47,7 +61,7 @@ class FollowingList extends Component {
     }
   }
 
-  handleModal(e, mangaId) {
+  handleModal(e, mangaId, index) {
     const {
       user, subscribe,
       unsubscribe, unfollow,
@@ -58,6 +72,9 @@ class FollowingList extends Component {
     if (value === 'subscribe') subscribe(user._id, mangaId, false)
     if (value === 'unsubscribe') unsubscribe(user._id, mangaId, true)
     if (value === 'unfollow') unfollow(user._id, mangaId)
+    const modifiedIndices = cloneDeep(this.state.modifiedIndices)
+    modifiedIndices[index] = value
+    this.setState({ modifiedIndices })
   }
 
 
@@ -78,20 +95,13 @@ class FollowingList extends Component {
         </div>
       )
     }
-
-    // logged in
-    const parsedRetrievedList = retrievedList.map((ele) => {
-      const newEle = { ...ele }
-      newEle.updated = new Date(newEle.updated)
-      return newEle
-    })
-    parsedRetrievedList.sort((a, b) => a.updated < b.updated)
-    const FollowingItemArr = parsedRetrievedList.map((ele, i) => {
+    const FollowingItemArr = retrievedList.map((ele, i) => {
       return (
         <FollowingItem
           key={ele._id}
           _id={ele._id}
           index={i}
+          modified={state.modifiedIndices[i] || ''}
           title={ele.title}
           updated={ele.updated.toUTCString()}
           subscribed={ele.subscribed}
@@ -111,6 +121,7 @@ class FollowingList extends Component {
               <SearchModal
                 _id={retrievedList[state.modal]._id}
                 title={retrievedList[state.modal].title}
+                index={state.modal}
                 // completed={searchArr[state.modal].completed}
                 followerCount={retrievedList[state.modal].followerCount}
                 latest={retrievedList[state.modal].latest}

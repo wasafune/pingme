@@ -41,6 +41,10 @@ class SearchList extends Component {
     return true
   }
 
+  componentWillUnmount() {
+    this.props.unmountRequestMessage()
+  }
+
   handleSearchMore() {
     const { searchMore, search } = this.props
     searchMore(search.searchStr, search.searchArr.length)
