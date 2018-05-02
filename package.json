@@ -4,12 +4,12 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon -r dotenv/config server.js",
+    "start": "nodemon --ignore 'dist/*.hot-update.js' --ignore 'dist/*.hot-update.json' --ignore src/ -r dotenv/config server.js",
     "build": "webpack --watch --config webpack.config.js",
     "server": "webpack-dev-server --inline --hot",
     "test": "jest",
     "coverage": "jest --coverage",
-    "scraper": "nodemon -r dotenv/config ./scraper/server.js",
+    "scraper": "nodemon --ignore 'dist/*.hot-update.js' --ignore 'dist/*.hot-update.json' --ignore src/ -r dotenv/config ./scraper/server.js",
     "updater": "node ./scraper/autoUpdate.js",
     "alttitle": "node -r dotenv/config ./scraper/updateAltTitle.js"
   },

@@ -26,6 +26,7 @@ const initialState = {
   admin: false,
   requestingUser: false,
   requestMessage: false,
+  loggedInCheck: false,
 };
 
 const user = (state = initialState, action) => {
@@ -71,13 +72,16 @@ const user = (state = initialState, action) => {
       requestingUser: false,
       followingList: cloneDeep(action.userObj.followingList),
       config: cloneDeep(action.userObj.config),
+      loggedInCheck: true,
     }
     case LOGGED_IN_CHECK_FAIL: return {
       ...state,
       requestingUser: false,
+      loggedInCheck: true,
     }
     case LOGOUT_USER_SUCCESS: return {
       ...initialState,
+      loggedInCheck: true,
       requestMessage: 'Logout successful.',
     }
     case LOGOUT_USER_FAIL: return {
@@ -109,10 +113,18 @@ const user = (state = initialState, action) => {
       requestingUser: false,
       requestMessage: 'Action failed.',
     }
-    case RETRIEVE_MANGAS_SUCCESS: return {
-      ...state,
-      requestingUser: false,
-      retrievedList: action.retrievedList,
+    case RETRIEVE_MANGAS_SUCCESS: {
+      const parsedRetrievedList = action.retrievedList.map((ele) => {
+        const newEle = { ...ele }
+        newEle.updated = new Date(newEle.updated)
+        return newEle
+      })
+      parsedRetrievedList.sort((a, b) => a.updated < b.updated)
+      return {
+        ...state,
+        requestingUser: false,
+        retrievedList: parsedRetrievedList,
+      }
     }
     default: return state
   }
