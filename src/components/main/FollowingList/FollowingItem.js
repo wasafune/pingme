@@ -6,23 +6,32 @@ const FollowingItem = (props) => {
     index,
     title,
     latest,
+    subscribed,
     darken,
     handleClick,
+    modified,
   } = props
+  const darkenClassName = darken ? '-darken' : ''
   return (
-    <div>
-      <button
-        className="following-item-button"
-        onClick={e => handleClick(e, index)}
-      >
-        <p className="following-item-info">
-          <p>{title}: ch.{latest}</p>
-          {props.modified}
+    <button
+      className={`following-item following-item${darkenClassName}`}
+      onClick={e => handleClick(e, index, modified)}
+    >
+      <div className="following-item-left">
+        <p className="following-item-title">{title}</p>
+        <p>Latest: {latest}</p>
+      </div>
+      <div className="following-item-right">
+        <p>
+          Updated: {props.updated.split(' ').slice(0, 3).join(' ')}
         </p>
-      </button>
-      {props.updated}
-      {props.subscribed}
-    </div>
+        {
+          modified.length
+          ? <p className="status-msg">{modified.toUpperCase()} successful!</p>
+          : <p>Status: {subscribed ? 'Subscribed' : 'Following'}</p>
+        }
+      </div>
+    </button>
   )
 }
 

@@ -42,6 +42,8 @@ const searchMangas = async (searchStr, index = 0) =>
         latest: 1,
         completed: 1,
         followerCount: 1,
+        genres: 1,
+        updated: 1,
       },
     )
     .skip(index)

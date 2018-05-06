@@ -1,9 +1,8 @@
-.search-list {
+.following-list {
   width: 90%;
   background-color: pink;
 }
-
-.search-item {
+.following-item {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -12,16 +11,16 @@
   margin: 4px;
   padding: 4px;
 }
-.search-item-darken {
+.following-item-darken {
   background-color: grey;
 }
-.search-item-left {
+.following-item-left {
   align-items: flex-start;
 }
-.search-item-right {
+.following-item-right {
   align-items: flex-end;
 }
-.search-item-title {
+.following-item-title {
   font-size: 16px;
   font-weight: bold;
 }

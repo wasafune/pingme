@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -19,9 +19,6 @@ class MainLayout extends Component {
     return (
       <div className="main-layout">
         <Nav />
-        <h1>MainLayout</h1>
-        <Link href="/" to="/">home</Link>
-        <Link href="/search" to="/search">search</Link>
         <Switch>
           <Route exact path="/" component={FollowingList} />
           <Route path="/search" component={SearchList} />

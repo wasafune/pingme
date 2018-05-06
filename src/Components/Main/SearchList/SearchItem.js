@@ -13,17 +13,18 @@ class SearchItem extends Component {
     } = this.props
     const darkenClassName = darken ? '-darken' : ''
     return (
-      <div className={`search-item search-item${darkenClassName}`}>
-        <button
-          className="search-item-button"
-          onClick={e => handleClick(e, index)}
-        >
-          <p className="search-item-info">
-            <p>{title}: ch.{latest}</p>
-            {completed ? <p>Status: Completed</p> : <p>&nbsp;</p>}
-          </p>
-        </button>
-      </div>
+      <button
+        className={`search-item search-item${darkenClassName}`}
+        onClick={e => handleClick(e, index)}
+      >
+        <div className="search-item-left">
+          <p className="search-item-title">{title}</p>
+          <p>Latest: {latest}</p>
+        </div>
+        <div className="search-item-right">
+          {completed ? <p>Status: Completed</p> : <p>&nbsp;</p>}
+        </div>
+      </button>
     )
   }
 }
