@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import SearchItem from './SearchItem'
-import SearchModal from './SearchModal'
+import ItemModal from '../ItemModal'
 import {
   searchTitle, searchMore,
   follow, subscribe,
@@ -21,6 +21,7 @@ class SearchList extends Component {
       status: false,
     }
     this.handleSearchMore = this.handleSearchMore.bind(this)
+    this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleModal = this.handleModal.bind(this)
   }
@@ -50,11 +51,22 @@ class SearchList extends Component {
     searchMore(search.searchStr, search.searchArr.length)
   }
 
+  handleOnKeyUp(e) {
+    if (e.key !== 'Escape') return
+    if (this.state.modal !== false) {
+      this.setState({ modal: false, status: '' })
+      this.props.unmountRequestMessage()
+    }
+  }
+
   handleClick(e, index) {
     const { state } = this
     const { searchArr } = this.props.search
     const { followingList } = this.props.user
+    const { className, value } = e.target
     if (state.modal !== false) {
+      if (className === 'search-modal-inner' || className === 'search-modal-detail') return
+      if (value && value.length) return
       this.setState({ modal: false, status: '' })
       this.props.unmountRequestMessage()
     }
@@ -90,6 +102,7 @@ class SearchList extends Component {
       state,
       handleClick,
       handleSearchMore,
+      handleOnKeyUp,
       handleModal,
     } = this
     const { searchArr, searchEnd } = this.props.search
@@ -115,16 +128,20 @@ class SearchList extends Component {
         {
           state.modal !== false
             ? (
-              <SearchModal
+              <ItemModal
                 _id={searchArr[state.modal]._id}
                 title={searchArr[state.modal].title}
                 completed={searchArr[state.modal].completed}
                 followerCount={searchArr[state.modal].followerCount}
                 latest={searchArr[state.modal].latest}
+                genres={searchArr[state.modal].genres}
+                updated={new Date(searchArr[state.modal].updated).toUTCString()}
                 status={state.status}
+                modified=''
                 requestMessage={requestMessage}
                 handleClick={handleClick}
                 handleModal={handleModal}
+                handleOnKeyUp={handleOnKeyUp}
               />
             )
             : null

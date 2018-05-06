@@ -19,9 +19,11 @@ const mangasSave = (MangaModel, data, source) => {
 
 const mangasUpdateAll = (data, source, res) => {
   const { genres, sources } = res;
-  const tempGenres = combineAndKeepUniq(genres, data.genres);
+  if (data.genres) {
+    const tempGenres = combineAndKeepUniq(genres, data.genres);
+    res.genres = tempGenres;
+  }
   const tempSources = pushIfNotIncludes(sources, source);
-  res.genres = tempGenres;
   res.sources = tempSources;
   return res.save();
 };

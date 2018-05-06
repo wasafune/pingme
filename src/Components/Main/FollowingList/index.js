@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import cloneDeep from 'lodash/cloneDeep'
 
 import FollowingItem from './FollowingItem'
-import SearchModal from '../SearchList/SearchModal'
+import ItemModal from '../ItemModal'
 import {
   retrieveMangas, unmountRequestMessage,
   subscribe, unfollow, unsubscribe,
@@ -19,9 +19,10 @@ class FollowingList extends Component {
     this.state = {
       modal: false,
       status: false,
+      modified: '',
       modifiedIndices: {},
     }
-    // this.handleSearchMore = this.handleSearchMore.bind(this)
+    this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleModal = this.handleModal.bind(this)
   }
@@ -48,16 +49,27 @@ class FollowingList extends Component {
     this.props.unmountRequestMessage()
   }
 
-  handleClick(e, index) {
+  handleOnKeyUp(e) {
+    if (e.key !== 'Escape') return
+    if (this.state.modal !== false) {
+      this.setState({ modal: false, status: '' })
+      this.props.unmountRequestMessage()
+    }
+  }
+
+  handleClick(e, index, modified) {
     const { state } = this
     const { retrievedList } = this.props.user
+    const { className, value } = e.target
     if (state.modal !== false) {
+      if (className === 'search-modal-inner' || className === 'search-modal-detail') return
+      if (value && value.length) return
       this.setState({ modal: false, status: '' })
       this.props.unmountRequestMessage()
     }
     if (state.modal === false) {
       const status = retrievedList[index].subscribed ? 'subscribed' : 'following'
-      this.setState({ modal: index, status })
+      this.setState({ modal: index, status, modified })
     }
   }
 
@@ -83,6 +95,7 @@ class FollowingList extends Component {
       state,
       handleClick,
       handleModal,
+      handleOnKeyUp,
     } = this
     const { requestMessage, retrievedList, _id } = this.props.user
     // not logged in (move to separate component)
@@ -118,17 +131,21 @@ class FollowingList extends Component {
         {
           state.modal !== false
             ? (
-              <SearchModal
+              <ItemModal
                 _id={retrievedList[state.modal]._id}
                 title={retrievedList[state.modal].title}
                 index={state.modal}
-                // completed={searchArr[state.modal].completed}
                 followerCount={retrievedList[state.modal].followerCount}
                 latest={retrievedList[state.modal].latest}
+                genres={retrievedList[state.modal].genres}
+                updated={retrievedList[state.modal].updated.toUTCString()}
+                subscribed={retrievedList[state.modal].subscribed}
                 status={state.status}
+                modified={state.modified}
                 requestMessage={requestMessage}
                 handleClick={handleClick}
                 handleModal={handleModal}
+                handleOnKeyUp={handleOnKeyUp}
               />
             )
             : null
