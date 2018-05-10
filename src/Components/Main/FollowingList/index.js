@@ -104,7 +104,7 @@ class FollowingList extends Component {
         <div className="following-list">
           Login to see your list!
           <Link href="/auth/login" to="/auth/login">Login</Link>
-          <Link href="/auth/signin" to="/auth/signin">Signup</Link>
+          <Link href="/auth/signup" to="/auth/signup">Signup</Link>
         </div>
       )
     }
