@@ -21,14 +21,14 @@ const scraper = async (config, page = 1, errors = []) => {
     console.log(`Finished iteration: ${page}`);
     // if loop didnt break and there is next page to scrape
     if (fullIterate) {
-      await delay(genRandomInt(7000, 15000));
+      await delay(genRandomInt(11000, 16000));
       return scraper(config, page + 1, errors);
     }
   } catch (err) {
     // error while scraping, attempt to scrape same page again
     console.error(err.message);
     errors.push(err.message);
-    await delay(genRandomInt(10000, 20000));
+    await delay(genRandomInt(14000, 20000));
     return scraper(config, page, errors);
   }
   // scaping complete
