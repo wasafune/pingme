@@ -32,10 +32,10 @@ const retrieveMangas = async (followingList) => {
   }
 };
 
-const searchMangas = async (searchStr, index = 0) =>
+const searchMangas = async (searchStr, typeStr, index = 0) =>
   Manga
     .find(
-      { $text: { $search: searchStr } },
+      { $text: { $search: searchStr }, anime: typeStr === 'anime' },
       {
         score: { $meta: 'textScore' },
         title: 1,

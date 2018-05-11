@@ -32,7 +32,6 @@ app.use('/search', searchController)
 
 // Base route
 app.get('/*', (req, res) => {
-  console.log(req.session)
   res.sendFile(path.join(__dirname, 'dist/index.html'))
 })
 
