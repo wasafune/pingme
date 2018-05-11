@@ -28,15 +28,19 @@ class SearchList extends Component {
 
   componentDidMount() {
     const { location, searchTitle } = this.props
-    const searchStr = location.pathname.split('/').slice(-1)[0].split('_').join(' ')
-    searchTitle(searchStr)
+    const locationArr = location.pathname.split('/').slice(-2)
+    const typeStr = locationArr[0]
+    const searchStr = locationArr[1].split('_').join(' ')
+    searchTitle(searchStr, typeStr)
   }
 
   shouldComponentUpdate(nextProps) {
     const { location, searchTitle } = this.props
     if (nextProps.location.pathname !== location.pathname) {
-      const searchStr = nextProps.location.pathname.split('/').slice(-1)[0].split('_').join(' ')
-      searchTitle(searchStr)
+      const locationArr = nextProps.location.pathname.split('/').slice(-2)
+      const typeStr = locationArr[0]
+      const searchStr = locationArr[1].split('_').join(' ')
+      searchTitle(searchStr, typeStr)
       return false
     }
     return true
@@ -47,8 +51,9 @@ class SearchList extends Component {
   }
 
   handleSearchMore() {
-    const { searchMore, search } = this.props
-    searchMore(search.searchStr, search.searchArr.length)
+    const { searchMore, search, location } = this.props
+    const typeStr = location.pathname.split('/').slice(-2)[0]
+    searchMore(search.searchStr, typeStr, search.searchArr.length)
   }
 
   handleOnKeyUp(e) {
@@ -107,6 +112,9 @@ class SearchList extends Component {
     } = this
     const { searchArr, searchEnd } = this.props.search
     const { requestMessage } = this.props.user
+    const locationArr = this.props.location.pathname.split('/')
+    const titleStr = locationArr[2] === 'manga' ? 'Manga' : 'Anime'
+    const searchStr = locationArr[3][0].toUpperCase() + locationArr[3].slice(1)
     const searchItemArr = searchArr.map((ele, i) => {
       return (
         <SearchItem
@@ -124,7 +132,7 @@ class SearchList extends Component {
     })
     return (
       <div className="search-list">
-        <h2>Search List</h2>
+        <h2>{titleStr} Search: {searchStr}</h2>
         {
           state.modal !== false
             ? (

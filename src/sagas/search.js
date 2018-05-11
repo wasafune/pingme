@@ -12,7 +12,8 @@ import {
 // Generators
 function* callSearchTitle(action) {
   try {
-    const response = yield call(searchTitle, action.searchStr)
+    const { searchStr, typeStr } = action
+    const response = yield call(searchTitle, searchStr, typeStr)
     yield put({ type: SEARCH_TITLE_SUCCESS, searchArr: response.data })
   } catch (e) {
     yield put({ type: SEARCH_TITLE_FAIL, error: e.message })
@@ -21,7 +22,8 @@ function* callSearchTitle(action) {
 
 function* callSearchMore(action) {
   try {
-    const response = yield call(searchMore, action.searchStr, action.index)
+    const { searchStr, typeStr, index } = action
+    const response = yield call(searchMore, searchStr, typeStr, index)
     yield put({ type: SEARCH_MORE_SUCCESS, searchArr: response.data })
   } catch (e) {
     yield put({ type: SEARCH_MORE_FAIL, error: e.message })
