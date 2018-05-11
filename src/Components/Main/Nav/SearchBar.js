@@ -5,7 +5,6 @@ class SearchBar extends Component {
   constructor() {
     super()
     this.state = {
-      searchType: 'manga',
       searchStr: '',
       submit: '',
       manga: true,
@@ -14,6 +13,15 @@ class SearchBar extends Component {
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  // reset submit after search
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState.submit === this.state.submit && this.state.submit.length) {
+      this.setState({ submit: '' })
+      return false
+    }
+    return true
   }
 
   handleCheckboxChange(event) {
@@ -44,12 +52,14 @@ class SearchBar extends Component {
       handleInputChange,
       handleCheckboxChange,
     } = this
-    const { searchStr, manga, anime } = state
+    const {
+      searchStr, manga, anime, submit,
+    } = state
     const typeStr = manga ? 'manga' : 'anime'
     const urlQuery = `/search/${typeStr}/${state.submit}`
     return (
       <div className="search-container">
-        {state.submit.length ? <Redirect to={urlQuery} /> : null}
+        {submit.length ? <Redirect to={urlQuery} /> : null}
         <form onSubmit={handleSubmit}>
           <label>
             Manga

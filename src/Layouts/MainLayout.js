@@ -41,6 +41,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 
 MainLayout.propTypes = {
   user: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   loggedInCheck: PropTypes.func.isRequired,
 }
 

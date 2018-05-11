@@ -114,7 +114,7 @@ class SearchList extends Component {
     const { requestMessage } = this.props.user
     const locationArr = this.props.location.pathname.split('/')
     const titleStr = locationArr[2] === 'manga' ? 'Manga' : 'Anime'
-    const searchStr = locationArr[3][0].toUpperCase() + locationArr[3].slice(1)
+    const searchStr = locationArr[3][0].toUpperCase() + locationArr[3].slice(1).split('_').join(' ')
     const searchItemArr = searchArr.map((ele, i) => {
       return (
         <SearchItem
