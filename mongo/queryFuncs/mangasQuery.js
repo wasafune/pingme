@@ -16,6 +16,7 @@ const retrieveMangas = async (followingList) => {
       latest: 1,
       updated: 1,
       rating: 1,
+      anime: 1,
       followerCount: 1,
       favoritedCount: 1,
     }).lean());

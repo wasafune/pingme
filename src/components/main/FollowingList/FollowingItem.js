@@ -20,6 +20,7 @@ const FollowingItem = (props) => {
       <div className="following-item-left">
         <p className="following-item-title">{title}</p>
         <p>Latest: {latest}</p>
+        <p>Type: {props.anime ? 'Anime' : 'Manga'}</p>
       </div>
       <div className="following-item-right">
         <p>
@@ -38,6 +39,7 @@ const FollowingItem = (props) => {
 
 FollowingItem.propTypes = {
   title: PropTypes.string.isRequired,
+  anime: PropTypes.bool.isRequired,
   modified: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   latest: PropTypes.number.isRequired,
