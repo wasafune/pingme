@@ -61,33 +61,38 @@ class SearchBar extends Component {
       <div className="search-container">
         {submit.length ? <Redirect to={urlQuery} /> : null}
         <form onSubmit={handleSubmit}>
-          <label>
-            Manga
+          <div className="search-text-container">
             <input
-              name="manga"
-              type="checkbox"
-              checked={manga}
-              onChange={handleCheckboxChange}
+              className="input-search"
+              type="text"
+              name="searchStr"
+              value={searchStr}
+              placeholder="Search here..."
+              onChange={handleInputChange}
             />
-          </label>
-          <label>
-            Anime
-            <input
-              name="anime"
-              type="checkbox"
-              checked={anime}
-              onChange={handleCheckboxChange}
-            />
-          </label>
-          <input
-            className="input-search"
-            type="text"
-            name="searchStr"
-            value={searchStr}
-            placeholder="Search here..."
-            onChange={handleInputChange}
-          />
-          <button id="search-button" type="submit">Search</button>
+            <button id="search-button" type="submit">Search</button>
+          </div>
+          <div className="search-checkbox-container">
+            <label className="search-label-text">
+              <input
+                name="manga"
+                type="checkbox"
+                checked={manga}
+                onChange={handleCheckboxChange}
+              />
+              Manga
+            </label>
+            <label className="search-label-text">
+              <input
+                name="anime"
+                type="checkbox"
+                checked={anime}
+                onChange={handleCheckboxChange}
+              />
+              Anime
+            </label>
+          </div>
+
         </form>
       </div>
     )

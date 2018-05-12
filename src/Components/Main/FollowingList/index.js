@@ -161,7 +161,7 @@ class FollowingList extends Component {
             name='all'
             onClick={handleShowClick}
           >
-            Your List
+            YOUR LIST
           </button>
           <button
             className={`following-list-button${
@@ -173,7 +173,7 @@ class FollowingList extends Component {
             name='manga'
             onClick={handleShowClick}
           >
-            Manga
+            MANGA
           </button>
           <button
             className={`following-list-button${
@@ -185,7 +185,7 @@ class FollowingList extends Component {
             name='anime'
             onClick={handleShowClick}
           >
-            Anime
+            ANIME
           </button>
         </div>
         {
