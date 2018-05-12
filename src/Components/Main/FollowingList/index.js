@@ -129,29 +129,65 @@ class FollowingList extends Component {
           subscribed={ele.subscribed}
           followerCount={ele.followerCount}
           latest={ele.latest}
-          darken={(i % 2) !== 0}
           handleClick={handleClick}
         />
       )
     })
+    // filter list based on state.show
     const FollowingItemArrFiltered = FollowingItemArr.filter((ele) => {
       if (state.show === 'all') return true
       if (state.show === 'manga' && !ele.props.anime) return true
       if (state.show === 'anime' && ele.props.anime) return true
       return false
     })
+    // final iteration for darken prop
+    const FollowingItemArrMapped = FollowingItemArrFiltered.map((ele, i) => {
+      const temp = { ...ele }
+      const tempProps = { ...ele.props }
+      temp.props = tempProps
+      tempProps.darken = (i % 2) !== 0
+      return temp
+    })
     return (
       <div className="following-list">
-        <h2>Following</h2>
-        <button name='all' onClick={handleShowClick}>
-          All
-        </button>
-        <button name='manga' onClick={handleShowClick}>
-          Manga
-        </button>
-        <button name='anime' onClick={handleShowClick}>
-          Anime
-        </button>
+        <div className="following-list-buttons-container">
+          <button
+            className={`following-list-button${
+              state.show === 'all'
+                ? ' following-list-button-active'
+                : ''
+              }`
+            }
+            name='all'
+            onClick={handleShowClick}
+          >
+            Your List
+          </button>
+          <button
+            className={`following-list-button${
+              state.show === 'manga'
+                ? ' following-list-button-active'
+                : ''
+              }`
+            }
+            name='manga'
+            onClick={handleShowClick}
+          >
+            Manga
+          </button>
+          <button
+            className={`following-list-button${
+              state.show === 'anime'
+                ? ' following-list-button-active'
+                : ''
+              }`
+            }
+            name='anime'
+            onClick={handleShowClick}
+          >
+            Anime
+          </button>
+        </div>
         {
           state.modal !== false
             ? (
@@ -177,7 +213,9 @@ class FollowingList extends Component {
 
         {requestMessage ? <p>List retrieval failed...</p> : null}
         {!retrievedList.length ? <p>Follow/Subscribe to some titles!</p> : null}
-        {FollowingItemArrFiltered}
+        <div className="following-item-container">
+          {FollowingItemArrMapped}
+        </div>
       </div>
     )
   }
