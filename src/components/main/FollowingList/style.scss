@@ -1,19 +1,31 @@
 .following-list {
-  width: 90%;
+  width: 80%;
+  height: 85vh;
   background-color: black;
+  margin: 12px 0 0 0;
 }
 .following-item-container {
+  display: block;
   width: 100%;
-  background-color: pink;
+  height: inherit;
+  background-color: $main-green;
+  overflow: scroll;
+  border-top: 25px solid $main-green;
+  border-bottom: 25px solid $main-green;
 }
 .following-item {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  width: 80%;
+  width: 92%;
   background-color: white;
-  margin: 4px;
+  margin: auto;
   padding: 4px;
+}
+.following-item-button {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
 }
 .following-item-darken {
   background-color: grey;
@@ -37,12 +49,14 @@
   width: 150px;
   padding: 12px;
   border-bottom: none;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 300;
+  cursor: pointer;
 }
-.following-list-button:focus {
+.following-list-button:focus, .following-list-item:focus {
   outline: none;
 }
 .following-list-button-active {
-  background-color: pink;
+  background-color: $main-green;
+  border-color: $main-green;
 }

@@ -1,4 +1,4 @@
-.nav, .nav-left, .nav-right, .search-container {
+.nav, .nav-left, .nav-right, .search-checkbox-container, .search-text-container {
   flex-direction: row;
 }
 
@@ -19,4 +19,12 @@
 .nav-logo {
   width: 55px;
   height: 55px;
+}
+
+.nav-acct-link {
+  padding: 0 14px 0 14px;
+}
+
+.search-label-text {
+  font-size: 14px;
 }

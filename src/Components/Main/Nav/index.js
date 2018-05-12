@@ -21,7 +21,7 @@ class Nav extends Component {
         </div>
         <div className="nav-right">
           <SearchBar />
-          <Link href={linkRoute} to={linkRoute}>
+          <Link className="nav-acct-link" href={linkRoute} to={linkRoute}>
             {linkText}
           </Link>
         </div>

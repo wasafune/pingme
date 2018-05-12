@@ -11,14 +11,18 @@ const FollowingItem = (props) => {
     handleClick,
     modified,
   } = props
-  const darkenClassName = darken ? '-darken' : ''
+  const darkenClassName = darken ? 'following-item-darken' : ''
   return (
-    <button
-      className={`following-item following-item${darkenClassName}`}
-      onClick={e => handleClick(e, index, modified)}
+    <div
+      className={`following-item ${darkenClassName}`}
     >
       <div className="following-item-left">
-        <p className="following-item-title">{title}</p>
+        <button
+          className="following-item-button"
+          onClick={e => handleClick(e, index, modified)}
+        >
+          <p className="following-item-title">{title}</p>
+        </button>
         <p>Latest: {latest}</p>
         <p>Type: {props.anime ? 'Anime' : 'Manga'}</p>
       </div>
@@ -32,7 +36,7 @@ const FollowingItem = (props) => {
           : <p>Status: {subscribed ? 'Subscribed' : 'Following'}</p>
         }
       </div>
-    </button>
+    </div>
   )
 }
 
