@@ -24,3 +24,11 @@ p {
 a {
   text-decoration: none;
 }
+
+a:visited {
+  color: inherit;
+}
+
+h1 {
+  font-weight: 400;
+}

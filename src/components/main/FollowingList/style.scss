@@ -8,10 +8,10 @@
   display: block;
   width: 100%;
   height: inherit;
-  background-color: $main-green;
-  overflow: scroll;
-  border-top: 25px solid $main-green;
-  border-bottom: 25px solid $main-green;
+  background-color: $darker-green;
+  overflow: auto;
+  border-top: 16px solid $main-green;
+  border-bottom: 20px solid $main-green;
 }
 .following-item {
   display: flex;
@@ -38,7 +38,7 @@
 }
 .following-item-title {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 400;
 }
 .following-list-buttons-container {
   flex-direction: row;
@@ -50,7 +50,7 @@
   padding: 12px;
   border-bottom: none;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   cursor: pointer;
 }
 .following-list-button:focus, .following-list-item:focus {
@@ -59,4 +59,8 @@
 .following-list-button-active {
   background-color: $main-green;
   border-color: $main-green;
+}
+.search-label-text {
+  display: flex;
+  align-items: center;
 }
