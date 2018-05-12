@@ -21,10 +21,12 @@ class FollowingList extends Component {
       status: false,
       modified: '',
       modifiedIndices: {},
+      show: 'all',
     }
     this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleModal = this.handleModal.bind(this)
+    this.handleShowClick = this.handleShowClick.bind(this)
   }
 
   componentDidMount() {
@@ -73,6 +75,11 @@ class FollowingList extends Component {
     }
   }
 
+  handleShowClick(e) {
+    const { name } = e.target
+    this.setState({ show: name })
+  }
+
   handleModal(e, mangaId, index) {
     const {
       user, subscribe,
@@ -96,6 +103,7 @@ class FollowingList extends Component {
       handleClick,
       handleModal,
       handleOnKeyUp,
+      handleShowClick,
     } = this
     const { requestMessage, retrievedList, _id } = this.props.user
     // not logged in (move to separate component)
@@ -116,6 +124,7 @@ class FollowingList extends Component {
           index={i}
           modified={state.modifiedIndices[i] || ''}
           title={ele.title}
+          anime={ele.anime}
           updated={ele.updated.toUTCString()}
           subscribed={ele.subscribed}
           followerCount={ele.followerCount}
@@ -125,9 +134,24 @@ class FollowingList extends Component {
         />
       )
     })
+    const FollowingItemArrFiltered = FollowingItemArr.filter((ele) => {
+      if (state.show === 'all') return true
+      if (state.show === 'manga' && !ele.props.anime) return true
+      if (state.show === 'anime' && ele.props.anime) return true
+      return false
+    })
     return (
       <div className="following-list">
         <h2>Following</h2>
+        <button name='all' onClick={handleShowClick}>
+          All
+        </button>
+        <button name='manga' onClick={handleShowClick}>
+          Manga
+        </button>
+        <button name='anime' onClick={handleShowClick}>
+          Anime
+        </button>
         {
           state.modal !== false
             ? (
@@ -153,7 +177,7 @@ class FollowingList extends Component {
 
         {requestMessage ? <p>List retrieval failed...</p> : null}
         {!retrievedList.length ? <p>Follow/Subscribe to some titles!</p> : null}
-        {FollowingItemArr}
+        {FollowingItemArrFiltered}
       </div>
     )
   }
