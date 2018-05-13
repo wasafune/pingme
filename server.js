@@ -25,10 +25,16 @@ const searchController = require('./controllers/searchController')
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'media')))
 
 // post route middleware
 app.use('/user', userController)
 app.use('/search', searchController)
+
+// media content route
+app.use('/media', (req, res) => {
+  res.sendFile(path.join(__dirname, `media${req.url}`))
+})
 
 // Base route
 app.get('/*', (req, res) => {

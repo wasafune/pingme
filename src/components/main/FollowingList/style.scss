@@ -29,6 +29,9 @@
     background-color: inherit;
     cursor: pointer;
   }
+  .following-item-button:hover {
+    text-decoration: underline;
+  }
   .following-item-darken {
     background-color: $lighter-green;
   }
