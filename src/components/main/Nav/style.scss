@@ -24,14 +24,37 @@
 .nav-acct-link {
   padding: 0 14px 0 14px;
 }
-
-.search-label-text {
-  font-size: 14px;
-  font-weight: 300;
-  .input {
-    margin: 0 5px 0 0;
+.search-text-container {
+  background-color: white;
+  border: 1px solid grey;
+  width: 155px;
+  padding: 4px 4px 4px 4px;
+  input {
+    border: none;
+    width: inherit;
   }
-  margin: 0 5px 0 0;
+  input:focus {
+    outline: none;
+  }
+  button, button:focus {
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  button:hover {
+    color: $darker-green;
+  }
+}
+.search-checkbox-container {
+  margin: 2px 0 0 4px;
+  .search-label-text {
+    font-size: 14px;
+    font-weight: 300;
+    margin: 0 10px 0 0;
+    input {
+      margin: 0 3px 0 0;
+    }
+  }
 }
 
 span.nav-title {
@@ -39,5 +62,5 @@ span.nav-title {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
   font-weight: 800;
-  font-size: 36px;
+  font-size: 34px;
 }

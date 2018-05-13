@@ -32,3 +32,15 @@ a:visited {
 h1 {
   font-weight: 400;
 }
+
+.hidden {
+  opacity: 0;
+}
+.fade-in-element, {
+  animation: fade-in 700ms;
+}
+
+@keyframes fade-in {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}

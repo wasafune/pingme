@@ -67,10 +67,12 @@ class SearchBar extends Component {
               type="text"
               name="searchStr"
               value={searchStr}
-              placeholder="Search here..."
+              placeholder={`Search ${manga ? 'mangas' : 'animes'}...`}
               onChange={handleInputChange}
             />
-            <button id="search-button" type="submit">Search</button>
+            <button id="search-button" type="submit">
+              <i className="fas fa-search" />
+            </button>
           </div>
           <div className="search-checkbox-container">
             <label className="search-label-text">

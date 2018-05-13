@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import cloneDeep from 'lodash/cloneDeep'
 
 import FollowingItem from './FollowingItem'
+import LoginReroute from './LoginReroute'
 import ItemModal from '../ItemModal'
 import {
   retrieveMangas, unmountRequestMessage,
@@ -22,6 +22,7 @@ class FollowingList extends Component {
       modified: '',
       modifiedIndices: {},
       show: 'all',
+      display: false,
     }
     this.handleOnKeyUp = this.handleOnKeyUp.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -35,6 +36,9 @@ class FollowingList extends Component {
     if (this.props.user.loggedInCheck && user._id.length) {
       retrieveMangas(followingList)
     }
+    setTimeout(() => {
+      this.setState({ display: true })
+    }, 42)
   }
 
   shouldComponentUpdate(nextProps) {
@@ -77,7 +81,10 @@ class FollowingList extends Component {
 
   handleShowClick(e) {
     const { name } = e.target
-    this.setState({ show: name })
+    this.setState({ show: name, display: false })
+    setTimeout(() => {
+      this.setState({ display: true })
+    }, 42)
   }
 
   handleModal(e, mangaId, index) {
@@ -106,15 +113,9 @@ class FollowingList extends Component {
       handleShowClick,
     } = this
     const { requestMessage, retrievedList, _id } = this.props.user
-    // not logged in (move to separate component)
+    // take login/signup reroute page if not logged in
     if (!_id.length) {
-      return (
-        <div className="following-list">
-          Login to see your list!
-          <Link href="/auth/login" to="/auth/login">Login</Link>
-          <Link href="/auth/signup" to="/auth/signup">Signup</Link>
-        </div>
-      )
+      return <LoginReroute />
     }
     const FollowingItemArr = retrievedList.map((ele, i) => {
       return (
@@ -210,11 +211,15 @@ class FollowingList extends Component {
             )
             : null
         }
-
-        {requestMessage ? <p>List retrieval failed...</p> : null}
-        {!retrievedList.length ? <p>Follow/Subscribe to some titles!</p> : null}
         <div className="following-item-container">
-          {FollowingItemArrMapped}
+          <div
+            className={`following-item-fade ${state.display ? 'fade-in-element' : 'hidden'}`}
+          >
+            {/* {requestMessage ? <p>List retrieval failed...</p> : null} */}
+            {!retrievedList.length
+              ? <p>Follow/Subscribe to some titles!</p>
+              : FollowingItemArrMapped}
+          </div>
         </div>
       </div>
     )

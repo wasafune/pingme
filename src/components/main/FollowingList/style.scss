@@ -1,17 +1,42 @@
-.following-list {
+.following-list, .following-reroute-container {
   width: 80%;
   height: 85vh;
   background-color: black;
   margin: 12px 0 0 0;
 }
-.following-item-container {
+.following-reroute-container {
+  height: 50vh;
+  background-color: $main-green;
+  p {
+    margin: 22px 0 6px 0;
+    font-size: 22px;
+    font-weight: 300;
+  }
+  a {
+    font-weight: 300;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  div {
+    flex-direction: row;
+    align-items: center;
+    p {
+      margin: 0 4px 0 4px;
+    }
+  }
+}
+.following-item-container, .following-item-fade {
   display: block;
   width: 100%;
   height: inherit;
   background-color: $darker-green;
   overflow: auto;
-  border-top: 16px solid $main-green;
+  border-top: 18px solid $main-green;
   border-bottom: 20px solid $main-green;
+  .following-item-fade {
+    border: none;
+  }
 }
 .following-item {
   display: flex;
