@@ -59,15 +59,15 @@
   button:hover {
     color: $darker-green;
   }
-  .search-checkbox-container {
-    margin: 2px 0 0 4px;
-    .search-label-text {
-      font-size: 14px;
-      font-weight: 300;
-      margin: 0 10px 0 0;
-      input {
-        margin: 0 3px 0 0;
-      }
+}
+.search-checkbox-container {
+  margin: 2px 0 0 4px;
+  .search-label-text {
+    font-size: 14px;
+    font-weight: 300;
+    margin: 0 10px 0 0;
+    input {
+      margin: 0 3px 0 0;
     }
   }
 }
