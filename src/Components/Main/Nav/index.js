@@ -15,8 +15,8 @@ class Nav extends Component {
       <div className="nav">
         <div className="nav-left">
           <Link className="nav-left-link" href="/" to="/">
-            <img className="nav-logo" src="/media/logo.svg" />
-            <h1>Ping<span className="nav-title">Me</span></h1>
+            <img className="nav-logo" src="/media/logo-shrunk.svg" />
+            <h1>Ping<span>Me</span></h1>
           </Link>
         </div>
         <div className="nav-right">

@@ -1,30 +1,8 @@
 .following-list, .following-reroute-container {
   width: 80%;
   height: 85vh;
-  background-color: black;
+  background-color: $light-black;
   margin: 12px 0 0 0;
-}
-.following-reroute-container {
-  height: 50vh;
-  background-color: $main-green;
-  p {
-    margin: 22px 0 6px 0;
-    font-size: 22px;
-    font-weight: 300;
-  }
-  a {
-    font-weight: 300;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  div {
-    flex-direction: row;
-    align-items: center;
-    p {
-      margin: 0 4px 0 4px;
-    }
-  }
 }
 .following-item-container, .following-item-fade {
   display: block;
@@ -37,55 +15,84 @@
   .following-item-fade {
     border: none;
   }
-}
-.following-item {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  width: 92%;
-  background-color: white;
-  margin: auto;
-  padding: 4px;
-}
-.following-item-button {
-  border: none;
-  background-color: inherit;
-  cursor: pointer;
-}
-.following-item-darken {
-  background-color: grey;
-}
-.following-item-left {
-  align-items: flex-start;
-}
-.following-item-right {
-  align-items: flex-end;
-}
-.following-item-title {
-  font-size: 16px;
-  font-weight: 400;
+  .following-item {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 92%;
+    background-color: white;
+    margin: auto;
+    padding: 4px;
+  }
+  .following-item-button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+  }
+  .following-item-darken {
+    background-color: $lighter-green;
+  }
+  .following-item-left {
+    align-items: flex-start;
+  }
+  .following-item-right {
+    align-items: flex-end;
+  }
+  .following-item-title {
+    font-size: 16px;
+    font-weight: 400;
+  }
 }
 .following-list-buttons-container {
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+  .following-list-button, .following-list-button-active {
+    width: 150px;
+    padding: 12px;
+    border-bottom: none;
+    font-size: 18px;
+    font-weight: 400;
+    transition: background-color 500ms ease;
+    cursor: pointer;
+  }
+  .following-list-button:hover {
+    background-color: $lighter-green;
+  }
+  .following-list-button:focus,
+  .following-list-button-active:focus,
+  .following-list-item:focus,
+  {
+    outline: none;
+  }
+  .following-list-button-active {
+    background-color: $main-green;
+    border-color: $main-green;
+  }
 }
-.following-list-button {
-  width: 150px;
-  padding: 12px;
-  border-bottom: none;
-  font-size: 18px;
-  font-weight: 400;
-  cursor: pointer;
+.fl-hidden {
+  opacity: 0;
 }
-.following-list-button:focus, .following-list-item:focus {
-  outline: none;
+.fl-fade-in-element, {
+  animation: fade-in 600ms;
+  height: 100%;
 }
-.following-list-button-active {
+.following-reroute-container {
+  height: 50vh;
   background-color: $main-green;
-  border-color: $main-green;
-}
-.search-label-text {
-  display: flex;
-  align-items: center;
+  p {
+    margin: 22px 0 6px 0;
+    font-size: 22px;
+    font-weight: 300;
+  }
+  a {
+    font-weight: 300;
+  }
+  div {
+    flex-direction: row;
+    align-items: center;
+    p {
+      margin: 0 4px 0 4px;
+    }
+  }
 }

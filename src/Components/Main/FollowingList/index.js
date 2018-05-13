@@ -81,6 +81,7 @@ class FollowingList extends Component {
 
   handleShowClick(e) {
     const { name } = e.target
+    if (name === this.state.show) return
     this.setState({ show: name, display: false })
     setTimeout(() => {
       this.setState({ display: true })
@@ -112,9 +113,17 @@ class FollowingList extends Component {
       handleOnKeyUp,
       handleShowClick,
     } = this
-    const { requestMessage, retrievedList, _id } = this.props.user
+    const {
+      requestMessage,
+      retrievedList,
+      _id,
+      loggedInCheck,
+    } = this.props.user
     // take login/signup reroute page if not logged in
-    if (!_id.length) {
+    if (!_id.length && !loggedInCheck) {
+      return null
+    }
+    if (!_id.length && loggedInCheck) {
       return <LoginReroute />
     }
     const FollowingItemArr = retrievedList.map((ele, i) => {
@@ -150,39 +159,24 @@ class FollowingList extends Component {
       return temp
     })
     return (
-      <div className="following-list">
+      <div className="following-list fade-in-element">
         <div className="following-list-buttons-container">
           <button
-            className={`following-list-button${
-              state.show === 'all'
-                ? ' following-list-button-active'
-                : ''
-              }`
-            }
+            className={state.show === 'all' ? 'following-list-button-active' : 'following-list-button'}
             name='all'
             onClick={handleShowClick}
           >
             YOUR LIST
           </button>
           <button
-            className={`following-list-button${
-              state.show === 'manga'
-                ? ' following-list-button-active'
-                : ''
-              }`
-            }
+            className={state.show === 'manga' ? 'following-list-button-active' : 'following-list-button'}
             name='manga'
             onClick={handleShowClick}
           >
             MANGA
           </button>
           <button
-            className={`following-list-button${
-              state.show === 'anime'
-                ? ' following-list-button-active'
-                : ''
-              }`
-            }
+            className={state.show === 'anime' ? 'following-list-button-active' : 'following-list-button'}
             name='anime'
             onClick={handleShowClick}
           >
@@ -213,7 +207,7 @@ class FollowingList extends Component {
         }
         <div className="following-item-container">
           <div
-            className={`following-item-fade ${state.display ? 'fade-in-element' : 'hidden'}`}
+            className={`following-item-fade ${state.display ? 'fl-fade-in-element' : 'fl-hidden'}`}
           >
             {/* {requestMessage ? <p>List retrieval failed...</p> : null} */}
             {!retrievedList.length
