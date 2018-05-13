@@ -62,12 +62,6 @@
   .following-list-button:hover {
     background-color: $lighter-green;
   }
-  .following-list-button:focus,
-  .following-list-button-active:focus,
-  .following-list-item:focus,
-  {
-    outline: none;
-  }
   .following-list-button-active {
     background-color: $main-green;
     border-color: $main-green;

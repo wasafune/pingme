@@ -12,7 +12,7 @@ class Nav extends Component {
     const linkRoute = user.displayName.length ? '/auth/logout' : '/auth/login'
     const linkText = user.displayName.length ? 'Logout' : 'Login'
     return (
-      <div className="nav">
+      <div className="nav fade-in-element">
         <div className="nav-left">
           <Link className="nav-left-link" href="/" to="/">
             <img className="nav-logo" src="/media/logo-shrunk.svg" />

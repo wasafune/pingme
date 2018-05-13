@@ -3,6 +3,11 @@
   height: 85vh;
   background-color: $main-green;
   margin: 12px 0 0 0;
+  .search-list-title {
+    margin: 14px 0 0 0;
+    font-size: 24px;
+    font-weight: 300;
+  }
 }
 .search-item-container {
   display: block;
@@ -10,9 +15,9 @@
   height: inherit;
   background-color: $darker-green;
   overflow: auto;
-  border-top: 18px solid $main-green;
+  border-top: 14px solid $main-green;
   border-bottom: 20px solid $main-green;
-  .search-item {
+  .search-item, .search-item-darken {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -32,6 +37,23 @@
   }
   .search-item-title {
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 400;
+  }
+  .search-item-button, .search-more-button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+  }
+  .search-item-button:hover, .search-more-button:hover {
+    text-decoration: underline;
+  }
+  .search-more, .search-more-button {
+    display: block;
+    margin: 6px auto;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .search-more {
+    text-align: center;
   }
 }
