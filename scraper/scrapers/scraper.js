@@ -9,7 +9,7 @@ const iterateDom = require('./iterateDom');
   page: keeps track of current page to scrape, usually starts at 1
   errors: store error messages and stops scraping if too many errors
 */
-const scraper = async (config, page = 173, errors = []) => {
+const scraper = async (config, page = 1, errors = []) => {
   // change number when only scraping for latest
   if (errors.length >= 30) throw Error(JSON.stringify(errors));
 
