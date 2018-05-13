@@ -132,7 +132,7 @@ class SearchList extends Component {
     })
     return (
       <div className="search-list">
-        <h2>{titleStr} Search: {searchStr}</h2>
+        <p className="search-list-title">{titleStr} Search: {searchStr}</p>
         {
           state.modal !== false
             ? (
@@ -156,16 +156,20 @@ class SearchList extends Component {
         }
         <div className="search-item-container fade-in-element">
           {searchItemArr}
-        </div>
-        {
-          searchEnd
-            ? <p>End of search</p>
+          {
+            searchEnd || searchArr.length % 12
+            ? <p className="search-more">End of search.</p>
             : (
-              <button name="load-more" onClick={handleSearchMore}>
+              <button
+                className="search-more-button"
+                name="load-more"
+                onClick={handleSearchMore}
+              >
                 Show More
               </button>
             )
-        }
+          }
+        </div>
       </div>
     )
   }

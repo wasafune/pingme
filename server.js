@@ -13,7 +13,7 @@ mongoose.connect(process.env.DB_HOST);
 app.use(cors())
 app.use(bp.json())
 app.use(session({
-  secret: 'hidomo',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
 }))
