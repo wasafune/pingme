@@ -27,4 +27,17 @@
 
 .search-label-text {
   font-size: 14px;
+  font-weight: 300;
+  .input {
+    margin: 0 5px 0 0;
+  }
+  margin: 0 5px 0 0;
+}
+
+span.nav-title {
+  color: $main-orange;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-weight: 800;
+  font-size: 36px;
 }
