@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon --ignore 'dist/*.hot-update.js' --ignore 'dist/*.hot-update.json' --ignore src/ -r dotenv/config server.js",
     "build": "webpack --watch --config webpack.config.js",
+    "heroku-postbuild": "webpack --config webpack.config.js",
     "server": "webpack-dev-server --inline --hot",
     "test": "jest",
     "coverage": "jest --coverage",
