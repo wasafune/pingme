@@ -80,12 +80,17 @@
   height: 100%;
 }
 .following-reroute-container {
+  width: 60vw;
   height: 50vh;
-  background-color: $main-green;
-  p {
-    margin: 22px 0 6px 0;
+  background-color: $mid-lighter-green;
+  margin: 20px 0 0 0;
+  .following-reroute-title {
+    width: 100%;
+    background-color: $main-green;
+    padding: 18px 0 18px 0;
     font-size: 22px;
     font-weight: 300;
+    text-align: center;
   }
   a {
     font-weight: 300;
@@ -93,8 +98,10 @@
   div {
     flex-direction: row;
     align-items: center;
+    margin: 16px 0 0 0;
     p {
       margin: 0 4px 0 4px;
+      font-size: 22px;
     }
   }
 }
