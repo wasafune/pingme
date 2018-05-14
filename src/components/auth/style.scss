@@ -1,0 +1,43 @@
+.auth-container {
+  width: 60vw;
+  height: 50vh;
+  background-color: $main-green;
+  margin: 20px 0 0 0;
+  h1 {
+    margin: 18px;
+    font-weight: 300;
+  }
+  p {
+    font-size: 16px;
+    font-weight: 300;
+  }
+  a {
+    font-weight: 300;
+  }
+  div {
+    flex-direction: row;
+    align-items: center;
+    p {
+      margin: 0 4px 0 8px;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    input {
+      margin: 4px 0;
+      padding: 3px 0;
+      font-size: 14px;
+    }
+    button {
+      font-size: 14px;
+      width: 80px;
+      padding: 4px;
+      margin: 6px 0;
+    }
+    button:hover {
+      background-color: $lighter-orange;
+    }
+  }
+}

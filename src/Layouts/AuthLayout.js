@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { Login, Signup, Logout } from '../components/auth'
+import { Nav } from '../components/main'
 import { loggedInCheck } from '../actions'
 
 
@@ -18,6 +19,7 @@ class AuthLayout extends Component {
   render() {
     return (
       <div className="auth-layout">
+        <Nav />
         <Switch>
           <Route exact path='/auth/signup' component={Signup} />
           <Route exact path='/auth/login' component={Login} />

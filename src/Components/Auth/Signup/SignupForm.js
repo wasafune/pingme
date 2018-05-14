@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { withFormik } from 'formik'
 
 const SignupForm = ({
@@ -13,26 +14,26 @@ const SignupForm = ({
 }) => {
   return (
     <form onSubmit={handleSubmit}>
+      <p>Email:</p>
       <input
         type="text"
         name="email"
-        placeholder="Email"
         value={values.email}
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <p>Display Name:</p>
       <input
         type="text"
         name="displayName"
-        placeholder="Display Name"
         value={values.displayName}
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <p>Password:</p>
       <input
         type="password"
         name="password"
-        placeholder="Password"
         value={values.password}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -52,6 +53,7 @@ const SignupForm = ({
       >
         Sign Up
       </button>
+      <Link href="/auth/login" to="/auth/login">Already a user?</Link>
     </form>
   )
 }
