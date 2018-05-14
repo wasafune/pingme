@@ -8,6 +8,7 @@
     margin: 14px 0 0 0;
     font-size: 24px;
     font-weight: 300;
+    text-align: center;
   }
 }
 .search-item-container {
@@ -22,7 +23,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: row;
-    width: 80%;
+    width: 92%;
     background-color: white;
     margin: auto;
     padding: 4px;
@@ -37,8 +38,10 @@
     align-items: flex-end;
   }
   .search-item-title {
+    max-width: 420px;
     font-size: 16px;
     font-weight: 400;
+    text-align: left;
   }
   .search-item-button, .search-more-button {
     border: none;
@@ -56,5 +59,25 @@
   }
   .search-more {
     text-align: center;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .search-list {
+    width: 100%;
+    height: 100%;
+    background-color: $mid-lighter-green;
+    border-top: 1px solid $border-grey;
+    margin: 0;
+    .search-list-title {
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .search-item-container {
+      border-color: $mid-lighter-green;
+      .search-item-title {
+        max-width: 170px;
+      }
+    }
   }
 }

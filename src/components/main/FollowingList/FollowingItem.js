@@ -8,10 +8,13 @@ const FollowingItem = (props) => {
     latest,
     subscribed,
     darken,
+    updated,
     handleClick,
     modified,
+    parseModified,
   } = props
   const darkenClassName = darken ? 'following-item-darken' : ''
+  const updatedArr = updated.split(' ')
   return (
     <div
       className={`following-item ${darkenClassName}`}
@@ -28,11 +31,14 @@ const FollowingItem = (props) => {
       </div>
       <div className="following-item-right">
         <p>
-          Updated: {props.updated.split(' ').slice(0, 3).join(' ')}
+          Updated: {updatedArr[0]}
+        </p>
+        <p>
+          {updatedArr.slice(1, 3).join(' ')}
         </p>
         {
           modified.length
-          ? <p className="status-msg">{modified.toUpperCase()} successful!</p>
+          ? <p className="status-msg">{parseModified(modified)}</p>
           : <p>Status: {subscribed ? 'Subscribed' : 'Following'}</p>
         }
       </div>
@@ -51,6 +57,7 @@ FollowingItem.propTypes = {
   updated: PropTypes.string.isRequired,
   subscribed: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
+  parseModified: PropTypes.func.isRequired,
 }
 
 export default FollowingItem

@@ -70,3 +70,23 @@
     }
   }
 }
+
+@media only screen and (max-width: 500px) {
+  .nav {
+    margin-bottom: 0;
+    .nav-left-link {
+      .nav-logo {
+        transition: none;
+      }
+      h1 {
+        display: none;
+      }
+    }
+    .nav-left-link:hover {
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  }
+}

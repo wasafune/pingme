@@ -24,27 +24,31 @@
     background-color: white;
     margin: auto;
     padding: 4px;
-  }
-  .following-item-button {
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-  }
-  .following-item-button:hover {
-    text-decoration: underline;
+    p {
+      text-align: start;
+    }
+    .following-item-button {
+      border: none;
+      background-color: inherit;
+      cursor: pointer;
+    }
+    .following-item-button:hover {
+      text-decoration: underline;
+    }
+    .following-item-left {
+      align-items: flex-start;
+    }
+    .following-item-right {
+      align-items: flex-end;
+    }
+    .following-item-title {
+      max-width: 420px;
+      font-size: 16px;
+      font-weight: 400;
+    }
   }
   .following-item-darken {
     background-color: $lighter-green;
-  }
-  .following-item-left {
-    align-items: flex-start;
-  }
-  .following-item-right {
-    align-items: flex-end;
-  }
-  .following-item-title {
-    font-size: 16px;
-    font-weight: 400;
   }
 }
 .following-list-buttons-container {
@@ -76,12 +80,17 @@
   height: 100%;
 }
 .following-reroute-container {
+  width: 60vw;
   height: 50vh;
-  background-color: $main-green;
-  p {
-    margin: 22px 0 6px 0;
+  background-color: $mid-lighter-green;
+  margin: 20px 0 0 0;
+  .following-reroute-title {
+    width: 100%;
+    background-color: $main-green;
+    padding: 18px 0 18px 0;
     font-size: 22px;
     font-weight: 300;
+    text-align: center;
   }
   a {
     font-weight: 300;
@@ -89,8 +98,39 @@
   div {
     flex-direction: row;
     align-items: center;
+    margin: 16px 0 0 0;
     p {
       margin: 0 4px 0 4px;
+      font-size: 22px;
     }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .following-list {
+    width: 100vw;
+    height: 100%;
+    margin: 0;
+    .following-list-buttons-container {
+      button {
+        font-size: 16px;
+      }
+      .following-list-button-active {
+        background-color: $mid-lighter-green;
+        border-color: $mid-lighter-green;
+        border-top-color: $border-grey;
+      }
+    }
+    .following-item-container {
+      border-color: $mid-lighter-green;
+      .following-item-title {
+        max-width: 170px;
+      }
+    }
+  }
+  .following-reroute-container {
+    width: 90vw;
+    height: 60vh;
+    margin: 20px 0 0 0;
   }
 }
