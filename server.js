@@ -5,7 +5,7 @@ const bp = require('body-parser')
 const session = require('express-session')
 const cors = require('cors')
 
-const PORT = process.env.PORT2 || 3000
+const PORT = process.env.PORT || 3000
 const app = express()
 
 mongoose.connect(process.env.DB_HOST);
