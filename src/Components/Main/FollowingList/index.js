@@ -104,6 +104,14 @@ class FollowingList extends Component {
     this.setState({ modifiedIndices })
   }
 
+  parseModified(str) {
+    switch (str) {
+      case 'subscribe':
+      case 'unsubscribe': return `${str.toUpperCase()}D!`
+      case 'unfollow': return `${str.toUpperCase()}ED!`
+      default: return ''
+    }
+  }
 
   render() {
     const {
@@ -112,6 +120,7 @@ class FollowingList extends Component {
       handleModal,
       handleOnKeyUp,
       handleShowClick,
+      parseModified,
     } = this
     const {
       requestMessage,
@@ -140,6 +149,7 @@ class FollowingList extends Component {
           followerCount={ele.followerCount}
           latest={ele.latest}
           handleClick={handleClick}
+          parseModified={parseModified}
         />
       )
     })
