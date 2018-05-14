@@ -42,9 +42,9 @@
       align-items: flex-end;
     }
     .following-item-title {
+      max-width: 420px;
       font-size: 16px;
       font-weight: 400;
-      max-width: 420px;
     }
   }
   .following-item-darken {
@@ -110,7 +110,7 @@
   .following-list {
     width: 100vw;
     height: 100%;
-    margin-top: 0;
+    margin: 0;
     .following-list-buttons-container {
       button {
         font-size: 16px;
