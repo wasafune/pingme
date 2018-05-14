@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { withFormik } from 'formik'
-
 
 const LoginForm = ({
   values,
@@ -14,18 +14,18 @@ const LoginForm = ({
 }) => {
   return (
     <form onSubmit={handleSubmit}>
+      <p>Email:</p>
       <input
         type="text"
         name="email"
-        placeholder="Email"
         value={values.email}
         onChange={handleChange}
         onBlur={handleBlur}
       />
+      <p>Password:</p>
       <input
         type="password"
         name="password"
-        placeholder="Password"
         value={values.password}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -45,6 +45,7 @@ const LoginForm = ({
       >
         Login
       </button>
+      <Link href="/auth/signup" to="/auth/signup">New User?</Link>
     </form>
   )
 }

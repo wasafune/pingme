@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -24,10 +23,9 @@ class Signup extends React.Component {
   render() {
     const { user } = this.props
     return (
-      <div>
+      <div className="auth-container">
         <h1>Sign Up</h1>
         <FormikSignupForm handleActions={this.handleActions} />
-        <Link href="/auth/login" to="/auth/login">Already a user?</Link>
         <p>
           {user.requestMessage ? user.requestMessage : null}
         </p>
