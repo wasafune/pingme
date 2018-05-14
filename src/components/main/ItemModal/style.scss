@@ -10,9 +10,8 @@
   background-color: $lighter-green;
   width: 50vw;
   max-width: 450px;
-  height: 42vh;
-  min-height: 380px;
   margin: 30vh 0 0 0;
+  border-bottom: 32px solid $main-green;
   p {
     font-size: 14px;
     margin: 0 0 4px 0;
@@ -45,16 +44,26 @@
     flex-direction: row;
     justify-content: space-around;
     width: 70%;
-    margin: 24px 0 10px 0;
+    margin: 0 0 24px 0;
     button {
       width: 100px;
       font-size: 14px;
       padding: 3px 6px;
       margin: 0;
     }
+    p {
+      text-align: center;
+      a {
+        text-decoration: underline;
+      }
+      a:hover {
+        color: $darker-green;
+      }
+    }
   }
   .search-modal-request-msg {
     width: 0 0 16px 0;
+    margin: 24px 0 12px 0;
   }
 }
 

@@ -16,6 +16,8 @@ const ItemModal = (props) => {
       : ['unsubscribe', 'Unsubscribe', 'unfollow', 'Unfollow']
     : ['follow', 'Follow', 'followSubscribe', 'Subscribe']
   const genres = props.genres.map(str => str[0].toUpperCase() + str.slice(1))
+
+  // if series completed render skeleton component
   if (props.completed) {
     return (
       <div
@@ -33,6 +35,8 @@ const ItemModal = (props) => {
             <p>Genres: {genres.join(', ')}</p>
             <p>Status: This series is no longer ongoing.</p>
           </div>
+          <p className="search-modal-request-msg" />
+          <div className="search-modal-inner-buttons" />
         </div>
       </div>
     )
@@ -51,7 +55,7 @@ const ItemModal = (props) => {
         </div>
         <div className="search-modal-detail-container">
           <p>Latest : {props.latest}</p>
-          <p>Genres : {genres.join(', ')}</p>
+          {genres.length ? <p>Genres : {genres.join(', ')}</p> : null}
           <p>Follower Count : {props.followerCount}</p>
           <p>Updated : {props.updated.split(' ').slice(0, 3).join(' ')}</p>
           {props.subscribed === undefined
@@ -59,6 +63,9 @@ const ItemModal = (props) => {
             : <p>Status : {props.subscribed ? 'Subscribed' : 'Following'}</p>
           }
         </div>
+        <p className="search-modal-request-msg">
+          {requestMessage || ''}&nbsp;
+        </p>
         {
           !props.modified.length
           ? (
@@ -79,16 +86,12 @@ const ItemModal = (props) => {
           )
           : (
             <div className="search-modal-inner-buttons">
-              <p>{props.modified.toUpperCase()} successful!</p>
               <p>
-                <a href="/">Refresh</a> to update.
+                {props.modified.toUpperCase()} successful! <a href="/">Refresh</a> to update.
               </p>
             </div>
           )
         }
-        <p className="search-modal-request-msg">
-          {requestMessage || ''}&nbsp;
-        </p>
       </div>
     </div>
   )
