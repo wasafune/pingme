@@ -1,15 +1,59 @@
 .search-modal-background {
   position: fixed;
   z-index: 1;
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgba(117, 117, 117, 0.66);
   width: 100vw;
   height: 110vh;
   margin-top: -110px;
 }
-
 .search-modal-inner {
-  background-color: white;
-  width: 40vw;
-  height: 40vh;
+  background-color: $lighter-green;
+  width: 50vw;
+  max-width: 450px;
+  height: 42vh;
+  min-height: 380px;
   margin: 30vh 0 0 0;
+  p {
+    font-size: 14px;
+    margin: 0 0 4px 0;
+  }
+  button {
+    margin: 0 20px 0 0;
+    padding: 3px 7px 2px 5px;
+    border-radius: none;
+  }
+  button:hover {
+    text-decoration: underline;
+  }
+  .search-modal-header {
+    flex-direction: row;
+    width: 100%;
+    background-color: $main-green;
+    h2 {
+      width: 100%;
+      text-align: center;
+      margin: 18px 0 18px 42px;
+    }
+  }
+  .search-modal-detail-container {
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 80%;
+    margin: 20px 0 0 0;
+  }
+  .search-modal-inner-buttons {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 70%;
+    margin: 24px 0 10px 0;
+    button {
+      width: 100px;
+      font-size: 14px;
+      padding: 3px 6px;
+      margin: 0;
+    }
+  }
+  .search-modal-request-msg {
+    width: 0 0 16px 0;
+  }
 }
