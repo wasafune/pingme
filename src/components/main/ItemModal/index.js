@@ -41,41 +41,47 @@ const ItemModal = (props) => {
       onKeyUp={handleOnKeyUp}
     >
       <div className="search-modal-inner">
-        <h2 className="search-modal-detail">{props.title}</h2>
-        <p className="search-modal-detail">Latest: {props.latest}</p>
-        <p className="search-modal-detail">Genres: {genres.join(', ')}</p>
-        <p className="search-modal-detail">Follower Count: {props.followerCount}</p>
-        <p className="search-modal-detail">Updated: {props.updated.split(' ').slice(0, 3).join(' ')}</p>
-        <p className="search-modal-detail">Status: {props.subscribed ? 'Subscribed' : 'Following'}</p>
+        <div className="search-modal-header">
+          <h2>{props.title}</h2>
+          <button onClick={handleClick}>X</button>
+        </div>
+        <div className="search-modal-detail-container">
+          <p>Latest : {props.latest}</p>
+          <p>Genres : {genres.join(', ')}</p>
+          <p>Follower Count : {props.followerCount}</p>
+          <p>Updated : {props.updated.split(' ').slice(0, 3).join(' ')}</p>
+          <p>Status : {props.subscribed ? 'Subscribed' : 'Following'}</p>
+        </div>
         {
           !props.modified.length
-            ? (
-              <div className="search-modal-inner-buttons">
-                <button
-                  value={button1Val}
-                  onClick={(e) => handleModal(e, props._id, index)}
-                >
-                  {button1Text}
-                </button>
-                <button
-                  value={button2Val}
-                  onClick={(e) => handleModal(e, props._id, index)}
-                >
-                  {button2Text}
-                </button>
-                {requestMessage ? <p>{requestMessage}</p> : <p>&nbsp;</p>}
-              </div>
-            )
-            : (
-              <div className="search-modal-inner-buttons">
-                <p>{props.modified.toUpperCase()} successful!</p>
-                <p>
-                  <a href="/">Refresh</a> to update.
-                </p>
-              </div>
-            )
+          ? (
+            <div className="search-modal-inner-buttons">
+              <button
+                value={button1Val}
+                onClick={(e) => handleModal(e, props._id, index)}
+              >
+                {button1Text}
+              </button>
+              <button
+                value={button2Val}
+                onClick={(e) => handleModal(e, props._id, index)}
+              >
+                {button2Text}
+              </button>
+            </div>
+          )
+          : (
+            <div className="search-modal-inner-buttons">
+              <p>{props.modified.toUpperCase()} successful!</p>
+              <p>
+                <a href="/">Refresh</a> to update.
+              </p>
+            </div>
+          )
         }
-        <button onClick={handleClick}>X Close</button>
+        <p className="search-modal-request-msg">
+          {requestMessage || ''}&nbsp;
+        </p>
       </div>
     </div>
   )
