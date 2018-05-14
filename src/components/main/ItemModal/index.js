@@ -25,10 +25,14 @@ const ItemModal = (props) => {
         onKeyUp={handleOnKeyUp}
       >
         <div className="search-modal-inner">
-          <h2 className="search-modal-detail">{props.title}</h2>
-          <p className="search-modal-detail">Genres: {genres.join(', ')}</p>
-          <p>This series is no longer ongoing.</p>
-          <button onClick={handleClick}>X Close</button>
+          <div className="search-modal-header">
+            <h2>{props.title}</h2>
+            <button onClick={handleClick}>X</button>
+          </div>
+          <div className="search-modal-detail-container">
+            <p>Genres: {genres.join(', ')}</p>
+            <p>Status: This series is no longer ongoing.</p>
+          </div>
         </div>
       </div>
     )
@@ -50,7 +54,10 @@ const ItemModal = (props) => {
           <p>Genres : {genres.join(', ')}</p>
           <p>Follower Count : {props.followerCount}</p>
           <p>Updated : {props.updated.split(' ').slice(0, 3).join(' ')}</p>
-          <p>Status : {props.subscribed ? 'Subscribed' : 'Following'}</p>
+          {props.subscribed === undefined
+            ? null
+            : <p>Status : {props.subscribed ? 'Subscribed' : 'Following'}</p>
+          }
         </div>
         {
           !props.modified.length
