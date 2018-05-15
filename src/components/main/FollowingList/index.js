@@ -67,12 +67,12 @@ class FollowingList extends Component {
   handleClick(e, index, modified) {
     const { state } = this
     const { retrievedList } = this.props.user
-    const { className, value } = e.target
+    const { className, name } = e.target
     if (state.modal !== false) {
-      if (className === 'search-modal-inner' || className === 'search-modal-detail') return
-      if (value && value.length) return
-      this.setState({ modal: false, status: '' })
-      this.props.unmountRequestMessage()
+      if (className === 'search-modal-background' || name === 'close') {
+        this.setState({ modal: false, status: '' })
+        this.props.unmountRequestMessage()
+      }
     }
     if (state.modal === false) {
       const status = retrievedList[index].subscribed ? 'subscribed' : 'following'

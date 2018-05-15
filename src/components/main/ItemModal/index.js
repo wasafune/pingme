@@ -52,7 +52,7 @@ const ItemModal = (props) => {
       <div className="search-modal-inner">
         <div className="search-modal-header">
           <h2>{props.title}</h2>
-          <button onClick={handleClick}>X</button>
+          <button name="close" onClick={handleClick}>X</button>
         </div>
         <div className="search-modal-detail-container">
           <p>Latest : {props.latest}</p>

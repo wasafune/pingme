@@ -68,12 +68,12 @@ class SearchList extends Component {
     const { state } = this
     const { searchArr } = this.props.search
     const { followingList } = this.props.user
-    const { className, value } = e.target
+    const { className, name } = e.target
     if (state.modal !== false) {
-      if (className === 'search-modal-inner' || className === 'search-modal-detail') return
-      if (value && value.length) return
-      this.setState({ modal: false, status: '' })
-      this.props.unmountRequestMessage()
+      if (className === 'search-modal-background' || name === 'close') {
+        this.setState({ modal: false, status: '' })
+        this.props.unmountRequestMessage()
+      }
     }
     if (state.modal === false) {
       const status = followingList.reduce((acc, ele) => {
@@ -93,7 +93,6 @@ class SearchList extends Component {
       unsubscribe, unfollow,
     } = this.props
     const { value } = e.target
-    // add logic for not logged in
     if (!user._id.length) return
     if (value === 'follow') follow(user._id, mangaId, false)
     if (value === 'followSubscribe') follow(user._id, mangaId, true)
