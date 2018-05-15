@@ -42,10 +42,11 @@ class FollowingList extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const { retrievedList } = this.props.user
+    const { user, retrieveMangas } = this.props
     if (nextProps.user.requestingUser) return false
-    if (nextProps.user.followingList.length && !retrievedList.length) {
-      this.props.retrieveMangas(nextProps.user.followingList)
+    if (!user._id.length && !user.loggedInCheck) return false
+    if (nextProps.user.followingList.length && !nextProps.user.retrievedList.length) {
+      retrieveMangas(nextProps.user.followingList)
       return false
     }
     return true
@@ -128,10 +129,8 @@ class FollowingList extends Component {
       _id,
       loggedInCheck,
     } = this.props.user
+
     // take login/signup reroute page if not logged in
-    if (!_id.length && !loggedInCheck) {
-      return null
-    }
     if (!_id.length && loggedInCheck) {
       return <LoginReroute />
     }
