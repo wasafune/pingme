@@ -47,8 +47,13 @@
       font-weight: 400;
     }
   }
-  .following-item-darken {
+  .following-item-darken, .empty-msg {
     background-color: $lighter-green;
+  }
+  .empty-msg {
+    padding: 16px 0;
+    text-align: center;
+    width: 100%;
   }
 }
 .following-list-buttons-container {

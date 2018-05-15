@@ -23,7 +23,7 @@ class Signup extends React.Component {
   render() {
     const { user } = this.props
     return (
-      <div className="auth-container">
+      <div className="auth-container sign-up">
         <h1>Sign Up</h1>
         <FormikSignupForm
           handleActions={this.handleActions}

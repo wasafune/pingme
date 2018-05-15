@@ -197,6 +197,7 @@ class FollowingList extends Component {
             ? (
               <ItemModal
                 _id={retrievedList[state.modal]._id}
+                loggedIn={_id.length > 0}
                 title={retrievedList[state.modal].title}
                 index={state.modal}
                 followerCount={retrievedList[state.modal].followerCount}
@@ -218,9 +219,8 @@ class FollowingList extends Component {
           <div
             className={`following-item-fade ${state.display ? 'fl-fade-in-element' : 'fl-hidden'}`}
           >
-            {/* {requestMessage ? <p>List retrieval failed...</p> : null} */}
             {!retrievedList.length
-              ? <p>Follow/Subscribe to some titles!</p>
+              ? <p className="empty-msg">Follow/Subscribe to some titles!</p>
               : FollowingItemArrMapped}
           </div>
         </div>

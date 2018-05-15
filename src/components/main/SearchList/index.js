@@ -111,7 +111,7 @@ class SearchList extends Component {
       handleModal,
     } = this
     const { searchArr, searchEnd } = this.props.search
-    const { requestMessage } = this.props.user
+    const { requestMessage, _id } = this.props.user
     const locationArr = this.props.location.pathname.split('/')
     const titleStr = locationArr[2] === 'manga' ? 'Manga' : 'Anime'
     const searchStr = locationArr[3][0].toUpperCase() + locationArr[3].slice(1).split('_').join(' ')
@@ -138,6 +138,7 @@ class SearchList extends Component {
             ? (
               <ItemModal
                 _id={searchArr[state.modal]._id}
+                loggedIn={_id.length > 0}
                 title={searchArr[state.modal].title}
                 completed={searchArr[state.modal].completed}
                 followerCount={searchArr[state.modal].followerCount}
@@ -157,7 +158,7 @@ class SearchList extends Component {
         <div className="search-item-container fade-in-element">
           {searchItemArr}
           {
-            searchEnd || searchArr.length % 12
+            searchEnd || searchArr.length % 12 || !searchArr.length
             ? <p className="search-more">End of search.</p>
             : (
               <button

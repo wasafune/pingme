@@ -44,7 +44,13 @@
     button:hover {
       background-color: $lighter-green;
     }
+    .error-msg {
+      color: $error-red;
+    }
   }
+}
+.sign-up {
+  height: 64vh;
 }
 
 @media only screen and (max-width: 500px) {

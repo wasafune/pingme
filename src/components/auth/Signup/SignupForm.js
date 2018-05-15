@@ -90,7 +90,13 @@ const SignupForm = ({
         >
           Sign Up
         </button>
-        {requestMessage && (<p className="error-msg">{requestMessage}</p>)}
+        {requestMessage &&
+          (
+            <p className={requestMessage.slice(-1)[0] === '!' ? 'success-msg' : 'error-msg'}>
+              {requestMessage}
+            </p>
+          )
+        }
       </div>
       <Link href="/auth/login" to="/auth/login">Already a user?</Link>
     </form>

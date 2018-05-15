@@ -82,7 +82,7 @@ const user = (state = initialState, action) => {
     case LOGOUT_USER_SUCCESS: return {
       ...initialState,
       loggedInCheck: true,
-      requestMessage: 'Logout successful.',
+      requestMessage: 'Logout successful!',
     }
     case LOGOUT_USER_FAIL: return {
       ...state,

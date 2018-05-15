@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 
 const ItemModal = (props) => {
@@ -67,7 +68,7 @@ const ItemModal = (props) => {
           {requestMessage || ''}&nbsp;
         </p>
         {
-          !props.modified.length
+          !props.modified.length && props.loggedIn
           ? (
             <div className="search-modal-inner-buttons">
               <button
@@ -86,9 +87,15 @@ const ItemModal = (props) => {
           )
           : (
             <div className="search-modal-inner-buttons">
-              <p>
-                {props.modified.toUpperCase()} successful! <a href="/">Refresh</a> to update.
-              </p>
+              {
+                props.loggedIn
+                  ? (
+                    <p>
+                      {props.modified.toUpperCase()} successful! <a href="/">Refresh</a> to update.
+                    </p>
+                  )
+                  : <p><Link href="/auth/login" to="/auth/login">Login</Link> to subscribe/follow!</p>
+              }
             </div>
           )
         }
@@ -113,6 +120,7 @@ ItemModal.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleOnKeyUp: PropTypes.func.isRequired,
   requestMessage: PropTypes.string.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 }
 
 export default ItemModal
