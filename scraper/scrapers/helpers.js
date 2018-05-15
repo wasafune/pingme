@@ -33,6 +33,15 @@ const pushIfNotIncludes = (arr, str) => {
   return result;
 };
 
+const notificationStackToObj = arr => arr.reduce((acc, ele) => {
+  if (acc[ele._id]) {
+    if (acc[ele._id].latest < ele.latest) acc[ele._id].latest = ele.latest;
+    return acc;
+  }
+  acc[ele._id] = ele;
+  return acc;
+}, {});
+
 
 module.exports = {
   genRandomInt,
@@ -41,4 +50,5 @@ module.exports = {
   dbTitleToSearchStr,
   combineAndKeepUniq,
   pushIfNotIncludes,
+  notificationStackToObj,
 };

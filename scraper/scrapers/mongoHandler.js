@@ -47,6 +47,12 @@ const updatedMangasCheck = () => UpdatedManga.collection.count();
 
 const updatedMangasDrop = () => UpdatedManga.collection.drop();
 
+const updatedMangasRetrieve = () =>
+  UpdatedManga
+    .find({}, { _id: 0, manga: 1 })
+    .populate('manga')
+    .lean();
+
 const bookmarkUpdate = (BookmarkModel, source, params) => (
   BookmarkModel.findOneAndUpdate({ source }, params, { upsert: true })
 );
@@ -124,6 +130,7 @@ module.exports = {
   updatedMangasUpdate,
   updatedMangasCheck,
   updatedMangasDrop,
+  updatedMangasRetrieve,
   bookmarkUpdate,
   checkIfLatest,
   handleFirst,

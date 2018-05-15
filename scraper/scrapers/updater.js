@@ -6,7 +6,11 @@ const mangastream = require('./mangastream').scrapeLatest;
 const {
   updatedMangasCheck,
   updatedMangasDrop,
+  updatedMangasRetrieve,
 } = require('./mongoHandler.js');
+const { pushNotifications } = require('../../mongo/queryFuncs/usersUpdate');
+const { getNotifyList } = require('../../mongo/queryFuncs/usersQuery');
+const { emailUsers } = require('./emailFuncs');
 
 const { DB_HOST } = process.env;
 
@@ -22,6 +26,10 @@ const updater = async (req, res) => {
     await mangahere();
     await mangapark();
     await mangastream();
+    const updatedArr = await updatedMangasRetrieve();
+    await pushNotifications(updatedArr);
+    const notifyList = await getNotifyList();
+    await emailUsers(notifyList);
     console.log('Finished updater.');
   } catch (err) {
     console.error(err);

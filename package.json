@@ -41,6 +41,7 @@
     "mongodb-memory-server": "^1.7.3",
     "mongoose": "^5.0.13",
     "node-sass": "^4.8.3",
+    "nodemailer": "^4.6.4",
     "nodemon": "^1.17.2",
     "npm": "^5.8.0",
     "path": "^0.12.7",
