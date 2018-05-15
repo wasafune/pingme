@@ -72,13 +72,13 @@ const ItemModal = (props) => {
             <div className="search-modal-inner-buttons">
               <button
                 value={button1Val}
-                onClick={(e) => handleModal(e, props._id, index)}
+                onClick={(e) => { if (!requestMessage) handleModal(e, props._id, index) }}
               >
                 {button1Text}
               </button>
               <button
                 value={button2Val}
-                onClick={(e) => handleModal(e, props._id, index)}
+                onClick={(e) => { if (!requestMessage) handleModal(e, props._id, index) }}
               >
                 {button2Text}
               </button>
