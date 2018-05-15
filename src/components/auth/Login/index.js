@@ -28,7 +28,10 @@ class Login extends React.Component {
       <div className="auth-container">
         <h1>Login</h1>
         {loginSuccess ? <Redirect to="/" /> : null}
-        <FormikLoginForm handleActions={this.handleActions} />
+        <FormikLoginForm
+          requestMessage={user.requestMessage}
+          handleActions={this.handleActions}
+        />
       </div>
     )
   }

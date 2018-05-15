@@ -11,10 +11,20 @@ const LoginForm = ({
   handleSubmit,
   handleBlur,
   isSubmitting,
+  requestMessage,
 }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <p>Email:</p>
+      <p>
+        Email:
+        {
+          errors.email && touched.email && (
+            <span className="error-msg">
+              (Invalid email address!)
+            </span>
+          )
+        }
+      </p>
       <input
         type="text"
         name="email"
@@ -30,21 +40,15 @@ const LoginForm = ({
         onChange={handleChange}
         onBlur={handleBlur}
       />
-
-      {
-        errors.email && touched.email && (
-          <p>
-            ERROR
-          </p>
-        )
-      }
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-      >
-        Login
-      </button>
+      <div>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+        >
+          Login
+        </button>
+        {requestMessage && (<p className="error-msg">{requestMessage}</p>)}
+      </div>
       <Link href="/auth/signup" to="/auth/signup">New User?</Link>
     </form>
   )
@@ -58,6 +62,7 @@ LoginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleBlur: PropTypes.object.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
+  requestMessage: PropTypes.bool.isRequired,
 }
 
 const FormikLoginForm = withFormik({
