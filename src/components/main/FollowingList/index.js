@@ -38,15 +38,14 @@ class FollowingList extends Component {
     }
     setTimeout(() => {
       this.setState({ display: true })
-    }, 42)
+    }, 117)
   }
 
   shouldComponentUpdate(nextProps) {
-    const { user, retrieveMangas } = this.props
-    if (nextProps.user.requestingUser) return false
-    if (!user._id.length && !user.loggedInCheck) return false
-    if (nextProps.user.followingList.length && !nextProps.user.retrievedList.length) {
-      retrieveMangas(nextProps.user.followingList)
+    const { user } = nextProps
+    if (user.requestingUser) return false
+    if (user.followingList.length && !user.retrievedList.length) {
+      this.props.retrieveMangas(user.followingList)
       return false
     }
     return true
@@ -95,7 +94,6 @@ class FollowingList extends Component {
       unsubscribe, unfollow,
     } = this.props
     const { value } = e.target
-    // add logic for not logged in
     if (!user._id.length) return
     if (value === 'subscribe') subscribe(user._id, mangaId, false)
     if (value === 'unsubscribe') unsubscribe(user._id, mangaId, true)
@@ -128,12 +126,14 @@ class FollowingList extends Component {
       retrievedList,
       _id,
       loggedInCheck,
+      followingCount,
+      requestingUser,
     } = this.props.user
 
     // take login/signup reroute page if not logged in
-    if (!_id.length && loggedInCheck) {
-      return <LoginReroute />
-    }
+    if (!_id.length && !loggedInCheck) return null
+    if (!_id.length && loggedInCheck) return <LoginReroute />
+
     const FollowingItemArr = retrievedList.map((ele, i) => {
       return (
         <FollowingItem
@@ -218,8 +218,9 @@ class FollowingList extends Component {
         <div className="following-item-container">
           <div
             className={`following-item-fade ${state.display ? 'fl-fade-in-element' : 'fl-hidden'}`}
+            // className="following-item-fade fl-fade-in-element"
           >
-            {!retrievedList.length
+            {!followingCount && loggedInCheck && !requestingUser
               ? <p className="empty-msg">Follow/Subscribe to some titles!</p>
               : FollowingItemArrMapped}
           </div>
