@@ -54,6 +54,12 @@ const pullAllNotifications = userId =>
     { $pull: { notificationStack: {} } },
   );
 
+const purgeAllNotifications = () =>
+  User
+    .updateMany({}, { $pull: { notificationStack: {} } })
+    .where('notificationStack.0')
+    .exists();
+
 // reduces notificationStack into object
 // reduce duplicate titles into one title with the greatest latest value
 const retrieveNotifications = async (userId) => {
@@ -79,5 +85,6 @@ module.exports = {
   pullFollowing,
   pushNotifications,
   pullAllNotifications,
+  purgeAllNotifications,
   retrieveNotifications,
 };

@@ -119,7 +119,7 @@ const user = (state = initialState, action) => {
         newEle.updated = new Date(newEle.updated)
         return newEle
       })
-      parsedRetrievedList.sort((a, b) => a.updated < b.updated)
+      parsedRetrievedList.sort((a, b) => a.updated.getTime() < b.updated.getTime())
       return {
         ...state,
         requestingUser: false,
