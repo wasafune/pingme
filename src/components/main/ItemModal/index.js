@@ -9,6 +9,7 @@ const ItemModal = (props) => {
     handleClick,
     handleOnKeyUp,
     requestMessage,
+    requestingUser,
     index,
   } = props
   const [button1Val, button1Text, button2Val, button2Text] = props.status
@@ -73,13 +74,13 @@ const ItemModal = (props) => {
             <div className="search-modal-inner-buttons">
               <button
                 value={button1Val}
-                onClick={(e) => { if (!requestMessage) handleModal(e, props._id, index) }}
+                onClick={(e) => { if (!requestMessage && !requestingUser) handleModal(e, props._id, index) }}
               >
                 {button1Text}
               </button>
               <button
                 value={button2Val}
-                onClick={(e) => { if (!requestMessage) handleModal(e, props._id, index) }}
+                onClick={(e) => { if (!requestMessage && !requestingUser) handleModal(e, props._id, index) }}
               >
                 {button2Text}
               </button>
@@ -120,6 +121,7 @@ ItemModal.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleOnKeyUp: PropTypes.func.isRequired,
   requestMessage: PropTypes.string.isRequired,
+  requestingUser: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
 }
 

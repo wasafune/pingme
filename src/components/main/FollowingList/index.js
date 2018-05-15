@@ -208,6 +208,7 @@ class FollowingList extends Component {
                 status={state.status}
                 modified={state.modified}
                 requestMessage={requestMessage}
+                requestingUser={requestingUser}
                 handleClick={handleClick}
                 handleModal={handleModal}
                 handleOnKeyUp={handleOnKeyUp}
@@ -218,7 +219,6 @@ class FollowingList extends Component {
         <div className="following-item-container">
           <div
             className={`following-item-fade ${state.display ? 'fl-fade-in-element' : 'fl-hidden'}`}
-            // className="following-item-fade fl-fade-in-element"
           >
             {!followingCount && loggedInCheck && !requestingUser
               ? <p className="empty-msg">Follow/Subscribe to some titles!</p>
