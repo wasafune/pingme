@@ -109,7 +109,7 @@ class SearchList extends Component {
       handleOnKeyUp,
       handleModal,
     } = this
-    const { searchArr, searchEnd } = this.props.search
+    const { searchArr, searchEnd, searching } = this.props.search
     const { requestMessage, _id } = this.props.user
     const locationArr = this.props.location.pathname.split('/')
     const titleStr = locationArr[2] === 'manga' ? 'Manga' : 'Anime'
@@ -157,7 +157,7 @@ class SearchList extends Component {
         <div className="search-item-container fade-in-element">
           {searchItemArr}
           {
-            searchEnd || searchArr.length % 12 || !searchArr.length
+            searchEnd || searchArr.length % 12 || !searchArr.length || !searching
             ? <p className="search-more">End of search.</p>
             : (
               <button

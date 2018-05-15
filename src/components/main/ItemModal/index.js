@@ -144,7 +144,6 @@ ItemModal.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleOnKeyUp: PropTypes.func.isRequired,
   requestMessage: PropTypes.string.isRequired,
-  requestingUser: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
 }
 

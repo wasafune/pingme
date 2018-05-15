@@ -208,7 +208,6 @@ class FollowingList extends Component {
                 status={state.status}
                 modified={state.modified}
                 requestMessage={requestMessage}
-                requestingUser={requestingUser}
                 handleClick={handleClick}
                 handleModal={handleModal}
                 handleOnKeyUp={handleOnKeyUp}
