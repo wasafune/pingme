@@ -8,7 +8,7 @@ const {
   parseTitle,
 } = require('./helpers.js');
 
-const mangasSearch = (MangaModel, dbTitle) => MangaModel.findOne({ dbTitle });
+const mangasSearch = (MangaModel, dbTitle, anime) => MangaModel.findOne({ dbTitle, anime });
 
 const mangasSave = (MangaModel, data, source) => {
   const tempData = { ...data };
@@ -105,7 +105,7 @@ const handleQueries = async (data, type, source) => {
   updatedData.dbTitle = dbTitle;
 
   try {
-    const result = await mangasSearch(Manga, dbTitle);
+    const result = await mangasSearch(Manga, dbTitle, updatedData.anime);
     if (!result) {
       await mangasSave(Manga, updatedData, source);
     } else {

@@ -12,8 +12,9 @@ const genCompletedUrl = page => `https://www4.9anime.is/filter?status%5B0%5D=fin
 const genLatestUrl = page => `https://www4.9anime.is/updated?page=${page}`;
 
 const extractAllData = (i, el, $) => {
-  const title = $(el).next().html();
-  const altTitle = [$(el).next().attr('data-jtitle')];
+  const title = $(el).next().attr('data-jtitle');
+  const altTitleStr = $(el).next().html();
+  const altTitle = altTitleStr !== title ? [altTitleStr] : [];
   const latestStr = $(el).find('.ep').length ? $(el).find('.ep').html() : '';
   const latest = latestStr.length
     ? Number(latestStr.split('/')[0].split(' ')[2]) || 0
