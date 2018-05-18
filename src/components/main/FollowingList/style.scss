@@ -86,6 +86,7 @@
 }
 .following-reroute-container {
   width: 60vw;
+  max-width: 500px;
   height: 50vh;
   background-color: $mid-lighter-green;
   margin: 20px 0 0 0;
@@ -137,5 +138,14 @@
     width: 90vw;
     height: 60vh;
     margin: 20px 0 0 0;
+  }
+}
+@media only screen and (max-height: 500px) {
+  .following-reroute-container {
+    display: block;
+    overflow-x: auto;
+    form {
+      margin: auto;
+    }
   }
 }
