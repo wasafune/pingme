@@ -157,8 +157,8 @@ class SearchList extends Component {
         <div className="search-item-container fade-in-element">
           {searchItemArr}
           {
-            searchEnd || searchArr.length % 12 || !searchArr.length || !searching
-            ? <p className="search-more">End of search.</p>
+            searchEnd || searchArr.length % 12 || !searchArr.length
+            ? searching ? null : <p className="search-more">End of search.</p>
             : (
               <button
                 className="search-more-button"
