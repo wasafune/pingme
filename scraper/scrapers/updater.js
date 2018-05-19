@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const mangahere = require('./mangahere').scrapeLatest;
 const mangapark = require('./mangapark').scrapeLatest;
 const mangastream = require('./mangastream').scrapeLatest;
+const nineanime = require('./nineanime').scrapeLatest;
 const {
   updatedMangasCheck,
   updatedMangasDrop,
@@ -26,6 +27,7 @@ const updater = async (req, res) => {
     await mangahere();
     await mangapark();
     await mangastream();
+    await nineanime();
     await mongoose.connect(DB_HOST);
     const updatedArr = await updatedMangasRetrieve();
     await pushNotifications(updatedArr);

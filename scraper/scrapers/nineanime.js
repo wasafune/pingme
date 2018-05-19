@@ -27,7 +27,8 @@ const extractAllData = (i, el, $) => {
 
 const extractCompletedData = (i, el, $) => {
   const title = $(el).next().attr('data-jtitle');
-  return { title };
+  const anime = true;
+  return { title, anime };
 };
 
 const extractLatestData = (i, el, $) => {
@@ -36,7 +37,8 @@ const extractLatestData = (i, el, $) => {
   const latest = latestStr.length
     ? Number(latestStr.split('/')[0].split(' ')[2]) || 0
     : 0;
-  return { title, latest };
+  const anime = true;
+  return { title, latest, anime };
 };
 
 const iterateCheck = ($) => {

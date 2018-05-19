@@ -63,7 +63,7 @@ const checkIfLatest = async (UpdatedMangaModel, data, res) => {
   if (data.latest > res.latest) {
     const promiseArr = [];
     promiseArr.push(mangasUpdateLatest(res, data.latest));
-    console.log('NEW:', res.title, data.latest);
+    console.log('UPDATED:', res.title, data.latest);
     promiseArr.push(updatedMangasUpdate(res._id));
     try {
       await Promise.all(promiseArr);
@@ -107,7 +107,7 @@ const handleQueries = async (data, type, source) => {
   try {
     const result = await mangasSearch(Manga, dbTitle, updatedData.anime || false);
     if (!result) {
-      if (type === 'latest') console.log('new title', updatedData.dbTitle);
+      if (type === 'latest') console.log('NEW', updatedData.dbTitle);
       await mangasSave(Manga, updatedData, source);
     } else {
       if (type === 'all') await mangasUpdateAll(updatedData, source, result);
