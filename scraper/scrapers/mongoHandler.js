@@ -105,8 +105,9 @@ const handleQueries = async (data, type, source) => {
   updatedData.dbTitle = dbTitle;
 
   try {
-    const result = await mangasSearch(Manga, dbTitle, updatedData.anime);
+    const result = await mangasSearch(Manga, dbTitle, updatedData.anime || false);
     if (!result) {
+      if (type === 'latest') console.log('new title', updatedData.dbTitle);
       await mangasSave(Manga, updatedData, source);
     } else {
       if (type === 'all') await mangasUpdateAll(updatedData, source, result);

@@ -26,12 +26,12 @@ const extractAllData = (i, el, $) => {
 };
 
 const extractCompletedData = (i, el, $) => {
-  const title = $(el).next().html();
+  const title = $(el).next().attr('data-jtitle');
   return { title };
 };
 
 const extractLatestData = (i, el, $) => {
-  const title = $(el).next().html();
+  const title = $(el).next().attr('data-jtitle');
   const latestStr = $(el).find('.ep').length ? $(el).find('.ep').html() : '';
   const latest = latestStr.length
     ? Number(latestStr.split('/')[0].split(' ')[2]) || 0
@@ -69,7 +69,7 @@ const scrapeLatestConfig = {
   genUrlFunc: genLatestUrl,
   extractFunc: extractLatestData,
   iterateDomEle: 'a.poster',
-  iterateCheck: iterateCheckLatest,
+  iterateCheck,
   source,
   type: 'latest',
 };
