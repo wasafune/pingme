@@ -175,6 +175,9 @@ class FollowingList extends Component {
             name='all'
             onClick={handleShowClick}
           >
+            <span>
+              <i className="fas fa-list" /> &nbsp;
+            </span>
             YOUR LIST
           </button>
           <button
@@ -182,6 +185,9 @@ class FollowingList extends Component {
             name='manga'
             onClick={handleShowClick}
           >
+            <span>
+              <i className="fas fa-book" /> &nbsp;
+            </span>
             MANGA
           </button>
           <button
@@ -189,6 +195,9 @@ class FollowingList extends Component {
             name='anime'
             onClick={handleShowClick}
           >
+            <span>
+              <i className="fas fa-desktop" /> &nbsp;
+            </span>
             ANIME
           </button>
         </div>

@@ -24,10 +24,27 @@ const FollowingItem = (props) => {
           className="following-item-button"
           onClick={e => handleClick(e, index, modified)}
         >
-          <p className="following-item-title">{title}</p>
+          <p className="following-item-title">
+            <span>
+              {props.anime
+                ? <i className="fas fa-desktop" />
+                : <i className="fas fa-book" />
+              }
+            </span>
+            {` ${title}`}
+          </p>
         </button>
+        {/* <p>
+          {props.anime
+            ? <i className="fas fa-tv" />
+            : <i className="fas fa-book" />
+          }
+          {props.anime
+            ? ' Anime'
+            : ' Manga'
+          }
+        </p> */}
         <p>Latest: {latest}</p>
-        <p>Type: {props.anime ? 'Anime' : 'Manga'}</p>
       </div>
       <div className="following-item-right">
         <p>

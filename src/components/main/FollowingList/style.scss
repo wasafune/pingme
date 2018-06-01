@@ -45,6 +45,12 @@
       max-width: 420px;
       font-size: 16px;
       font-weight: 400;
+      span {
+        font-size: 14px;
+      }
+      svg {
+        width: 18px;
+      }
     }
   }
   .following-item-darken, .empty-msg {
@@ -68,6 +74,9 @@
     font-weight: 400;
     transition: background-color 500ms ease;
     cursor: pointer;
+    span {
+      font-size: 16px;
+    }
   }
   .following-list-button:hover {
     background-color: $lighter-green;
@@ -85,9 +94,9 @@
   height: 100%;
 }
 .following-reroute-container {
-  width: 60vw;
+  width: 70vw;
   max-width: 500px;
-  height: 50vh;
+  min-height: 60vh;
   background-color: $mid-lighter-green;
   margin: 20px 0 0 0;
   .following-reroute-title {
@@ -102,8 +111,8 @@
     font-weight: 300;
   }
   div {
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     margin: 16px 0 0 0;
     p {
       margin: 0 4px 0 4px;
@@ -121,6 +130,9 @@
       button {
         font-size: 16px;
       }
+      svg {
+        display: none;
+      }
       .following-list-button-active {
         background-color: $mid-lighter-green;
         border-color: $mid-lighter-green;
@@ -136,7 +148,7 @@
   }
   .following-reroute-container {
     width: 90vw;
-    height: 60vh;
+    min-height: 60vh;
     margin: 20px 0 0 0;
   }
 }
