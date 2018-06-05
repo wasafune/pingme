@@ -95,7 +95,6 @@
 }
 .following-reroute-container {
   width: 70vw;
-  max-width: 500px;
   min-height: 60vh;
   background-color: $mid-lighter-green;
   margin: 20px 0 0 0;
@@ -110,7 +109,7 @@
   a {
     font-weight: 300;
   }
-  div {
+  div.landing-container {
     flex-direction: column;
     align-items: flex-start;
     margin: 16px 0 0 0;
@@ -118,6 +117,9 @@
       margin: 0 4px 0 4px;
       font-size: 22px;
     }
+  }
+  div.landing-links {
+    flex-direction: row;
   }
 }
 

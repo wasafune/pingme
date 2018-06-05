@@ -17,7 +17,7 @@ const LoginReroute = () => {
   return (
     <div className="following-reroute-container fade-in-element">
       <h1>Welcome to PingMe!</h1>
-      <div>
+      <div className="landing-container">
         <h3>What is PingMe?</h3>
         <p>
           PingMe is an application that notifies you when your favorite anime or manga titles are updated!
@@ -25,7 +25,10 @@ const LoginReroute = () => {
         <h3>Getting Started</h3>
         <ol>
           <li>
-            Sign up to create an account using your email address.
+            <Link href="/auth/signup" to="/auth/signup">Sign up &nbsp;</Link>
+            or
+            <Link href="/auth/login" to="/auth/login">login &nbsp;</Link>
+            using your email address.
           </li>
           <li>
             Search for your favorite titles using the searchbar on the top right.
