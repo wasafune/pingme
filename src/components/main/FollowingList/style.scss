@@ -102,8 +102,8 @@
     width: 100%;
     background-color: $main-green;
     padding: 18px 0 18px 0;
-    font-size: 22px;
-    font-weight: 300;
+    font-size: 30px;
+    font-weight: 400;
     text-align: center;
   }
   a {
@@ -112,10 +112,32 @@
   div.landing-container {
     flex-direction: column;
     align-items: flex-start;
+    width: 84%;
     margin: 16px 0 0 0;
     p {
       margin: 0 4px 0 4px;
-      font-size: 22px;
+      font-size: 16px;
+    }
+    a {
+      text-decoration: underline;
+    }
+    ul {
+      list-style-type: none;
+      hr {
+        margin: 2px 0 2px 0;
+        visibility: hidden;
+      }
+      span {
+        font-weight: 500;
+      }
+    }
+    h2 {
+      margin: 2px 0 4px 0;
+      font-weight: 400;
+    }
+    hr {
+      width: 100%;
+      margin: 12px 0 12px 0;
     }
   }
   div.landing-links {
