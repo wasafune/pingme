@@ -224,13 +224,15 @@ class FollowingList extends Component {
             )
             : null
         }
-        <div className="following-item-container">
-          <div
-            className={`following-item-fade ${state.display ? 'fl-fade-in-element' : 'fl-hidden'}`}
-          >
-            {!followingCount && loggedInCheck && !requestingUser
-              ? <p className="empty-msg">Follow/Subscribe to some titles using the search bar on the top right!</p>
+        <div className="following-item-main">
+          <div className="following-item-container">
+            <div
+              className={`following-item-fade ${state.display ? 'fl-fade-in-element' : 'fl-hidden'}`}
+            >
+              {!followingCount && loggedInCheck && !requestingUser
+                ? <p className="empty-msg">Follow/Subscribe to some titles using the search bar on the top right!</p>
               : FollowingItemArrMapped}
+            </div>
           </div>
         </div>
       </div>

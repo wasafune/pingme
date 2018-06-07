@@ -5,14 +5,20 @@
   background-color: rgba(0, 0, 0, 0);
   margin: 12px 0 12px 0;
 }
+.following-item-main {
+  background-color: $main-green;
+  width: 100%;
+  height: inherit;
+  padding: 18px 0;
+  // border: 1px solid $deep-grey;
+  box-shadow: 0 0 2px;
+}
 .following-item-container, .following-item-fade {
   display: block;
   width: 100%;
   height: inherit;
   background-color: $darker-green;
   overflow: auto;
-  border-top: 18px solid $main-green;
-  border-bottom: 20px solid $main-green;
   .following-item-fade {
     border: none;
   }
@@ -67,6 +73,7 @@
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+  margin: 0 0 0 -2px;
   .following-list-button, .following-list-button-active {
     width: 150px;
     padding: 12px;
@@ -84,7 +91,12 @@
   }
   .following-list-button-active {
     background-color: $main-green;
-    border-color: $main-green;
+    border-color: #5f6e79c9;
+    border-bottom-color: $main-green;
+    z-index: 1;
+    padding-bottom: 9px;
+    margin-bottom: 3px;
+    box-shadow: -1px 0px 0px #5f6e794f, 0px -1px 0px #5f6e794f, 1px 0px 0px #5f6e794f
   }
 }
 .fl-hidden {
@@ -102,6 +114,7 @@
   margin: 10px 0;
   overflow: auto;
   border-bottom: 14px solid #fffbf5;
+  box-shadow: 0 0 2px;
   .following-reroute-title {
     width: 100%;
     background-color: $main-green;
@@ -155,6 +168,7 @@
     height: 100%;
     margin: 0;
     .following-list-buttons-container {
+      margin: 0;
       button {
         font-size: 16px;
       }
