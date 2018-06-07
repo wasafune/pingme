@@ -95,10 +95,13 @@
   height: 100%;
 }
 .following-reroute-container {
-  width: 70vw;
-  min-height: 60vh;
+  width: 74vw;
+  min-height: 62vh;
+  max-height: 82vh;
   background-color: $mid-lighter-green;
-  margin: 20px 0 0 0;
+  margin: 10px 0;
+  overflow: auto;
+  border-bottom: 14px solid #fffbf5;
   .following-reroute-title {
     width: 100%;
     background-color: $main-green;
@@ -114,7 +117,7 @@
     flex-direction: column;
     align-items: flex-start;
     width: 84%;
-    margin: 16px 0 0 0;
+    margin: 6px 0 0 0;
     p {
       margin: 0 4px 0 4px;
       font-size: 16px;
@@ -179,10 +182,8 @@
 }
 @media only screen and (max-height: 500px) {
   .following-reroute-container {
-    display: block;
-    overflow-x: auto;
-    form {
-      margin: auto;
-    }
+    max-height: 92vh;
+    margin: 8px 0 8px 0;
+    border-bottom-width: 8px;
   }
 }
