@@ -59,7 +59,7 @@ const LoginReroute = () => {
                 <span>Q:</span> Can I turn off notifications?
               </li>
               <li>
-                <span>A:</span> Yes. You can turn off notifications in the account settings. There is also link provided in the emails to disable notifications.
+                <span>A:</span> Yes. You can turn off notifications in the account settings. There is also a link provided in the emails to disable notifications.
               </li>
             </ul>
           </li>
