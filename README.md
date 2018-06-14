@@ -1,4 +1,13 @@
-# PingMe
+<h1 align="center">
+  <a href="https://www.pingme.me/">
+    <img src="https://www.pingme.me/media/logo-shrunk.svg">
+  </a>
+  <br>
+  PingMe
+  <br>
+</h1>
+
+<h4 align="center">A Manga/Anime Notifier</h4>
 
 PingMe aims to provide the anime/manga community with a multi-platform notifier, making it easier for users to stay updated on the latest releases from their favorite titles.
 
