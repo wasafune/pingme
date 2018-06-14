@@ -2,13 +2,14 @@
   <a href="https://www.pingme.me/">
     <img src="https://www.pingme.me/media/logo-shrunk.svg" width=84>
   </a>
-  <h1 align="center">
-  PingMe
-  <!-- <br> -->
-  <h4 align="center">A Manga/Anime Notifier</h4>
-  </h1>
-  <!-- <br> -->
 </p>
+<h1 align="center">
+  PingMe
+  <br>
+  <font size="4">
+    A Manga/Anime Notifier
+  </font>
+</h1>
 
 
 ## About
