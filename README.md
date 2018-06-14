@@ -9,6 +9,8 @@
 
 <h4 align="center">A Manga/Anime Notifier</h4>
 
+## About
+
 PingMe aims to provide the anime/manga community with a multi-platform notifier, making it easier for users to stay updated on the latest releases from their favorite titles.
 
 ## The Tech Stack
