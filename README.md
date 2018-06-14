@@ -5,9 +5,9 @@
   <br>
   PingMe
   <br>
+  <h4 align="center">A Manga/Anime Notifier</h4>
 </h1>
 
-<h4 align="center">A Manga/Anime Notifier</h4>
 
 ## About
 
