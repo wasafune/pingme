@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://www.pingme.me/">
-    <img src="https://www.pingme.me/media/logo-shrunk.svg">
+    <img src="https://www.pingme.me/media/logo-readme.svg">
   </a>
   <br>
   PingMe
