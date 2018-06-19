@@ -56,7 +56,8 @@
     "redux-saga": "^0.16.0",
     "regenerator-transform": "^0.12.3",
     "request": "^2.85.0",
-    "sass-loader": "^7.0.1"
+    "sass-loader": "^7.0.1",
+    "slack-node": "^0.1.8"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

@@ -1,9 +1,5 @@
-const mongoose = require('mongoose');
-
 const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
-
-const { DB_HOST } = process.env;
 
 // generate url strings
 const genAllUrl = page => `http://www.mangahere.cc/directory/${page}.htm?name.az`;
@@ -72,11 +68,8 @@ const scrapeLatestConfig = {
 const scrapeAll = async (req, res) => {
   res.send('scraper mangahere scrapeAll route');
   try {
-    await mongoose.connect(DB_HOST);
-    const db = mongoose.connection;
     const exitObj = await scraper(scrapeAllConfig);
     console.log(exitObj);
-    await db.close();
   } catch (err) {
     console.error(err);
   }
@@ -85,11 +78,8 @@ const scrapeAll = async (req, res) => {
 const scrapeCompleted = async (req, res) => {
   res.send('scraper mangahere scrapeCompleted route');
   try {
-    await mongoose.connect(DB_HOST);
-    const db = mongoose.connection;
     const exitObj = await scraper(scrapeCompletedConfig);
     console.log(exitObj);
-    await db.close();
   } catch (err) {
     console.error(err);
   }
@@ -98,13 +88,10 @@ const scrapeCompleted = async (req, res) => {
 const scrapeLatest = async (req, res) => {
   if (res) res.send('mangahere scrapeLatest route');
   try {
-    await mongoose.connect(DB_HOST);
-    const db = mongoose.connection;
     const bookmarkStr = await handleBookmarkGet(source);
     scrapeLatestConfig.breakVal = bookmarkStr;
     const exitObj = await scraper(scrapeLatestConfig);
     console.log(exitObj);
-    await db.close();
     return exitObj;
   } catch (err) {
     console.log(err);

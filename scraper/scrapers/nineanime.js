@@ -1,10 +1,7 @@
-const mongoose = require('mongoose');
 
 const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
 
-const { DB_HOST } = process.env;
-// const DB_HOST = 'mongodb://127.0.0.1:27017/pingme';
 
 // generate url strings
 const genAllUrl = page => `https://www4.9anime.is/updated?page=${page}`;
@@ -45,7 +42,7 @@ const iterateCheck = ($) => {
   const check = !$('a.btn.btn-lg.btn-primary.pull-right.disabled').length;
   return check;
 };
-const iterateCheckLatest = () => false;
+// const iterateCheckLatest = () => false;
 
 
 const source = '9anime';
@@ -79,11 +76,8 @@ const scrapeLatestConfig = {
 const scrapeAll = async (req, res) => {
   res.send('scraper 9anime scrapeAll route');
   try {
-    await mongoose.connect(DB_HOST);
-    const db = mongoose.connection;
     const exitObj = await scraper(scrapeAllConfig);
     console.log(exitObj);
-    await db.close();
   } catch (err) {
     console.error(err);
   }
@@ -92,11 +86,8 @@ const scrapeAll = async (req, res) => {
 const scrapeCompleted = async (req, res) => {
   res.send('scraper 9anime scrapeCompleted route');
   try {
-    await mongoose.connect(DB_HOST);
-    const db = mongoose.connection;
     const exitObj = await scraper(scrapeCompletedConfig);
     console.log(exitObj);
-    await db.close();
   } catch (err) {
     console.error(err);
   }
@@ -105,13 +96,10 @@ const scrapeCompleted = async (req, res) => {
 const scrapeLatest = async (req, res) => {
   if (res) res.send('9anime scrapeLatest route');
   try {
-    await mongoose.connect(DB_HOST);
-    const db = mongoose.connection;
     const bookmarkStr = await handleBookmarkGet(source);
     scrapeLatestConfig.breakVal = bookmarkStr;
     const exitObj = await scraper(scrapeLatestConfig);
     console.log(exitObj);
-    await db.close();
     return exitObj;
   } catch (err) {
     console.log(err);

@@ -1,9 +1,6 @@
-const mongoose = require('mongoose');
-
 const scraper = require('./scraper.js');
 const { handleBookmarkGet } = require('./mongoHandler.js');
 
-const { DB_HOST } = process.env;
 
 // generate url strings
 const genLatestUrl = () => 'https://readms.net/rss';
@@ -33,13 +30,10 @@ const scrapeLatestConfig = {
 const scrapeLatest = async (req, res) => {
   if (res) res.send(`${source} scrapeLatest route`);
   try {
-    await mongoose.connect(DB_HOST);
-    const db = mongoose.connection;
     const bookmarkStr = await handleBookmarkGet(source);
     scrapeLatestConfig.breakVal = bookmarkStr;
     const exitObj = await scraper(scrapeLatestConfig);
     console.log(exitObj);
-    await db.close();
     return exitObj;
   } catch (err) {
     console.log(err);
