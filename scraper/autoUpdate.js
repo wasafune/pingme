@@ -1,14 +1,27 @@
 const axios = require('axios');
 const { delay } = require('./scrapers/helpers');
 
-const checkTime = async (intervalTime) => {
-  try {
-    await axios.get('http://localhost:8080/scraper/updater');
-  } catch (err) {
-    console.error(err);
+const hourInMilli = 60000 * 60;
+
+const autoUpdate = async (intervalTime) => {
+  const currTime = new Date();
+  const currHour = currTime.getHours();
+  console.log('autoUpdate: true, hour: ', currHour)
+  // CHANGE BACK tIME
+  // if (currHour === 10 || currHour === 11 || currHour === 12) {
+  if (currHour === 14 || currHour === 11 || currHour === 12) {
+    try {
+      await axios.get(process.env.UPDATER_ROUTE);
+    } catch (err) {
+      console.error(err);
+    }
   }
-  await delay(intervalTime, intervalTime);
-  checkTime(intervalTime);
+  await delay(intervalTime);
+  autoUpdate(intervalTime);
 };
 
-checkTime(3600000);
+// autoUpdate(3600000);
+module.exports = {
+  autoUpdate,
+  hourInMilli,
+};

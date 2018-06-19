@@ -10,5 +10,6 @@ module.exports = {
       "properties": false,
     }],
     "no-underscore-dangle": [2, { "allow": ["_id"] }],
+    "semi": 1,
   },
 };
