@@ -2,6 +2,7 @@
   width: 80%;
   max-width: 750px;
   height: 85vh;
+  min-height: 220px;
   background-color: rgba(0, 0, 0, 0);
   margin: 12px 0 12px 0;
 }
@@ -201,7 +202,6 @@
   .following-list {
     margin: 6px 0 6px 0;
     .following-list-button, .following-list-button-active {
-      margin: 0 0 6px 0;
     }
     .following-list-button {
       padding: 8px;
