@@ -180,12 +180,15 @@
         background-color: $mid-lighter-green;
         border-color: $mid-lighter-green;
         border-top-color: $border-grey;
+        padding: 12px 0 10px 0;
       }
     }
-    .following-item-container {
-      border-color: $mid-lighter-green;
-      .following-item-title {
-        max-width: 170px;
+    .following-item-main {
+      padding: 12px 0;
+      .following-item-container {
+        .following-item-title {
+          max-width: 170px;
+        }
       }
     }
   }
@@ -197,12 +200,14 @@
 @media only screen and (max-height: 550px) {
   .following-list {
     margin: 6px 0 6px 0;
+    .following-list-button, .following-list-button-active {
+      margin: 0 0 6px 0;
+    }
     .following-list-button {
-      margin: 0 0 4px 0;
       padding: 8px;
     }
     .following-list-button-active {
-      padding: 8px 0 6px 0;
+      padding: 8px 0 10px 0;
     }
     .following-item-main {
       padding: 10px 0;

@@ -5,7 +5,7 @@
   background-color: $main-green;
   margin: 12px 0 0 0;
   border: 1px solid $deep-grey;
-  .search-list-title {
+  h2 {
     margin: 14px 0 0 0;
     font-size: 24px;
     font-weight: 300;
@@ -18,8 +18,8 @@
   height: inherit;
   background-color: $darker-green;
   overflow: auto;
-  border-top: 14px solid $main-green;
-  border-bottom: 20px solid $main-green;
+  margin: 12px 0 18px 0;
+  border: solid thin $deep-grey;
   .search-item, .search-item-darken {
     display: flex;
     justify-content: space-between;
@@ -68,17 +68,31 @@
     width: 100%;
     height: 100%;
     background-color: $mid-lighter-green;
-    border-top: 1px solid $border-grey;
+    border: none;
     margin: 0;
+    h2 {
+      font-size: 22px;
+    }
     .search-list-title {
       font-size: 16px;
       font-weight: 400;
     }
     .search-item-container {
-      border-color: $mid-lighter-green;
       .search-item-title {
         max-width: 170px;
       }
+    }
+  }
+}
+@media only screen and (max-height: 550px) {
+  .search-list {
+    margin: 0px 0 6px 0;
+    h2 {
+      font-size: 22px;
+      margin: 6px;
+    }
+    .search-item-container {
+      margin: 0 0 12px 0;
     }
   }
 }

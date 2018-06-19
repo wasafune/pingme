@@ -131,7 +131,7 @@ class SearchList extends Component {
     })
     return (
       <div className="search-list">
-        <p className="search-list-title">{titleStr} Search: {searchStr}</p>
+        <h2>{titleStr} Search: {searchStr}</h2>
         {
           state.modal !== false
             ? (
