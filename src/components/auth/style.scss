@@ -67,7 +67,7 @@
 @media only screen and (max-height: 560px) {
   .auth-container {
     width: 90vw;
-    height: 70vh;
+    height: 68vh;
     margin-top: 8px;
     form {
       width: 80%;
@@ -82,5 +82,10 @@
       margin-bottom: 8px;
       font-size: 28px;
     }
+  }
+}
+@media only screen and (max-height: 250px) {
+  .auth-container {
+    min-height: 200px;
   }
 }
