@@ -67,14 +67,14 @@
 @media only screen and (max-height: 560px) {
   .auth-container {
     width: 90vw;
-    height: 78vh;
+    height: 74vh;
     margin-top: 8px;
     form {
       width: 80%;
     }
   }
 }
-@media only screen and (max-height: 400px) {
+@media only screen and (max-height: 500px) {
   .auth-container {
     margin-top: 0;
     h1 {
