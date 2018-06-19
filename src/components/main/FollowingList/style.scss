@@ -194,10 +194,22 @@
     min-height: 60vh;
   }
 }
-@media only screen and (max-height: 500px) {
+@media only screen and (max-height: 550px) {
+  .following-list {
+    margin: 6px 0 6px 0;
+    .following-list-button {
+      margin: 0 0 4px 0;
+      padding: 8px;
+    }
+    .following-list-button-active {
+      padding: 8px 0 6px 0;
+    }
+    .following-item-main {
+      padding: 10px 0;
+    }
+  }
   .following-reroute-container {
     max-height: 92vh;
-    margin: 8px 0 8px 0;
-    border-bottom-width: 8px;
+    margin: 0 0 6px 0;
   }
 }

@@ -4,7 +4,7 @@
   max-width: 500px;
   background-color: $mid-lighter-green;
   margin: 20px 0 0 0;
-  box-shadow: 0 0 2px;
+  border: solid thin $deep-grey;
   h1 {
     width: 100%;
     background-color: $main-green;
@@ -64,12 +64,23 @@
     }
   }
 }
-@media only screen and (max-height: 500px) {
+@media only screen and (max-height: 560px) {
   .auth-container {
-    display: block;
-    overflow-x: auto;
+    width: 90vw;
+    height: 78vh;
+    margin-top: 8px;
     form {
-      margin: auto;
+      width: 80%;
+    }
+  }
+}
+@media only screen and (max-height: 400px) {
+  .auth-container {
+    margin-top: 0;
+    h1 {
+      padding: 2px 0 4px 0;
+      margin-bottom: 8px;
+      font-size: 28px;
     }
   }
 }

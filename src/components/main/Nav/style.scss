@@ -92,3 +92,33 @@
     }
   }
 }
+
+@media only screen and (max-height: 400px) {
+  .nav {
+    height: 46px;
+    margin-bottom: 6px;
+    .nav-left {
+      .nav-left-link {
+        .nav-logo {
+          width: 34px;
+          height: 34px;
+        }
+        .nav-left-link:hover {
+          .nav-logo {
+            width: 34px;
+            height: 34px;
+          }
+        }
+        h1 {
+          font-size: 28px;
+          span {
+            font-size: 32px;
+          }
+        }
+      }
+    }
+    form {
+      display: flex;
+    }
+  }
+}
