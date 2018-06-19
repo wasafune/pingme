@@ -80,7 +80,7 @@ class FollowingList extends Component {
   }
 
   handleShowClick(e) {
-    const { name } = e.target
+    const { name } = e.currentTarget
     if (name === this.state.show) return
     this.setState({ show: name, display: false })
     setTimeout(() => {

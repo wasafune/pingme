@@ -20,6 +20,8 @@
   height: inherit;
   background-color: $darker-green;
   overflow: auto;
+  border-top: solid thin $deep-grey;
+  border-bottom: solid thin $deep-grey;
   .following-item-fade {
     border: none;
   }
