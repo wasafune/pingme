@@ -77,6 +77,7 @@
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+  min-height: 40px;
   margin: 0 0 0 -2px;
   .following-list-button, .following-list-button-active {
     width: 150px;
@@ -200,7 +201,7 @@
 }
 @media only screen and (max-height: 550px) {
   .following-list {
-    margin: 6px 0 6px 0;
+    margin: 0 0 6px 0;
     .following-list-buttons-container {
       margin: 0 0 -3px -2px;
       .following-list-button {
