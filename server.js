@@ -51,8 +51,6 @@ app.get('/*', (req, res) => {
 app.listen(PORT, async () => {
   // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}...`)
-  console.log(process.env.LOCAL_USER)
-  console.log(process.env.UPDATER_ROUTE)
   if (!process.env.LOCAL_USER) {
     autoUpdate(hourInMilli * 2);
   }
