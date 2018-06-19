@@ -18,7 +18,7 @@
   }
   button {
     margin: 0 20px 0 0;
-    padding: 3px 7px 2px 5px;
+    padding: 3px 5px 2px 6px;
     border-radius: none;
   }
   button:hover {
@@ -72,5 +72,15 @@
   .search-modal-inner {
     margin: 24vh 0 0 0;
     width: 90vw;
+  }
+}
+@media only screen and (max-height: 500px) {
+  .search-modal-background {
+    height: 140vh;
+    margin-top: -148px;
+    .search-modal-inner {
+      margin: 24vh 0 0 0;
+      width: 90vw;
+    }
   }
 }
