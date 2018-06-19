@@ -201,51 +201,38 @@
 @media only screen and (max-height: 550px) {
   .following-list {
     margin: 6px 0 6px 0;
-    .following-list-button, .following-list-button-active {
-    }
-    .following-list-button {
-      padding: 8px;
-    }
-    .following-list-button-active {
-      padding: 8px 0 10px 0;
-    }
-    .following-item-main {
-      padding: 10px 0;
-    }
-  }
-  .following-reroute-container {
-    max-height: 92vh;
-    margin: 0 0 6px 0;
-  }
-}
-@media only screen and (max-height: 550px) {
-  .following-list {
-    margin: 6px 0 6px 0;
-    .following-list-button {
-      padding: 8px;
-    }
-    .following-list-button-active {
-      padding: 8px 0 10px 0;
-    }
-    .following-item-main {
-      padding: 10px 0;
-    }
-  }
-  .following-reroute-container {
-    max-height: 92vh;
-    margin: 0 0 6px 0;
-  }
-}
-@media only screen and (max-height: 250px) {
-  .following-list {
-    margin: 0 0 6px 0;
     .following-list-buttons-container {
       margin: 0 0 -3px -2px;
+      .following-list-button {
+        padding: 8px;
+      }
+      .following-list-button-active {
+        padding: 8px 0 10px 0;
+      }
+      .following-item-main {
+        padding: 10px 0;
+      }
     }
+  }
+  .following-reroute-container {
+    max-height: 92vh;
+    margin: 0 0 6px 0;
   }
 }
 @media only screen and (max-width: 500px) and (max-height: 550px) {
   .following-list {
-    margin: 0;
+    margin: -5px 0 0 0;
+    .following-list-buttons-container {
+      margin: 0;
+      .following-list-button-active {
+        padding: 12px 0 12px 0;
+      }
+      .following-list-button {
+        padding: 12px;
+      }
+    }
+    .following-item-main {
+      padding: 12px 0;
+    }
   }
 }
