@@ -9,7 +9,7 @@ const autoUpdate = async (intervalTime) => {
   console.log('autoUpdate: true, hour: ', currHour)
   // CHANGE BACK tIME
   // if (currHour === 10 || currHour === 11 || currHour === 12) {
-  if (currHour === 14 || currHour === 11 || currHour === 12) {
+  if (currHour === 21 || currHour === 11 || currHour === 12) {
     try {
       await axios.get(process.env.UPDATER_ROUTE);
     } catch (err) {
