@@ -8,7 +8,7 @@
   height: 60px;
   background-color: $main-green;
   margin: 0 0 10px 0;
-  box-shadow: 0 0 2px;
+  border-bottom: solid thin $deep-grey;
   .nav-left-link {
     display: flex;
     flex-direction: row;
