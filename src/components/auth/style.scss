@@ -1,6 +1,7 @@
 .auth-container {
   width: 60vw;
   height: 50vh;
+  min-height: 224px;
   max-width: 500px;
   background-color: $mid-lighter-green;
   margin: 20px 0 0 0;
@@ -36,6 +37,7 @@
       margin: 4px 0 6px;
       padding: 3px 0;
       font-size: 14px;
+      border: solid thin $deep-grey;
     }
     button {
       font-size: 14px;
@@ -53,6 +55,7 @@
 }
 .sign-up {
   height: 64vh;
+  min-height: 360px;
 }
 
 @media only screen and (max-width: 500px) {
@@ -64,29 +67,15 @@
     }
   }
 }
-@media only screen and (max-height: 560px) {
-  .auth-container {
-    width: 90vw;
-    height: 68vh;
-    margin-top: 8px;
-    form {
-      width: 80%;
-    }
-  }
-}
-@media only screen and (max-height: 500px) {
+@media only screen and (max-height: 550px) {
   .auth-container {
     margin-top: 0;
+    width: 90vw;
+    height: 68vh;
     h1 {
       padding: 2px 0 4px 0;
       margin-bottom: 8px;
       font-size: 28px;
     }
-  }
-}
-@media only screen and (max-height: 250px) {
-  .auth-container {
-    min-height: 224px;
-    margin: 6px 0 6px 0;
   }
 }
