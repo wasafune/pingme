@@ -32,6 +32,7 @@ const updater = async (req, res) => {
     const updatedArr = await updatedMangasRetrieve();
     await pushNotifications(updatedArr);
     const notifyList = await getNotifyList();
+    console.log(notifyList)
     await emailUsers(notifyList);
     await purgeAllNotifications();
     slack.webhook({
