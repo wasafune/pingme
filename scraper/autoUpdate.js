@@ -10,7 +10,7 @@ const localUrl = 'http://localhost:8080/scraper/updater';
 const autoUpdate = async (intervalTime, manual) => {
   const currTime = new Date();
   const currHour = currTime.getHours();
-  if (currHour === 17 || currHour === 18 || manual) {
+  if (currHour === 17 || currHour === 18 || manual || true) {
     try {
       await axios.get(process.env.UPDATER_ROUTE || localUrl);
     } catch (err) {
