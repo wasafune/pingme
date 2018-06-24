@@ -15,7 +15,6 @@ const transporter = nodemailer.createTransport({
 const emailUsers = (usersArr) => {
   const promiseArr = [];
   usersArr.forEach((obj) => {
-    console.log(obj)
     const nofitificationObj = notificationStackToObj(obj.notificationStack);
     const notificationArr = Object.values(nofitificationObj)
       .map(notifObj => `${notifObj.title} ch: ${notifObj.latest}`);
