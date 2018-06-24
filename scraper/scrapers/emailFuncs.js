@@ -12,8 +12,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-console.log(GMAIL_ACCT, GMAIL_PASS)
-
 const emailUsers = (usersArr) => {
   const promiseArr = [];
   usersArr.forEach((obj) => {
