@@ -22,12 +22,15 @@ const userSchema = mongoose.Schema({
   followingList: [followingSchema],
   followingCount: { type: Number, default: 0 },
   notificationStack: [notificationSchema],
+  notifications: { type: Boolean, default: true },
   auth: Boolean,
   config: Object,
   firstName: String,
   admin: Boolean,
 });
 
+
+// older code to refactor
 userSchema.pre('save', function(next) {
   var user = this;
   if (!user.isModified('password')) return next();
