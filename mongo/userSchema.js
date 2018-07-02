@@ -30,8 +30,6 @@ const userSchema = mongoose.Schema({
   admin: Boolean,
 });
 
-
-// older code to refactor
 async function bcryptCB() {
   const user = this;
   if (!user.isModified('password')) return;

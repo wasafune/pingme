@@ -6,13 +6,10 @@ const getUserInfoWithId = userId => User.findById(userId).lean();
 
 const getNotifyList = () =>
   User
-    .find({}, {
-      email: 1,
-      displayName: 1,
-      notificationStack: 1,
-    })
+    .find()
     .where('notifications').equals(true)
     .where('notificationStack.0').exists()
+    .select('+password email displayName notificationStack')
     .lean();
 
 module.exports = {
