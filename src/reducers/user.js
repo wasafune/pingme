@@ -11,6 +11,7 @@ import {
   SUBSCRIBE, SUBSCRIBE_FAIL, SUBSCRIBE_SUCCESS,
   UNSUBSCRIBE, UNSUBSCRIBE_FAIL, UNSUBSCRIBE_SUCCESS,
   NOTIFICATION_TOGGLE, NOTIFICATION_TOGGLE_FAIL, NOTIFICATION_TOGGLE_SUCCESS,
+  OFF_NOTIFICATION,
   RETRIEVE_MANGAS, RETRIEVE_MANGAS_FAIL, RETRIEVE_MANGAS_SUCCESS,
   UNMOUNT_REQUEST_MESSAGE,
 } from '../constants'
@@ -121,6 +122,10 @@ const user = (state = initialState, action) => {
       ...state,
       notifications: !state.notifications,
       requestingUser: false,
+    }
+    case OFF_NOTIFICATION: return {
+      ...state,
+      notifications: false,
     }
     case RETRIEVE_MANGAS_SUCCESS: {
       const parsedRetrievedList = action.retrievedList.map((ele) => {

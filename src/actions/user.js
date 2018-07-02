@@ -9,6 +9,7 @@ import {
   SUBSCRIBE,
   UNSUBSCRIBE,
   NOTIFICATION_TOGGLE,
+  OFF_NOTIFICATION,
   RETRIEVE_MANGAS,
 } from '../constants'
 
@@ -64,6 +65,10 @@ export const notificationToggle = (userId, bool) => ({
   type: NOTIFICATION_TOGGLE,
   userId,
   bool,
+})
+
+export const offNotification = () => ({
+  type: OFF_NOTIFICATION,
 })
 
 export const retrieveMangas = (followingList) => ({

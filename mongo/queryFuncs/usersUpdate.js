@@ -39,6 +39,14 @@ const toggleNotifications = (userId, bool) =>
     },
   );
 
+const offNotifications = (email, hash) =>
+  User.findOneAndUpdate(
+    { email, password: hash },
+    {
+      $set: { notifications: false },
+    },
+  );
+
 const pushNotifications = (updatedArr) => {
   const promiseArr = [];
   updatedArr.forEach((obj) => {
@@ -92,6 +100,7 @@ module.exports = {
   unsubscribeFollowing,
   pullFollowing,
   toggleNotifications,
+  offNotifications,
   pushNotifications,
   pullAllNotifications,
   purgeAllNotifications,

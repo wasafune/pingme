@@ -21,7 +21,7 @@ const emailUsers = (usersArr) => {
     const subject = Object.keys(nofitificationObj).length > 1
       ? `${obj.notificationStack[0].title} and others titles updated!`
       : `${obj.notificationStack[0].title} updated!`;
-    const unsubLink = `"https://www.pingme.me/notification/${obj.password}"`;
+    const unsubLink = `"https://www.pingme.me/unsub?${obj.email}#${obj.password}"`;
     const html =
       '<p>The following titles have been updated:</p>' +
       `<p>${notificationArr.join('</p><p>')}</p>` +
