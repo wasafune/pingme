@@ -31,6 +31,14 @@ const pullFollowing = (userId, mangaId) =>
     },
   );
 
+const toggleNotifications = (userId, bool) =>
+  User.findByIdAndUpdate(
+    userId,
+    {
+      $set: { notifications: bool },
+    },
+  );
+
 const pushNotifications = (updatedArr) => {
   const promiseArr = [];
   updatedArr.forEach((obj) => {
@@ -83,6 +91,7 @@ module.exports = {
   subscribeFollowing,
   unsubscribeFollowing,
   pullFollowing,
+  toggleNotifications,
   pushNotifications,
   pullAllNotifications,
   purgeAllNotifications,

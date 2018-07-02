@@ -32,6 +32,10 @@ export const unsubscribe = (userId, mangaId) => {
   return axios.post('/user/unsubscribe', { userId, mangaId })
 }
 
+export const notificationToggle = (userId, bool) => {
+  return axios.post('/user/notification', { userId, bool })
+}
+
 export const retrieveMangas = (followingList) => {
   return axios.post('/user/retrieveMangas', { followingList })
 }

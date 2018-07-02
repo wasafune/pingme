@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -31,22 +32,14 @@ const userSchema = mongoose.Schema({
 
 
 // older code to refactor
-userSchema.pre('save', function(next) {
-  var user = this;
-  if (!user.isModified('password')) return next();
+async function bcryptCB() {
+  const user = this;
+  if (!user.isModified('password')) return;
+  const hash = await bcrypt.hash(user.password, SALT);
+  user.password = hash;
+}
 
-  bcrypt.genSalt(SALT, function(err, salt) {
-    if (err) return next(err);
+userSchema.pre('save', bcryptCB);
 
-    // hash the password using our new salt
-    bcrypt.hash(user.password, salt, function(err, hash) {
-        if (err) return next(err);
-
-        // override the cleartext password with the hashed one
-        user.password = hash;
-        next();
-    });
-  });
-})
 
 module.exports = mongoose.model('User', userSchema);

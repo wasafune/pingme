@@ -4,7 +4,7 @@ import { put, call, takeLatest, all } from 'redux-saga/effects'
 import {
   createUser, loginUser, loggedInCheck, logoutUser,
   follow, unfollow, subscribe, unsubscribe,
-  retrieveMangas,
+  notificationToggle, retrieveMangas,
 } from '../apis/user.js'
 
 // Constants
@@ -17,6 +17,7 @@ import {
   UNFOLLOW, UNFOLLOW_FAIL, UNFOLLOW_SUCCESS,
   SUBSCRIBE, SUBSCRIBE_FAIL, SUBSCRIBE_SUCCESS,
   UNSUBSCRIBE, UNSUBSCRIBE_FAIL, UNSUBSCRIBE_SUCCESS,
+  NOTIFICATION_TOGGLE, NOTIFICATION_TOGGLE_FAIL, NOTIFICATION_TOGGLE_SUCCESS,
   RETRIEVE_MANGAS, RETRIEVE_MANGAS_FAIL, RETRIEVE_MANGAS_SUCCESS,
 } from '../constants'
 
@@ -121,6 +122,19 @@ function* callUnsubscribe(action) {
   }
 }
 
+function* callNotificationToggle(action) {
+  try {
+    const response = yield call(notificationToggle, action.userId, action.bool)
+    if (response.data) {
+      yield put({ type: NOTIFICATION_TOGGLE_SUCCESS })
+    } else {
+      yield put({ type: NOTIFICATION_TOGGLE_FAIL })
+    }
+  } catch (e) {
+    yield put({ type: NOTIFICATION_TOGGLE_FAIL })
+  }
+}
+
 function* callRetrieveMangas(action) {
   try {
     const response = yield call(retrieveMangas, action.followingList)
@@ -145,6 +159,7 @@ function* watchUser() {
     takeLatest(UNFOLLOW, callUnfollow),
     takeLatest(SUBSCRIBE, callSubscribe),
     takeLatest(UNSUBSCRIBE, callUnsubscribe),
+    takeLatest(NOTIFICATION_TOGGLE, callNotificationToggle),
     takeLatest(RETRIEVE_MANGAS, callRetrieveMangas),
   ])
 }

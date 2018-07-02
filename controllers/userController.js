@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt')
 const {
   pushFollowing, subscribeFollowing,
   unsubscribeFollowing, pullFollowing,
+  toggleNotifications,
 } = require('../mongo/queryFuncs/usersUpdate')
 const {
   addFollower, subscribeFollower,
@@ -137,6 +138,17 @@ router.post('/retrieveMangas', async (req, res) => {
   try {
     const retrievedList = await retrieveMangas(followingList)
     res.send(retrievedList)
+  } catch (err) {
+    console.error(err)
+    res.send(null)
+  }
+})
+
+router.post('/notification', async (req, res) => {
+  const { userId, bool } = req.body
+  try {
+    await toggleNotifications(userId, !bool)
+    res.send(true)
   } catch (err) {
     console.error(err)
     res.send(null)

@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Nav, FollowingList, SearchList } from '../components/main'
+import { Nav, FollowingList, SearchList, Account } from '../components/main'
 import { loggedInCheck } from '../actions'
 
 
@@ -21,6 +21,7 @@ class MainLayout extends Component {
         <Nav />
         <Switch>
           <Route exact path="/" component={FollowingList} />
+          <Route exact path="/account" component={Account} />
           <Route path="/search" component={SearchList} />
         </Switch>
       </div>

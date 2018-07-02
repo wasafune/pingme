@@ -11,8 +11,8 @@ const getNotifyList = () =>
       displayName: 1,
       notificationStack: 1,
     })
-    .where('notificationStack.0')
-    .exists()
+    .where('notifications').equals(true)
+    .where('notificationStack.0').exists()
     .lean();
 
 module.exports = {

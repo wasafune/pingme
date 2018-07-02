@@ -10,5 +10,7 @@ module.exports = {
       "properties": false,
     }],
     "no-underscore-dangle": [2, { "allow": ["_id"] }],
+    "newline-per-chained-call": 0,
+    "semi": 1,
   },
 };

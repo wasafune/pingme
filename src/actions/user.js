@@ -8,6 +8,7 @@ import {
   UNFOLLOW,
   SUBSCRIBE,
   UNSUBSCRIBE,
+  NOTIFICATION_TOGGLE,
   RETRIEVE_MANGAS,
 } from '../constants'
 
@@ -57,6 +58,12 @@ export const unsubscribe = (userId, mangaId) => ({
   type: UNSUBSCRIBE,
   userId,
   mangaId,
+})
+
+export const notificationToggle = (userId, bool) => ({
+  type: NOTIFICATION_TOGGLE,
+  userId,
+  bool,
 })
 
 export const retrieveMangas = (followingList) => ({

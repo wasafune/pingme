@@ -10,6 +10,7 @@ import {
   UNFOLLOW, UNFOLLOW_FAIL, UNFOLLOW_SUCCESS,
   SUBSCRIBE, SUBSCRIBE_FAIL, SUBSCRIBE_SUCCESS,
   UNSUBSCRIBE, UNSUBSCRIBE_FAIL, UNSUBSCRIBE_SUCCESS,
+  NOTIFICATION_TOGGLE, NOTIFICATION_TOGGLE_FAIL, NOTIFICATION_TOGGLE_SUCCESS,
   RETRIEVE_MANGAS, RETRIEVE_MANGAS_FAIL, RETRIEVE_MANGAS_SUCCESS,
   UNMOUNT_REQUEST_MESSAGE,
 } from '../constants'
@@ -27,6 +28,7 @@ const initialState = {
   requestingUser: false,
   requestMessage: false,
   loggedInCheck: false,
+  notifications: true,
 };
 
 const user = (state = initialState, action) => {
@@ -38,6 +40,7 @@ const user = (state = initialState, action) => {
     case FOLLOW:
     case SUBSCRIBE:
     case UNSUBSCRIBE:
+    case NOTIFICATION_TOGGLE:
     case RETRIEVE_MANGAS:
     case UNFOLLOW: return {
       ...state,
@@ -108,10 +111,16 @@ const user = (state = initialState, action) => {
     case SUBSCRIBE_FAIL:
     case UNSUBSCRIBE_FAIL:
     case RETRIEVE_MANGAS_FAIL:
+    case NOTIFICATION_TOGGLE_FAIL:
     case UNFOLLOW_FAIL: return {
       ...state,
       requestingUser: false,
       requestMessage: 'Action failed.',
+    }
+    case NOTIFICATION_TOGGLE_SUCCESS: return {
+      ...state,
+      notifications: !state.notifications,
+      requestingUser: false,
     }
     case RETRIEVE_MANGAS_SUCCESS: {
       const parsedRetrievedList = action.retrievedList.map((ele) => {
