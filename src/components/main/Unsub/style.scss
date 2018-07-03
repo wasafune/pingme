@@ -1,0 +1,17 @@
+.unsub-container {
+  background-color: $main-green;
+  width: 70vw;
+  min-width: 200px;
+  border: 1px solid $deep-grey;
+  margin: 18px 0;
+  padding: 12px 0;
+  p {
+    margin: 8px 0;
+  }
+  a {
+    text-decoration: underline;
+  }
+  a:hover {
+    color: $main-orange;
+  }
+}
