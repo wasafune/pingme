@@ -21,7 +21,7 @@ class Unsub extends Component {
     const hash = location.hash.slice(1)
     try {
       await axios.post('/user/unsub', { email, hash })
-      if (user._id.length) {
+      if (user.email === email) {
         this.props.offNotification()
       }
       this.setState({ email })
@@ -33,13 +33,14 @@ class Unsub extends Component {
   render() {
     const { email, error } = this.state
     const emailMsg = email.length
-      ? `${email} has successfully opted out of email notifications.`
+      ? `Successfully unsubscribed ${email}.`
       : null
     return (
       <div className="unsub-container">
         <p>
           {emailMsg || error}
         </p>
+        <hr />
         <p>
           Click&nbsp;
           <Link href="/" to="/">here</Link>
