@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { notificationToggle, unmountRequestMessage } from '../../../actions'
 
-
+// preferences, account, password
+// email change needs verification as well (also check if taken)
+// change account link in nav to dropdown
 class Account extends Component {
   constructor() {
     super()
@@ -25,10 +28,17 @@ class Account extends Component {
     const { notifications } = this.props.user
     return (
       <div className="account-container">
-        <label className="switch">
-          <input type="checkbox" onClick={this.handleSlider} checked={notifications} />
-          <span className="slider round" />
-        </label>
+        <h2>Account Settings</h2>
+        <div className="switch-container">
+          <h3>Email Notifications</h3>
+          <label className="switch">
+            <input type="checkbox" onClick={this.handleSlider} checked={notifications} />
+            <span className="slider round" />
+          </label>
+        </div>
+        <Link href="/auth/logout" to="/auth/logout">
+          Logout
+        </Link>
       </div>
     )
   }
