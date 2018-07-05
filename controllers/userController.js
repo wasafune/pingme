@@ -13,13 +13,15 @@ const {
   unsubscribeFollower, pullFollower,
 } = require('../mongo/queryFuncs/mangasUpdate')
 const { retrieveMangas } = require('../mongo/queryFuncs/mangasQuery')
+const { signupEmail } = require('../scraper/scrapers/emailFuncs')
 
 const router = new Router()
 
 
 router.post('/signup', async (req, res) => {
   try {
-    await User.create(req.body)
+    const newUser = await User.create(req.body)
+    signupEmail(newUser.email, newUser.displayName, newUser.password)
     res.send(true)
   } catch (err) {
     console.error(err)

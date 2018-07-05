@@ -12,6 +12,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const signupEmail = (email, name, hash) => {
+  const subject = 'Welcome to PingMe! Please verify your email.';
+  const verifyLink = `https://www.pingme.me/verify?${email}#${hash}`;
+  const html = '<p>Welcome!</p>' +
+    '<p>Please verify your email by clicking the link provided below:</p>' +
+    `<p>${verifyLink}</p>` +
+    '<br>' +
+    '<p>Best,</p>' +
+    '<p>Peter</p>' +
+    '<p>from PingMe</p>' +
+    '<br>';
+  const mailOptions = {
+    from: GMAIL_ACCT,
+    to: email,
+    subject,
+    html,
+  };
+  transporter.sendMail(mailOptions);
+};
+
 const emailUsers = (usersArr) => {
   const promiseArr = [];
   usersArr.forEach((obj) => {
@@ -43,5 +63,6 @@ const emailUsers = (usersArr) => {
 };
 
 module.exports = {
+  signupEmail,
   emailUsers,
 };

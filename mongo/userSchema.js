@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
   displayName: { type: String, required: true },
   password: { type: String, require: true, select: false },
   email: { type: String, required: true, unique: true },
-  isVerified: Boolean,
+  verified: { type: Boolean, default: false },
   followingList: [followingSchema],
   followingCount: { type: Number, default: 0 },
   notificationStack: [notificationSchema],
