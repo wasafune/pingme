@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { withFormik } from 'formik'
 
-const SignupForm = ({
+const UpdateUserForm = ({
   values,
   errors,
   touched,
@@ -12,6 +11,8 @@ const SignupForm = ({
   handleBlur,
   isSubmitting,
   requestMessage,
+  email,
+  displayName,
 }) => {
   return (
     <form onSubmit={handleSubmit}>
@@ -28,6 +29,7 @@ const SignupForm = ({
       <input
         type="text"
         name="email"
+        placeholder={email}
         value={values.email}
         onChange={handleChange}
         onBlur={handleBlur}
@@ -45,12 +47,13 @@ const SignupForm = ({
       <input
         type="text"
         name="displayName"
+        placeholder={displayName}
         value={values.displayName}
         onChange={handleChange}
         onBlur={handleBlur}
       />
       <p>
-        Password:
+        New Password:
         {
           errors.password && touched.rePassword && touched.password && (
             <span className="error-msg">
@@ -67,7 +70,7 @@ const SignupForm = ({
         onBlur={handleBlur}
       />
       <p>
-        Re-enter Password:
+        Re-enter New Password:
         {
           errors.rePassword && touched.rePassword && touched.password && (
             <span className="error-msg">
@@ -88,7 +91,7 @@ const SignupForm = ({
           type="submit"
           disabled={isSubmitting}
         >
-          Sign Up
+          Save Changes
         </button>
         {requestMessage &&
           (
@@ -98,12 +101,11 @@ const SignupForm = ({
           )
         }
       </div>
-      <Link href="/auth/login" to="/auth/login">Already a user?</Link>
     </form>
   )
 }
 
-SignupForm.propTypes = {
+UpdateUserForm.propTypes = {
   values: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   touched: PropTypes.object.isRequired,
@@ -112,40 +114,45 @@ SignupForm.propTypes = {
   handleBlur: PropTypes.object.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   requestMessage: PropTypes.bool.isRequired,
+  email: PropTypes.string,
+  displayName: PropTypes.string,
+}
+
+UpdateUserForm.defaultProps = {
+  email: '',
+  displayName: '',
 }
 
 const FormikSignupForm = withFormik({
-  mapPropsToValues: () => ({
+  mapPropsToValues: (props) => ({
     email: '',
     displayName: '',
     password: '',
     rePassword: '',
   }),
-
-  // Custom sync validation
-  validate: (values) => {
+  validate: (values, props) => {
     const errors = {}
-    if (!values.email) {
-      errors.email = 'Required'
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
+    // email validation logic
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && values.email.length) {
       errors.email = 'Invalid email address!'
+    } else if (values.email.toLowerCase() === props.email) {
+      errors.email = 'Cannot input same email!'
     }
-    if (!values.displayName) errors.displayName = 'Required'
-    if (values.password !== values.rePassword && values.rePassword.length >= values.password.length) errors.password = 'Passwords mismatch'
-    if (!values.password) errors.password = 'Required'
-    if (!values.rePassword) errors.rePassword = 'Required'
+    // other values
+    if (values.displayName.length > 24) errors.displayName = 'Display name too long!'
+    else if (values.displayName === props.displayName) errors.displayName = 'Same display name.'
+    if (values.password !== values.rePassword && values.rePassword.length >= values.password.length) errors.password = 'Passwords do not match.'
     return errors
   },
 
-  handleSubmit: (values, { setSubmitting, props }) => {
+  handleSubmit: (values, { setSubmitting, resetForm, props }) => {
     setTimeout(() => {
-      props.handleActions(values)
+      props.handleUpdateForm(values)
       setSubmitting(false)
+      resetForm()
     }, 1000)
   },
   displayName: 'BasicForm',
-})(SignupForm)
+})(UpdateUserForm)
 
 export default FormikSignupForm

@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import {
   CREATE_USER, CREATE_USER_FAIL, CREATE_USER_SUCCESS,
   LOGIN_USER, LOGIN_USER_FAIL, LOGIN_USER_SUCCESS,
+  UPDATE_USER, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL,
   LOGGED_IN_CHECK, LOGGED_IN_CHECK_FAIL, LOGGED_IN_CHECK_SUCCESS,
   LOGOUT_USER, LOGOUT_USER_FAIL, LOGOUT_USER_SUCCESS,
   FOLLOW, FOLLOW_FAIL, FOLLOW_SUCCESS,
@@ -36,6 +37,7 @@ const user = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_USER:
     case LOGIN_USER:
+    case UPDATE_USER:
     case LOGGED_IN_CHECK:
     case LOGOUT_USER:
     case FOLLOW:
@@ -69,6 +71,12 @@ const user = (state = initialState, action) => {
       ...state,
       requestingUser: false,
       requestMessage: 'Login failed.',
+    }
+    case UPDATE_USER_SUCCESS: return {
+      ...state,
+      ...action.userObj,
+      requestMessage: `The following field(s) have been updated: ${Object.keys(action.userObj).join(', ').replace('displayName', 'display name')}.`,
+      requestingUser: false,
     }
     case LOGGED_IN_CHECK_SUCCESS: return {
       ...state,
@@ -108,6 +116,7 @@ const user = (state = initialState, action) => {
       followingList: cloneDeep(action.userObj.followingList),
       config: cloneDeep(action.userObj.config),
     }
+    case UPDATE_USER_FAIL:
     case FOLLOW_FAIL:
     case SUBSCRIBE_FAIL:
     case UNSUBSCRIBE_FAIL:
@@ -121,6 +130,7 @@ const user = (state = initialState, action) => {
     case NOTIFICATION_TOGGLE_SUCCESS: return {
       ...state,
       notifications: !state.notifications,
+      requestMessage: 'Notification settings updated!',
       requestingUser: false,
     }
     case OFF_NOTIFICATION: return {

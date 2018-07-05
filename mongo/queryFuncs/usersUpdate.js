@@ -1,5 +1,11 @@
 const User = require('../userSchema.js');
 
+const updateUser = (userId, userObj) =>
+  User.findByIdAndUpdate(
+    userId,
+    { $set: userObj },
+  );
+
 // if new following and subscribing, pass in true for subscriber
 const pushFollowing = (userId, mangaId, subscribed = false) =>
   User.findByIdAndUpdate(
@@ -95,6 +101,7 @@ const retrieveNotifications = async (userId) => {
 };
 
 module.exports = {
+  updateUser,
   pushFollowing,
   subscribeFollowing,
   unsubscribeFollowing,

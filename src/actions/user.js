@@ -1,6 +1,7 @@
 import {
   CREATE_USER,
   LOGIN_USER,
+  UPDATE_USER,
   UNMOUNT_REQUEST_MESSAGE,
   LOGOUT_USER,
   LOGGED_IN_CHECK,
@@ -21,6 +22,12 @@ export const createUser = (userObj) => ({
 
 export const loginUser = (userObj) => ({
   type: LOGIN_USER,
+  userObj,
+})
+
+export const updateUser = (userId, userObj) => ({
+  type: UPDATE_USER,
+  userId,
   userObj,
 })
 

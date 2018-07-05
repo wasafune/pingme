@@ -8,6 +8,10 @@ export const loginUser = (params) => {
   return axios.post('/user/login', params)
 }
 
+export const updateUser = (userId, userObj) => {
+  return axios.post('/user/updateUser', { userId, userObj })
+}
+
 export const loggedInCheck = () => {
   return axios.get('/user/check')
 }

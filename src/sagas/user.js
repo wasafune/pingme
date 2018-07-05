@@ -2,6 +2,7 @@ import { put, call, takeLatest, all } from 'redux-saga/effects'
 
 // Actions
 import {
+  updateUser,
   createUser, loginUser, loggedInCheck, logoutUser,
   follow, unfollow, subscribe, unsubscribe,
   notificationToggle, retrieveMangas,
@@ -11,6 +12,7 @@ import {
 import {
   CREATE_USER, CREATE_USER_SUCCESS, CREATE_USER_FAIL,
   LOGIN_USER, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL,
+  UPDATE_USER, UPDATE_USER_SUCCESS, UPDATE_USER_FAIL,
   LOGGED_IN_CHECK, LOGGED_IN_CHECK_SUCCESS, LOGGED_IN_CHECK_FAIL,
   LOGOUT_USER, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAIL,
   FOLLOW, FOLLOW_FAIL, FOLLOW_SUCCESS,
@@ -45,6 +47,21 @@ function* callLoginUser(action) {
     }
   } catch (e) {
     yield put({ type: LOGIN_USER_FAIL })
+  }
+}
+
+function* callUpdateUser(action) {
+  try {
+    const { userId, userObj } = action
+    const response = yield call(updateUser, userId, userObj)
+    if (response.data) {
+      if (userObj.password) delete userObj.password
+      yield put({ type: UPDATE_USER_SUCCESS, userObj })
+    } else {
+      yield put({ type: UPDATE_USER_FAIL })
+    }
+  } catch (e) {
+    yield put({ type: UPDATE_USER_FAIL })
   }
 }
 
@@ -153,6 +170,7 @@ function* watchUser() {
   yield all([
     takeLatest(CREATE_USER, callCreateUser),
     takeLatest(LOGIN_USER, callLoginUser),
+    takeLatest(UPDATE_USER, callUpdateUser),
     takeLatest(LOGGED_IN_CHECK, callLoggedInCheck),
     takeLatest(LOGOUT_USER, callLogoutUser),
     takeLatest(FOLLOW, callFollow),

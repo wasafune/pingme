@@ -3,6 +3,7 @@ const User = require('../mongo/userSchema')
 const bcrypt = require('bcrypt')
 
 const {
+  updateUser,
   pushFollowing, subscribeFollowing,
   unsubscribeFollowing, pullFollowing,
   toggleNotifications, offNotifications,
@@ -46,6 +47,21 @@ router.post('/login', async (req, res) => {
     } else {
       res.send(null)
     }
+  } catch (err) {
+    console.error(err)
+    res.send(null)
+  }
+})
+
+router.post('/updateUser', async (req, res) => {
+  try {
+    const { userId, userObj } = req.body
+    const newUserObj = { ...userObj }
+    if (newUserObj.password) {
+      newUserObj.password = await bcrypt.hash(newUserObj.password, 10)
+    }
+    await updateUser(userId, newUserObj)
+    res.send(true)
   } catch (err) {
     console.error(err)
     res.send(null)

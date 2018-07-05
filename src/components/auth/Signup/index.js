@@ -17,7 +17,7 @@ class Signup extends React.Component {
   }
 
   handleActions(values) {
-    this.props.createUser(values)
+    this.props.createUser({ ...values, email: values.email.toLowerCase() })
   }
 
   render() {

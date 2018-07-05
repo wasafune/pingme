@@ -18,7 +18,7 @@ class Login extends React.Component {
   }
 
   handleActions(values) {
-    this.props.loginUser(values)
+    this.props.loginUser({ ...values, email: values.email.toLowerCase() })
   }
 
   render() {
